@@ -48,12 +48,14 @@ nnoremap <leader>q ZQ
 nnoremap <leader>w ZZ
 nnoremap <leader><space> :buffers<CR>:bu
 
-nnoremap <SPACE>w <C-w>
 nnoremap <silent> <leader>e :Ex<CR>
 nnoremap <silent> <leader>u :UndotreeToggle<CR>
 nnoremap <silent> <leader>s :set hlsearch!<CR>
+nnoremap <silent> <leader>f :Files<CR>
+nnoremap <silent> <leader>f :Files<CR>
 
-nnoremap <silent> <leader>f :set opfunc=FindFaster_f<CR>g@
+cnoremap help vert bo help
+nnoremap <silent> <C-w>n :vert bo new<CR>
 " }}}
 
 " Plugins {{{ 
@@ -64,12 +66,13 @@ Plug 'sainnhe/everforest'
 
 Plug 'prabirshrestha/vim-lsp'
 Plug 'bergercookie/asm-lsp'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf' }
+Plug 'junegunn/fzf.vim'
 Plug 'prabirshrestha/async.vim'
 Plug 'mbbill/undotree'
 Plug 'vim-scripts/restore_view.vim'
 Plug 'jasonccox/vim-wayland-clipboard'
 Plug 'easymotion/vim-easymotion'
+Plug 'tikhomirov/vim-glsl'
 call plug#end()
 " }}}
 
@@ -77,9 +80,11 @@ call plug#end()
 augroup filetype_vim
 	autocmd!
 	autocmd FileType vim setlocal foldmethod=marker
+	autocmd FileType help set nu rnu cursorline
+	autocmd FileType netrw set nu rnu cursorline
 augroup end
 
-augroup cursorline
+augroup curorline_lnums
 	autocmd!
 	autocmd WinEnter * set cursorline
 	autocmd WinLeave * set nocursorline
@@ -88,6 +93,7 @@ augroup end
 augroup filetype_c
 	autocmd!
 	autocmd BufRead,BufNewFile *.c set filetype=c
+	autocmd BufRead,BufNewFile *.h set filetype=c
 augroup end
 
 hi findfasterHighlight guifg=NONE guibg=#f6c177
@@ -113,6 +119,11 @@ function! s:on_lsp_buffer_enabled() abort
     nnoremap <buffer> K <plug>(lsp-hover)
 	inoremap <buffer> <C-c> <Esc>
 endfunction
+
+augroup vim_glsl
+	autocmd!
+	autocmd! BufNewFile,BufRead *.glsl,*.vs,*.fs set filetype=glsl
+augroup end
 
 augroup lsp_clangd
 	autocmd!
