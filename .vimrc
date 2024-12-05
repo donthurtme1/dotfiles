@@ -24,7 +24,14 @@ if has('persistent_undo')
 	set undofile
 endif
 
+let g:lsp_completion_docuentation_delay = 40
+let g:lsp_diagnostics_echo_delay = 250
+let g:lsp_diagnostics_signs_delay = 250
+let g:lsp_diagnostics_virtual_text_prefix = "> "
 let g:lsp_diagnostics_virtual_text_align = "after"
+let g:lsp_diagnostics_virtual_text_wrap = "truncate" " might change or something
+let g:lsp_inlay_hints_enabled = 1
+let g:lsp_inlay_hints_delay = 0
 " }}}
 
 " Colours {{{
