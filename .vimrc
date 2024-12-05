@@ -47,30 +47,26 @@ nnoremap <C-j> 8<C-e>
 nnoremap <C-k> 8<C-y>
 nnoremap / :set hlsearch<CR>/
 
-nnoremap <leader>q ZQ
-nnoremap <leader>w ZZ
-nnoremap <leader><space> :buffers<CR>:bu
-
+nnoremap <silent> <leader>q ZQ
+nnoremap <silent> <leader>w ZZ
 nnoremap <silent> <leader>e :Ex<CR>
 nnoremap <silent> <leader>u :UndotreeToggle<CR>
 nnoremap <silent> <leader>s :set hlsearch!<CR>
 nnoremap <silent> <leader>f :Files<CR>
-nnoremap <silent> <leader>f :Files<CR>
+nnoremap <silent> <leader>b :Buffers<CR>
+nnoremap <silent> <leader>m :Marks<CR>
+nnoremap <silent> <leader>j :Jumps<CR>
+nnoremap <silent> <leader>c :Changes<CR>
 
-"cnoremap help vert bo help
 nnoremap <silent> <C-w>n :vert new<CR>
 nnoremap <silent> <C-w><C-n> :vert new<CR>
 nnoremap <silent> <C-w>m :new<CR>
 nnoremap <silent> <C-w><C-m> :new<CR>
 
-nnoremap <silent> o :call NewlineInsert()<CR>
-function! NewlineInsert()
-	if line(".") - line("w0") > winheight(0) / 2
-		normal! 
-	endif
-	exec ":normal! o \<Backspace>"
-	startinsert!
-endfunc
+nnoremap <expr> o (line(".") - line("w0") > winheight(0) / 2) ? '<C-e>o' : 'o'
+nnoremap <expr> O (line(".") - line("w0") > winheight(0) / 2) ? '<C-e>O' : 'O'
+inoremap <expr> <CR> (line(".") - line("w0") > winheight(0) / 2) ? '<C-x><C-e><CR>' : '<CR>'
+"nnoremap <silent> <expr> 'z'.v:count.'<CR>' ':call LineToNumber('.v:count.')<CR>'
 " }}}
 
 " Plugins {{{ 
