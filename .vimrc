@@ -11,6 +11,9 @@ set smartcase showmatch hlsearch
 set wildmenu
 set foldmethod=manual
 set cursorline
+set autoindent cindent
+set showcmd
+set splitright splitbelow
 
 filetype on
 filetype plugin on
@@ -21,7 +24,7 @@ if has('persistent_undo')
 	set undofile
 endif
 
-let g:lsp_diagnostics_virtual_text_align = "right"
+let g:lsp_diagnostics_virtual_text_align = "after"
 " }}}
 
 " Colours {{{
@@ -54,8 +57,20 @@ nnoremap <silent> <leader>s :set hlsearch!<CR>
 nnoremap <silent> <leader>f :Files<CR>
 nnoremap <silent> <leader>f :Files<CR>
 
-cnoremap help vert bo help
-nnoremap <silent> <C-w>n :vert bo new<CR>
+"cnoremap help vert bo help
+nnoremap <silent> <C-w>n :vert new<CR>
+nnoremap <silent> <C-w><C-n> :vert new<CR>
+nnoremap <silent> <C-w>m :new<CR>
+nnoremap <silent> <C-w><C-m> :new<CR>
+
+nnoremap <silent> o :call NewlineInsert()<CR>
+function! NewlineInsert()
+	if line(".") - line("w0") > winheight(0) / 2
+		normal! 
+	endif
+	exec ":normal! o \<Backspace>"
+	startinsert!
+endfunc
 " }}}
 
 " Plugins {{{ 
@@ -67,6 +82,7 @@ Plug 'sainnhe/everforest'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'bergercookie/asm-lsp'
 Plug 'junegunn/fzf.vim'
+Plug 'sharkdp/bat'
 Plug 'prabirshrestha/async.vim'
 Plug 'mbbill/undotree'
 Plug 'vim-scripts/restore_view.vim'
