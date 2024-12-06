@@ -1,7 +1,7 @@
 " General settings {{{ 
 set nocompatible
 set nu rnu
-set tabstop=4 shiftwidth=4
+set tabstop=4 shiftwidth=4 textwidth=0
 set scrolloff=0
 set linebreak breakindent
 set breakindentopt=shift:8,sbr
@@ -30,8 +30,9 @@ let g:lsp_diagnostics_signs_delay = 250
 let g:lsp_diagnostics_virtual_text_prefix = "> "
 let g:lsp_diagnostics_virtual_text_align = "after"
 let g:lsp_diagnostics_virtual_text_wrap = "truncate" " might change or something
-let g:lsp_inlay_hints_enabled = 1
-let g:lsp_inlay_hints_delay = 0
+let g:lsp_document_highlight_enabled = 0
+let g:lsp_semantic_enabled = 1
+let g:lsp_semantic_delay = 250
 " }}}
 
 " Colours {{{
@@ -41,6 +42,10 @@ syntax on
 
 let c_functions=1
 let c_function_pointers=1
+
+hi link LspSemanticVariable Normal
+hi link LspSemanticProperty Normal
+hi link LspSemanticParameter Define
 " }}}
 
 " Mappings {{{ 
@@ -115,6 +120,11 @@ augroup filetype_c
 	autocmd BufRead,BufNewFile *.h set filetype=c
 augroup end
 
+augroup filetype_s
+	autocmd!
+	autocmd BufRead,BufNewFile *.s setlocal lisp
+augroup end
+
 hi findfasterHighlight guifg=NONE guibg=#f6c177
 function! FindFaster_f(str)
 	syn keyword findfasterHighlight a:str
@@ -135,13 +145,13 @@ function! s:on_lsp_buffer_enabled() abort
     nnoremap <buffer> <leader>r <plug>(lsp-rename)
     nnoremap <buffer> [g <plug>(lsp-previous-diagnostic)
     nnoremap <buffer> ]g <plug>(lsp-next-diagnostic)
-    nnoremap <buffer> K <plug>(lsp-hover)
+    nnoremap <buffer> K <plug>(lsp-hover-float)
 	inoremap <buffer> <C-c> <Esc>
 endfunction
 
 augroup vim_glsl
 	autocmd!
-	autocmd! BufNewFile,BufRead *.glsl,*.vs,*.fs set filetype=glsl
+	autocmd BufNewFile,BufRead *.glsl,*.vs,*.fs set filetype=glsl
 augroup end
 
 augroup lsp_clangd

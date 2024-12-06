@@ -125,7 +125,7 @@ hi Identifier guifg=#ea9a97 guibg=NONE gui=NONE cterm=NONE
 hi Include guifg=#3e8fb0 guibg=NONE gui=NONE cterm=NONE
 hi Keyword guifg=#3e8fb0 guibg=NONE gui=NONE cterm=NONE
 hi Label guifg=#9ccfd8 guibg=NONE gui=NONE cterm=NONE
-hi Macro guifg=#c4a7e7 guibg=NONE gui=NONE cterm=NONE
+hi Macro guifg=#f6c177 guibg=NONE gui=NONE cterm=NONE
 hi Number guifg=#f6c177 guibg=NONE gui=NONE cterm=NONE
 hi Operator guifg=#908caa guibg=NONE gui=NONE cterm=NONE
 hi PreCondit guifg=#c4a7e7 guibg=NONE gui=NONE cterm=NONE
