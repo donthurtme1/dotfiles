@@ -13,7 +13,8 @@ set foldmethod=manual
 set cursorline
 set autoindent cindent
 set showcmd
-set splitright splitbelow
+set splitright
+set viewoptions=cursor,slash,unix
 
 filetype on
 filetype plugin on
@@ -25,23 +26,21 @@ if has('persistent_undo')
 endif
 
 let g:lsp_completion_docuentation_delay = 40
-let g:lsp_diagnostics_echo_delay = 250
 let g:lsp_diagnostics_signs_delay = 250
-let g:lsp_diagnostics_virtual_text_prefix = "> "
+let g:lsp_diagnostics_virtual_text_prefix = "~ "
 let g:lsp_diagnostics_virtual_text_align = "after"
 let g:lsp_diagnostics_virtual_text_wrap = "truncate" " might change or something
-let g:lsp_document_highlight_enabled = 0
+let g:lsp_diagnostics_float_cursor = 1
+let g:lsp_diagnostics_highlights_delay = 250
+let g:lsp_document_highlight_enabled = 10
 let g:lsp_semantic_enabled = 1
-let g:lsp_semantic_delay = 250
+let g:lsp_semantic_delay = 10
 " }}}
 
 " Colours {{{
 set termguicolors
 colorscheme rosepine_moon
 syntax on
-
-let c_functions=1
-let c_function_pointers=1
 
 hi link LspSemanticVariable Normal
 hi link LspSemanticProperty Normal
@@ -50,30 +49,35 @@ hi link LspSemanticParameter Define
 
 " Mappings {{{ 
 let mapleader = ","
-nnoremap <expr> j v:count == 0 ? 'gj' : "\<Esc>".v:count.'j'
-nnoremap <expr> k v:count == 0 ? 'gk' : "\<Esc>".v:count.'k'
-nnoremap gj j
-nnoremap gk k
+"nnoremap <expr> j v:count == 0 ? 'gj' : "\<Esc>".v:count.'j'
+"nnoremap <expr> k v:count == 0 ? 'gk' : "\<Esc>".v:count.'k'
+"nnoremap gj j
+"nnoremap gk k
 inoremap <C-c> <Esc>
 nnoremap <C-j> 8<C-e>
 nnoremap <C-k> 8<C-y>
-nnoremap / :set hlsearch<CR>/
+
+nnoremap <C-=> <C-w>+
+nnoremap <C-_> <C-w>-
+nnoremap <C-.> <C-w>>
+nnoremap <C-,> <C-w><
 
 nnoremap <silent> <leader>q ZQ
 nnoremap <silent> <leader>w ZZ
 nnoremap <silent> <leader>e :Ex<CR>
 nnoremap <silent> <leader>u :UndotreeToggle<CR>
-nnoremap <silent> <leader>s :set hlsearch!<CR>
+nnoremap <silent> <leader>s :let @/=""<CR>
 nnoremap <silent> <leader>f :Files<CR>
 nnoremap <silent> <leader>b :Buffers<CR>
 nnoremap <silent> <leader>m :Marks<CR>
 nnoremap <silent> <leader>j :Jumps<CR>
 nnoremap <silent> <leader>c :Changes<CR>
+nnoremap <silent> <leader>/ :History/<CR>
 
-nnoremap <silent> <C-w>n :vert new<CR>
-nnoremap <silent> <C-w><C-n> :vert new<CR>
-nnoremap <silent> <C-w>m :new<CR>
-nnoremap <silent> <C-w><C-m> :new<CR>
+nnoremap <silent> <C-w>n :new<CR>
+nnoremap <silent> <C-w><C-n> :new<CR>
+nnoremap <silent> <C-w>m :vert new<CR>
+nnoremap <silent> <C-w><C-m> :vert new<CR>
 
 nnoremap <expr> o (line(".") - line("w0") > winheight(0) / 2) ? '<C-e>o' : 'o'
 nnoremap <expr> O (line(".") - line("w0") > winheight(0) / 2) ? '<C-e>O' : 'O'
@@ -88,15 +92,11 @@ Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 Plug 'sainnhe/everforest'
 
 Plug 'prabirshrestha/vim-lsp'
-Plug 'bergercookie/asm-lsp'
 Plug 'junegunn/fzf.vim'
-Plug 'sharkdp/bat'
+Plug 'jasonccox/vim-wayland-clipboard'
 Plug 'prabirshrestha/async.vim'
 Plug 'mbbill/undotree'
 Plug 'vim-scripts/restore_view.vim'
-Plug 'jasonccox/vim-wayland-clipboard'
-Plug 'easymotion/vim-easymotion'
-Plug 'tikhomirov/vim-glsl'
 call plug#end()
 " }}}
 
@@ -108,7 +108,7 @@ augroup filetype_vim
 	autocmd FileType netrw set nu rnu cursorline
 augroup end
 
-augroup curorline_lnums
+augroup curorline
 	autocmd!
 	autocmd WinEnter * set cursorline
 	autocmd WinLeave * set nocursorline
@@ -129,13 +129,11 @@ hi findfasterHighlight guifg=NONE guibg=#f6c177
 function! FindFaster_f(str)
 	syn keyword findfasterHighlight a:str
 endfunction
-function! s:findfaster_F()
-endfunction
 
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
+    setlocal tagfunc=lsp#tagfunc
     setlocal signcolumn=yes
-    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
     nnoremap <buffer> gd <plug>(lsp-definition)
     nnoremap <buffer> gs <plug>(lsp-document-symbol-search)
     nnoremap <buffer> gS <plug>(lsp-workspace-symbol-search)
@@ -145,23 +143,16 @@ function! s:on_lsp_buffer_enabled() abort
     nnoremap <buffer> <leader>r <plug>(lsp-rename)
     nnoremap <buffer> [g <plug>(lsp-previous-diagnostic)
     nnoremap <buffer> ]g <plug>(lsp-next-diagnostic)
+	nnoremap <buffer> <leader>d <plug>(lsp-document-diagnostics)
     nnoremap <buffer> K <plug>(lsp-hover-float)
 	inoremap <buffer> <C-c> <Esc>
 endfunction
 
-augroup vim_glsl
-	autocmd!
-	autocmd BufNewFile,BufRead *.glsl,*.vs,*.fs set filetype=glsl
-augroup end
-
 augroup lsp_clangd
 	autocmd!
-	autocmd User lsp_setup call lsp#register_server({
-				\ 'name': 'clangd',
-				\ 'cmd': { server_info->['clangd'] },
-				\ 'allowlist': ['c'],
-				\ })
+	autocmd User lsp_setup call lsp#register_server({ 'name': 'clangd', 'cmd': { server_info->['clangd'] }, 'allowlist': ['c'], })
 	autocmd FileType c setlocal omnifunc=lsp#complete
+	autocmd FileType c setlocal tagfunc=lsp#tagfunc
 	autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup end
 " }}}

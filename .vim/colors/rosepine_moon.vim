@@ -91,7 +91,7 @@ hi FloatTitle guifg=#6e6a86 guibg=NONE gui=NONE cterm=NONE
 hi FoldColumn guifg=#6e6a86 guibg=NONE gui=NONE cterm=NONE
 hi IncSearch guifg=#232136 guibg=#ea9a97 gui=NONE cterm=NONE
 hi LineNr guifg=#6e6a86 guibg=NONE gui=NONE cterm=NONE
-hi MatchParen guifg=#e0def4 guibg=#44415a gui=NONE cterm=NONE
+hi MatchParen guifg=#908caa guibg=#44415a gui=NONE cterm=NONE
 hi ModeMsg guifg=#908caa guibg=NONE gui=NONE cterm=NONE
 hi MoreMsg guifg=#c4a7e7 guibg=NONE gui=NONE cterm=NONE
 hi NonText guifg=#6e6a86 guibg=NONE gui=NONE cterm=NONE
