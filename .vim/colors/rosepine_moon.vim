@@ -113,7 +113,7 @@ hi WarningMsg guifg=#f6c177 guibg=NONE gui=NONE cterm=NONE
 hi Boolean guifg=#ea9a97 guibg=NONE gui=NONE cterm=NONE
 hi Character guifg=#f6c177 guibg=NONE gui=NONE cterm=NONE
 hi Conditional guifg=#3e8fb0 guibg=NONE gui=NONE cterm=NONE
-hi Constant guifg=#c4a7e7 guibg=NONE gui=NONE cterm=NONE
+hi Constant guifg=#f6c177 guibg=NONE gui=NONE cterm=NONE
 hi Debug guifg=#ea9a97 guibg=NONE gui=NONE cterm=NONE
 hi Define guifg=#c4a7e7 guibg=NONE gui=NONE cterm=NONE
 hi Delimiter guifg=#908caa guibg=NONE gui=NONE cterm=NONE

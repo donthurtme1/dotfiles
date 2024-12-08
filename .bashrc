@@ -2,20 +2,21 @@
 
 alias ls='ls -t --color=auto' # Ignore order based on last used and automatic colouring
 alias grep='grep --color=auto'
-alias fd='export FZF_DEFAULT_COMMAND=tree\ -ifda ; cd $(fzfdir $(fzf)) ; export FZF_DEFAULT_COMMAND=rg\ --files\ --hidden' # find dir
-alias fe='export FZF_DEFAULT_COMMAND=rg\ --files\ /bin ; $(fzf) ; export FZF_DEFAULT_COMMAND=rg\ --files\ --hidden' # find executable
-alias ef='$EDITOR $(fzf)' # edit file
+alias man='batman --nh'
+alias r='ranger'
 
-alias re='cd ~ && clear && fetch'
-alias osu-up='chmod a+x osu.AppImage && sudo mv osu.AppImage /usr/local/bin/osu'
 alias webcord='webcord --enable-features=UseOzonePlatform --ozone-platform=wayland'
-alias man='man --nh -P "less --use-color --header -N -DNK -Dug"'
 alias c='calculator'
 alias volume='wpctl get-volume @DEFAULT_AUDIO_SINK@'
 alias dump='objdump -Mintel -Ds'
 alias objdump='objdump -Mintel'
 alias etch='xorriso-dd-target -DO_WRITE -with_sudo -image_file' # etch [image_file] [device_name]
-alias pdf='mupdf'
+
+alias re='cd ~ && clear && fetch'
+alias fd='export FZF_DEFAULT_COMMAND=tree\ -ifd ; cd $(fzfdir $(fzf)) ; export FZF_DEFAULT_COMMAND=rg\ --files\ --hidden' # find dir
+#alias fd='export FZF_DEFAULT_COMMAND=rg\ --hidden\ --files-with-matches\ \"\(\\w/\)+" ; cd $(fzfdir $(fzf)) ; export FZF_DEFAULT_COMMAND=rg\ --files\ --hidden' # find dir
+alias fe='export FZF_DEFAULT_COMMAND=rg\ --files\ /bin ; $(fzf) ; export FZF_DEFAULT_COMMAND=rg\ --files\ --hidden' # find executable
+alias ef='$EDITOR $(fzf)' # edit file
 
 PS1='\[\e[31m\]  \[\e[1;37m\] \t\[\e[0;34m\] \w\[\e[1;35m\]  \[\e[0m\] '
 
@@ -64,5 +65,6 @@ export EDITOR='vim'
 export WLR_RENDERER='vulkan'
 export FZF_DEFAULT_COMMAND='rg --files --hidden'
 export FZF_DEFAULT_OPTS='--no-unicode --height=18 --algo=v1 --prompt=\ fzf\ \  --highlight-line --color=bw,fg:-1,hl:2:regular,pointer:4,prompt:2,current-fg:-1:regular:bold,current-bg:#44415a,current-hl:2:regular:bold'
+export BAT_THEME='rosepinetwo'
 
 fetch

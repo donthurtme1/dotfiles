@@ -1,7 +1,7 @@
 " General settings {{{ 
 set nocompatible
 set nu rnu
-set tabstop=4 shiftwidth=4
+set tabstop=4 shiftwidth=4 textwidth=0
 set scrolloff=0
 set linebreak breakindent
 set breakindentopt=shift:8,sbr
@@ -11,6 +11,9 @@ set smartcase showmatch hlsearch
 set wildmenu
 set foldmethod=manual
 set cursorline
+set autoindent cindent
+set showcmd
+set splitright splitbelow
 
 filetype on
 filetype plugin on
@@ -21,7 +24,16 @@ if has('persistent_undo')
 	set undofile
 endif
 
-let g:lsp_diagnostics_virtual_text_align = "right"
+let g:lsp_completion_docuentation_delay = 40
+let g:lsp_diagnostics_echo_delay = 250
+let g:lsp_diagnostics_signs_delay = 250
+let g:lsp_diagnostics_virtual_text_prefix = "~ "
+let g:lsp_diagnostics_virtual_text_align = "after"
+let g:lsp_diagnostics_virtual_text_wrap = "truncate" " might change or something
+let g:lsp_document_highlight_enabled = 0
+let g:lsp_semantic_enabled = 1
+let g:lsp_semantic_delay = 250
+let g:lsp_document_highlight_delay = 0
 " }}}
 
 " Colours {{{
@@ -31,6 +43,11 @@ syntax on
 
 let c_functions=1
 let c_function_pointers=1
+
+hi Macro guifg=#f6c177 guibg=NONE gui=NONE cterm=NONE
+hi link LspSemanticVariable Normal
+hi link LspSemanticProperty Normal
+hi link LspSemanticParameter Define
 " }}}
 
 " Mappings {{{ 
@@ -44,16 +61,26 @@ nnoremap <C-j> 8<C-e>
 nnoremap <C-k> 8<C-y>
 nnoremap / :set hlsearch<CR>/
 
-nnoremap <leader>q ZQ
-nnoremap <leader>w ZZ
-nnoremap <leader><space> :buffers<CR>:bu
-
-nnoremap <SPACE>w <C-w>
+nnoremap <silent> <leader>q ZQ
+nnoremap <silent> <leader>w ZZ
 nnoremap <silent> <leader>e :Ex<CR>
 nnoremap <silent> <leader>u :UndotreeToggle<CR>
 nnoremap <silent> <leader>s :set hlsearch!<CR>
+nnoremap <silent> <leader>f :Files<CR>
+nnoremap <silent> <leader>b :Buffers<CR>
+nnoremap <silent> <leader>m :Marks<CR>
+nnoremap <silent> <leader>j :Jumps<CR>
+nnoremap <silent> <leader>c :Changes<CR>
 
-nnoremap <silent> <leader>f :set opfunc=FindFaster_f<CR>g@
+nnoremap <silent> <C-w>n :vert new<CR>
+nnoremap <silent> <C-w><C-n> :vert new<CR>
+nnoremap <silent> <C-w>m :new<CR>
+nnoremap <silent> <C-w><C-m> :new<CR>
+
+nnoremap <expr> o (line(".") - line("w0") > winheight(0) / 2) ? '<C-e>o' : 'o'
+nnoremap <expr> O (line(".") - line("w0") > winheight(0) / 2) ? '<C-e>O' : 'O'
+inoremap <expr> <CR> (line(".") - line("w0") > winheight(0) / 2) ? '<C-x><C-e><CR>' : '<CR>'
+"nnoremap <silent> <expr> 'z'.v:count.'<CR>' ':call LineToNumber('.v:count.')<CR>'
 " }}}
 
 " Plugins {{{ 
@@ -64,12 +91,14 @@ Plug 'sainnhe/everforest'
 
 Plug 'prabirshrestha/vim-lsp'
 Plug 'bergercookie/asm-lsp'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf' }
+Plug 'junegunn/fzf.vim'
+Plug 'sharkdp/bat'
 Plug 'prabirshrestha/async.vim'
 Plug 'mbbill/undotree'
 Plug 'vim-scripts/restore_view.vim'
 Plug 'jasonccox/vim-wayland-clipboard'
 Plug 'easymotion/vim-easymotion'
+Plug 'tikhomirov/vim-glsl'
 call plug#end()
 " }}}
 
@@ -77,9 +106,11 @@ call plug#end()
 augroup filetype_vim
 	autocmd!
 	autocmd FileType vim setlocal foldmethod=marker
+	autocmd FileType help set nu rnu cursorline
+	autocmd FileType netrw set nu rnu cursorline
 augroup end
 
-augroup cursorline
+augroup curorline_lnums
 	autocmd!
 	autocmd WinEnter * set cursorline
 	autocmd WinLeave * set nocursorline
@@ -88,6 +119,12 @@ augroup end
 augroup filetype_c
 	autocmd!
 	autocmd BufRead,BufNewFile *.c set filetype=c
+	autocmd BufRead,BufNewFile *.h set filetype=c
+augroup end
+
+augroup filetype_s
+	autocmd!
+	autocmd BufRead,BufNewFile *.s setlocal lisp
 augroup end
 
 hi findfasterHighlight guifg=NONE guibg=#f6c177
@@ -110,9 +147,14 @@ function! s:on_lsp_buffer_enabled() abort
     nnoremap <buffer> <leader>r <plug>(lsp-rename)
     nnoremap <buffer> [g <plug>(lsp-previous-diagnostic)
     nnoremap <buffer> ]g <plug>(lsp-next-diagnostic)
-    nnoremap <buffer> K <plug>(lsp-hover)
+    nnoremap <buffer> K <plug>(lsp-hover-float)
 	inoremap <buffer> <C-c> <Esc>
 endfunction
+
+augroup vim_glsl
+	autocmd!
+	autocmd BufNewFile,BufRead *.glsl,*.vs,*.fs set filetype=glsl
+augroup end
 
 augroup lsp_clangd
 	autocmd!
