@@ -25,12 +25,16 @@ if has('persistent_undo')
 	set undofile
 endif
 
-let g:lsp_completion_docuentation_delay = 40
+let g:lsp_preview_float = 1
+let g:lsp_preview_autoclose = 0
+
+let g:lsp_completion_docuentation_delay = 0
 let g:lsp_diagnostics_signs_delay = 250
 let g:lsp_diagnostics_virtual_text_prefix = "~ "
 let g:lsp_diagnostics_virtual_text_align = "after"
 let g:lsp_diagnostics_virtual_text_wrap = "truncate" " might change or something
 let g:lsp_diagnostics_float_cursor = 1
+let g:lsp_diagnostics_float_delay = 0
 let g:lsp_diagnostics_highlights_delay = 250
 let g:lsp_document_highlight_enabled = 10
 let g:lsp_semantic_enabled = 1
@@ -135,6 +139,7 @@ function! s:on_lsp_buffer_enabled() abort
     setlocal tagfunc=lsp#tagfunc
     setlocal signcolumn=yes
     nnoremap <buffer> gd <plug>(lsp-definition)
+    nnoremap <buffer> gD <plug>(lsp-declaration)
     nnoremap <buffer> gs <plug>(lsp-document-symbol-search)
     nnoremap <buffer> gS <plug>(lsp-workspace-symbol-search)
     nnoremap <buffer> gr <plug>(lsp-references)
@@ -145,14 +150,16 @@ function! s:on_lsp_buffer_enabled() abort
     nnoremap <buffer> ]g <plug>(lsp-next-diagnostic)
 	nnoremap <buffer> <leader>d <plug>(lsp-document-diagnostics)
     nnoremap <buffer> K <plug>(lsp-hover-float)
+	nnoremap <buffer> ga <plug>(lsp-code-action)
 	inoremap <buffer> <C-c> <Esc>
 endfunction
 
 augroup lsp_clangd
 	autocmd!
 	autocmd User lsp_setup call lsp#register_server({ 'name': 'clangd', 'cmd': { server_info->['clangd'] }, 'allowlist': ['c'], })
-	autocmd FileType c setlocal omnifunc=lsp#complete
-	autocmd FileType c setlocal tagfunc=lsp#tagfunc
-	autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+	"autocmd FileType c setlocal omnifunc=lsp#complete
+	"autocmd FileType c setlocal tagfunc=lsp#tagfunc
+	"autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+	autocmd FileType c call s:on_lsp_buffer_enabled()
 augroup end
 " }}}
