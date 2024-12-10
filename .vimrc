@@ -41,16 +41,6 @@ let g:lsp_semantic_delay = 10
 let g:lsp_semantic_enabled = 1
 " }}}
 
-" Colours {{{
-set termguicolors
-colorscheme rosepine_moon
-syntax on
-
-hi link LspSemanticVariable Normal
-hi link LspSemanticProperty Normal
-hi link LspSemanticParameter Define
-" }}}
-
 " Mappings {{{ 
 let mapleader = ","
 "nnoremap <expr> j v:count == 0 ? 'gj' : "\<Esc>".v:count.'j'
@@ -76,6 +66,7 @@ nnoremap <silent> <leader>b :Buffers<CR>
 nnoremap <silent> <leader>m :Marks<CR>
 nnoremap <silent> <leader>j :Jumps<CR>
 nnoremap <silent> <leader>c :Changes<CR>
+nnoremap <silent> <leader>t :Lines<CR>
 nnoremap <silent> <leader>/ :History/<CR>
 
 nnoremap <silent> <C-w>n :new<CR>
@@ -91,6 +82,7 @@ inoremap <expr> <CR> (line(".") - line("w0") > winheight(0) / 2) ? '<C-x><C-e><C
 
 " Plugins {{{ 
 call plug#begin('~/.vim/plugged')
+Plug 'rose-pine/vim', { 'as': 'rosepine' }
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 Plug 'sainnhe/everforest'
@@ -102,6 +94,23 @@ Plug 'prabirshrestha/async.vim'
 Plug 'mbbill/undotree'
 Plug 'vim-scripts/restore_view.vim'
 call plug#end()
+" }}}
+
+" Colours {{{
+set termguicolors
+colorscheme rosepine_moon
+syntax on
+
+set t_ZH= " disable italics
+hi Normal guibg=#232135
+hi Macro guifg=#f6c177
+hi Include guifg=#3e8fb0
+hi SignColumn guibg=#232135
+hi StatusLineNC guibg=#232135
+
+hi link LspSemanticVariable Normal
+hi link LspSemanticProperty Normal
+hi link LspSemanticParameter Define
 " }}}
 
 " Vimscript {{{
