@@ -1,6 +1,6 @@
 [[ $- != *i* ]] && return
 
-alias ls='ls -t --color=auto' # Ignore order based on last used and automatic colouring
+alias ls='ls --color=auto' # Ignore order based on last used and automatic colouring
 alias grep='grep --color=auto'
 alias man='batman --nh'
 alias r='ranger'
@@ -13,9 +13,9 @@ alias objdump='objdump -Mintel'
 alias etch='xorriso-dd-target -DO_WRITE -with_sudo -image_file' # etch [image_file] [device_name]
 
 alias re='cd ~ && clear && fetch'
-alias fd='export FZF_DEFAULT_COMMAND=tree\ -ifd ; cd $(fzfdir $(fzf)) ; export FZF_DEFAULT_COMMAND=rg\ --files\ --hidden' # find dir
+alias fd='export FZF_DEFAULT_COMMAND="tree -ifdFt /" ; cd $(fzfdir $(fzf)) ; export FZF_DEFAULT_COMMAND="rg --files --hidden"' # find dir
 #alias fd='export FZF_DEFAULT_COMMAND=rg\ --hidden\ --files-with-matches\ \"\(\\w/\)+" ; cd $(fzfdir $(fzf)) ; export FZF_DEFAULT_COMMAND=rg\ --files\ --hidden' # find dir
-alias fe='export FZF_DEFAULT_COMMAND=rg\ --files\ /bin ; $(fzf) ; export FZF_DEFAULT_COMMAND=rg\ --files\ --hidden' # find executable
+alias fe='export FZF_DEFAULT_COMMAND="rg --files /bin /usr/local/bin" ; $(fzf) ; export FZF_DEFAULT_COMMAND="rg --files --hidden"' # find executable
 alias ef='$EDITOR $(fzf)' # edit file
 
 PS1='\[\e[31m\]  \[\e[1;37m\] \t\[\e[0;34m\] \w\[\e[1;35m\]  \[\e[0m\] '
