@@ -161,11 +161,6 @@ function! s:on_lsp_buffer_enabled() abort
 	inoremap <buffer> <C-c> <Esc>
 endfunction
 
-augroup vim_glsl
-	autocmd!
-	autocmd BufNewFile,BufRead *.glsl,*.vs,*.fs set filetype=glsl
-augroup end
-
 augroup lsp_clangd
 	autocmd!
 	autocmd User lsp_setup call lsp#register_server({ 'name': 'clangd', 'cmd': { server_info->['clangd'] }, 'allowlist': ['c'], })
