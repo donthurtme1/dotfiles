@@ -74,9 +74,9 @@ nnoremap <silent> <C-w><C-n> :new<CR>
 nnoremap <silent> <C-w>m :vert new<CR>
 nnoremap <silent> <C-w><C-m> :vert new<CR>
 
-nnoremap <expr> o (line(".") - line("w0") > winheight(0) / 2) ? '<C-e>o' : 'o'
-nnoremap <expr> O (line(".") - line("w0") > winheight(0) / 2) ? '<C-e>O' : 'O'
-inoremap <expr> <CR> (line(".") - line("w0") > winheight(0) / 2) ? '<C-x><C-e><CR>' : '<CR>'
+nnoremap <expr> o (line(".") - line("w0") > winheight(0) * 2 / 3) ? '<C-e>o' : 'o'
+nnoremap <expr> O (line(".") - line("w0") > winheight(0) * 2 / 3) ? '<C-e>O' : 'O'
+inoremap <expr> <CR> (line(".") - line("w0") > winheight(0) * 2 / 3) ? '<C-x><C-e><CR>' : '<CR>'
 "nnoremap <silent> <expr> 'z'.v:count.'<CR>' ':call LineToNumber('.v:count.')<CR>'
 " }}}
 
@@ -105,6 +105,7 @@ set t_ZH= " disable italics
 hi Normal guibg=#232135
 hi Macro guifg=#f6c177
 hi Include guifg=#3e8fb0
+hi SpecialChar guifg=#3e8fb0
 hi SignColumn guibg=#232135
 hi StatusLineNC guibg=#232135
 
