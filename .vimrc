@@ -108,6 +108,7 @@ hi Include guifg=#3e8fb0
 hi SpecialChar guifg=#3e8fb0
 hi SignColumn guibg=#232135
 hi StatusLineNC guibg=#232135
+hi MatchParen guifg=NONE
 
 hi link LspSemanticVariable Normal
 hi link LspSemanticProperty Normal
