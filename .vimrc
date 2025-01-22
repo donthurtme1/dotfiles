@@ -33,12 +33,13 @@ let g:lsp_diagnostics_highlights_delay = 250
 let g:lsp_diagnostics_signs_delay = 250
 let g:lsp_diagnostics_virtual_text_align = "after"
 let g:lsp_diagnostics_virtual_text_prefix = "~ "
-let g:lsp_diagnostics_virtual_text_wrap = "truncate" " might change or something
+let g:lsp_diagnostics_virtual_text_wrap = "truncate"
 let g:lsp_document_highlight_enabled = 0
 let g:lsp_preview_autoclose = 0
 let g:lsp_preview_float = 1
 let g:lsp_semantic_delay = 10
 let g:lsp_semantic_enabled = 1
+let g:lsp_max_buffer_size = 1000000
 " }}}
 
 " Mappings {{{ 
