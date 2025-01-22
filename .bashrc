@@ -12,13 +12,23 @@ alias dump='objdump -Mintel -Ds'
 alias objdump='objdump -Mintel'
 alias etch='xorriso-dd-target -DO_WRITE -with_sudo -image_file' # etch [image_file] [device_name]
 
-alias update-osu='wget https://github.com/ppy/osu/releases/latest/download/osu.AppImage ; sudo cp osu.AppImage /usr/local/bin/osu ; sudo chmod a+x /usr/local/bin/osu'
+alias update-osu='wget https://github.com/ppy/osu/releases/latest/download/osu.AppImage ; mv osu.AppImage /usr/local/bin/osu ; chmod a+x /usr/local/bin/osu'
 
 alias re='cd ~ && clear && fetch'
-alias fd='export FZF_DEFAULT_COMMAND="tree -ifdFt" ; cd $(fzfdir $(fzf)) ; export FZF_DEFAULT_COMMAND="rg --files --hidden"' # find dir
-#alias fd='export FZF_DEFAULT_COMMAND=rg\ --hidden\ --files-with-matches\ \"\(\\w/\)+" ; cd $(fzfdir $(fzf)) ; export FZF_DEFAULT_COMMAND=rg\ --files\ --hidden' # find dir
 alias fe='export FZF_DEFAULT_COMMAND="rg --files /bin /usr/local/bin" ; $(fzf) ; export FZF_DEFAULT_COMMAND="rg --files --hidden"' # find executable
 alias ef='$EDITOR $(fzf)' # edit file
+
+function fd() {
+	export FZF_DEFAULT_COMMAND="tree -ifdFtr ${1}"
+	cd $(fzfdir $(fzf))
+	export FZF_DEFAULT_COMMAND="rg --files --hidden" # find dir
+}
+
+function f() {
+	export FZF_DEFAULT_COMMAND="rg --files --hidden ${1}"
+	fzf
+	export FZF_DEFAULT_COMMAND='rg --files --hidden'
+}
 
 PS1='\[\e[31m\]  \[\e[1;37m\] \t\[\e[0;34m\] \w\[\e[1;35m\]  \[\e[0m\] '
 
@@ -68,5 +78,6 @@ export WLR_RENDERER='vulkan'
 export FZF_DEFAULT_COMMAND='rg --files --hidden'
 export FZF_DEFAULT_OPTS='--no-unicode --height=18 --algo=v2 --prompt=\ fzf\ \  --highlight-line --color=bw,fg:-1,hl:2:regular,pointer:4,prompt:2,current-fg:-1:regular:bold,current-bg:#44415a,current-hl:2:regular:bold'
 export BAT_THEME='rosepinetwo'
+export QT_QPA_PLATFORM=xcb
 
 fetch
