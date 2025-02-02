@@ -55,6 +55,7 @@ nnoremap <C-k> 8<C-y>
 inoremap k k
 cnoremap k k
 vnoremap k k
+nnoremap <C-w>k <C-w>k
 
 nnoremap <C-=> <C-w>+
 nnoremap <C-_> <C-w>-
