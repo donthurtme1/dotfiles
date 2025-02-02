@@ -53,6 +53,8 @@ nnoremap <C-j> 8<C-e>
 nnoremap <C-k> 8<C-y>
 " why the fuck do i need this, fuck vim
 inoremap k k
+cnoremap k k
+vnoremap k k
 
 nnoremap <C-=> <C-w>+
 nnoremap <C-_> <C-w>-
