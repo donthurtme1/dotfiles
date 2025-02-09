@@ -6,6 +6,7 @@ set scrolloff=0
 set linebreak breakindent
 set breakindentopt=shift:8,sbr
 set showbreak=>
+set nowrap
 set cpoptions+=n
 set smartcase showmatch hlsearch
 set wildmenu
@@ -55,6 +56,7 @@ nnoremap <C-k> 8<C-y>
 inoremap k k
 cnoremap k k
 vnoremap k k
+onoremap k k
 nnoremap <C-w>k <C-w>k
 
 nnoremap <C-=> <C-w>+
@@ -64,9 +66,15 @@ nnoremap <C-,> <C-w><
 
 nnoremap <silent> <leader>q ZQ
 nnoremap <silent> <leader>w ZZ
+nnoremap <silent> <leader>h :vert help<CR>
+nnoremap <silent> <leader>p "+p
+nnoremap <silent> <leader>P "+P
+nnoremap <silent> <leader>sn :setlocal nowrap<CR>
+nnoremap <silent> <leader>ss :setlocal wrap<CR>
+nnoremap <silent> <C-c> :let @/=""<CR>
+
 nnoremap <silent> <leader>e :Ex<CR>
 nnoremap <silent> <leader>u :UndotreeToggle<CR>
-nnoremap <silent> <leader>s :let @/=""<CR>
 nnoremap <silent> <leader>f :Files<CR>
 nnoremap <silent> <leader>b :Buffers<CR>
 nnoremap <silent> <leader>m :Marks<CR>
@@ -74,8 +82,6 @@ nnoremap <silent> <leader>j :Jumps<CR>
 nnoremap <silent> <leader>c :Changes<CR>
 nnoremap <silent> <leader>t :Lines<CR>
 nnoremap <silent> <leader>/ :History/<CR>
-nnoremap <silent> <leader>p "+p
-nnoremap <silent> <leader>P "+P
 
 nnoremap <leader>, qq
 nnoremap <leader>. @q
