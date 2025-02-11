@@ -6,6 +6,7 @@ set scrolloff=0
 set linebreak breakindent
 set breakindentopt=shift:8,sbr
 set showbreak=>
+set nowrap
 set cpoptions+=n
 set smartcase showmatch hlsearch
 set wildmenu
@@ -43,13 +44,19 @@ let g:lsp_max_buffer_size = 1000000
 
 " Mappings {{{ 
 let mapleader = ","
-"nnoremap <expr> j v:count == 0 ? 'gj' : "\<Esc>".v:count.'j'
-"nnoremap <expr> k v:count == 0 ? 'gk' : "\<Esc>".v:count.'k'
-"nnoremap gj j
-"nnoremap gk k
+nnoremap <expr> j v:count == 0 ? 'gj' : "\<Esc>".v:count.'j'
+nnoremap <expr> k v:count == 0 ? 'gk' : "\<Esc>".v:count.'k'
+nnoremap gj j
+nnoremap gk k
 inoremap <C-c> <Esc>
 nnoremap <C-j> 8<C-e>
 nnoremap <C-k> 8<C-y>
+" why the fuck do i need this, fuck vim
+inoremap k k
+cnoremap k k
+vnoremap k k
+onoremap k k
+nnoremap <C-w>k <C-w>k
 
 nnoremap <C-=> <C-w>+
 nnoremap <C-_> <C-w>-
@@ -58,9 +65,15 @@ nnoremap <C-,> <C-w><
 
 nnoremap <silent> <leader>q ZQ
 nnoremap <silent> <leader>w ZZ
+nnoremap <silent> <leader>h :vert help<CR>
+nnoremap <silent> <leader>p "+p
+nnoremap <silent> <leader>P "+P
+nnoremap <silent> <leader>sn :setlocal nowrap<CR>
+nnoremap <silent> <leader>ss :setlocal wrap<CR>
+nnoremap <silent> <C-c> :let @/=""<CR>
+
 nnoremap <silent> <leader>e :Ex<CR>
 nnoremap <silent> <leader>u :UndotreeToggle<CR>
-nnoremap <silent> <leader>s :let @/=""<CR>
 nnoremap <silent> <leader>f :Files<CR>
 nnoremap <silent> <leader>b :Buffers<CR>
 nnoremap <silent> <leader>m :Marks<CR>
@@ -68,6 +81,9 @@ nnoremap <silent> <leader>j :Jumps<CR>
 nnoremap <silent> <leader>c :Changes<CR>
 nnoremap <silent> <leader>t :Lines<CR>
 nnoremap <silent> <leader>/ :History/<CR>
+
+nnoremap <leader>, qq
+nnoremap <leader>. @q
 
 nnoremap <silent> <C-w>n :new<CR>
 nnoremap <silent> <C-w><C-n> :new<CR>
@@ -109,6 +125,7 @@ hi SpecialChar guifg=#3e8fb0
 hi SignColumn guibg=#232135
 hi StatusLineNC guibg=#232135
 hi MatchParen guifg=NONE
+hi Folded guifg=#c4a7e7
 
 hi link LspSemanticVariable Normal
 hi link LspSemanticProperty Normal
