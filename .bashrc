@@ -17,7 +17,6 @@ alias update-osu='wget https://github.com/ppy/osu/releases/latest/download/osu.A
 alias re='cd ~ && clear && fetch'
 alias fe='export FZF_DEFAULT_COMMAND="rg --files /bin /usr/local/bin" ; $(fzf) ; export FZF_DEFAULT_COMMAND="rg --files --hidden"' # find executable
 alias ef='$EDITOR $(fzf)' # edit file
-alias ls='export FZF_DEFAULT_COMMAND="ls -F" ; $(fzf) ; export FZF_DEFAULT_COMMAND="rg --files --hidden"'
 
 function fd() {
 	export FZF_DEFAULT_COMMAND="tree -ifdFtr ${1}"

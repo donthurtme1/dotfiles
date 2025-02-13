@@ -81,6 +81,7 @@ nnoremap <silent> <leader>j :Jumps<CR>
 nnoremap <silent> <leader>c :Changes<CR>
 nnoremap <silent> <leader>t :Lines<CR>
 nnoremap <silent> <leader>/ :History/<CR>
+nnoremap <leader>g :Git 
 
 nnoremap <leader>, qq
 nnoremap <leader>. @q
@@ -109,6 +110,7 @@ Plug 'jasonccox/vim-wayland-clipboard'
 Plug 'prabirshrestha/async.vim'
 Plug 'mbbill/undotree'
 Plug 'vim-scripts/restore_view.vim'
+Plug 'tpope/vim-fugitive'
 call plug#end()
 " }}}
 
