@@ -76,12 +76,15 @@ nnoremap <silent> <C-c> :let @/=""<CR>
 
 nnoremap <silent> <leader>e :Ex<CR>
 nnoremap <silent> <leader>u :UndotreeToggle<CR>
-nnoremap <silent> <leader>f :Files<CR>
-nnoremap <silent> <leader>b :Buffers<CR>
+nnoremap <silent> <leader>f :GFiles<CR>
+nnoremap <silent> <leader>F :Files<CR>
+nnoremap <silent> <leader>v :Buffers<CR>
 nnoremap <silent> <leader>m :Marks<CR>
 nnoremap <silent> <leader>j :Jumps<CR>
-nnoremap <silent> <leader>c :Changes<CR>
+nnoremap <silent> <leader>c :Commits<CR>
+nnoremap <silent> <leader>C :Changes<CR>
 nnoremap <silent> <leader>t :Lines<CR>
+nnoremap <silent> HH :Lines<CR>
 nnoremap <silent> <leader>/ :History/<CR>
 nnoremap <leader>g :Git 
 
