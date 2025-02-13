@@ -8,6 +8,7 @@ set breakindentopt=shift:8,sbr
 set showbreak=>
 set nowrap
 set cpoptions+=n
+set formatoptions-=cro
 set smartcase showmatch hlsearch
 set wildmenu
 set foldmethod=manual
@@ -109,7 +110,8 @@ Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 Plug 'sainnhe/everforest'
 
-Plug 'prabirshrestha/vim-lsp'
+"Plug 'prabirshrestha/vim-lsp'
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'junegunn/fzf.vim'
 Plug 'jasonccox/vim-wayland-clipboard'
 Plug 'prabirshrestha/async.vim'
