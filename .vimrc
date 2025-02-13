@@ -58,6 +58,7 @@ cnoremap k k
 vnoremap k k
 onoremap k k
 nnoremap <C-w>k <C-w>k
+nnoremap <C-o> <C-o>
 
 nnoremap <C-=> <C-w>+
 nnoremap <C-_> <C-w>-
@@ -69,8 +70,8 @@ nnoremap <silent> <leader>w ZZ
 nnoremap <silent> <leader>h :vert help<CR>
 nnoremap <silent> <leader>p "+p
 nnoremap <silent> <leader>P "+P
-nnoremap <silent> <leader>sn :setlocal nowrap<CR>
-nnoremap <silent> <leader>ss :setlocal wrap<CR>
+nnoremap <silent> <leader>s :setlocal nowrap<CR>
+nnoremap <silent> <leader>S :setlocal wrap<CR>
 nnoremap <silent> <C-c> :let @/=""<CR>
 
 nnoremap <silent> <leader>e :Ex<CR>
@@ -82,6 +83,7 @@ nnoremap <silent> <leader>j :Jumps<CR>
 nnoremap <silent> <leader>c :Changes<CR>
 nnoremap <silent> <leader>t :Lines<CR>
 nnoremap <silent> <leader>/ :History/<CR>
+nnoremap <leader>g :Git 
 
 nnoremap <leader>, qq
 nnoremap <leader>. @q
@@ -110,6 +112,7 @@ Plug 'jasonccox/vim-wayland-clipboard'
 Plug 'prabirshrestha/async.vim'
 Plug 'mbbill/undotree'
 Plug 'vim-scripts/restore_view.vim'
+Plug 'tpope/vim-fugitive'
 call plug#end()
 " }}}
 
@@ -180,6 +183,7 @@ function! s:on_lsp_buffer_enabled() abort
 	nnoremap <buffer> <leader>d <plug>(lsp-document-diagnostics)
     nnoremap <buffer> K <plug>(lsp-hover-float)
 	inoremap <buffer> <C-c> <Esc>
+	nnoremap <silent> <C-c> :let @/=""<CR>
 endfunction
 
 augroup lsp_clangd
