@@ -146,6 +146,7 @@ augroup end
 
 augroup curorline
 	autocmd!
+	autocmd BufEnter * set cursorline
 	autocmd WinEnter * set cursorline
 	autocmd WinLeave * set nocursorline
 augroup end
