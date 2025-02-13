@@ -137,7 +137,6 @@ hi link LspSemanticParameter Define
 " Vimscript {{{
 augroup filetype_vim
 	autocmd!
-	autocmd FileType vim setlocal foldmethod=marker
 	autocmd FileType help set nu rnu cursorline
 	autocmd FileType netrw set nu rnu cursorline
 augroup end
@@ -145,6 +144,7 @@ augroup end
 augroup curorline
 	autocmd!
 	autocmd WinEnter * set cursorline
+	autocmd BufEnter * set cursorline
 	autocmd WinLeave * set nocursorline
 augroup end
 
