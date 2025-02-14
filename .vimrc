@@ -8,6 +8,7 @@ set breakindentopt=shift:8,sbr
 set showbreak=>
 set nowrap
 set cpoptions+=n
+set formatoptions-=cro
 set smartcase showmatch hlsearch
 set wildmenu
 set foldmethod=manual
@@ -57,6 +58,7 @@ cnoremap k k
 vnoremap k k
 onoremap k k
 nnoremap <C-w>k <C-w>k
+nnoremap <C-o> <C-o>
 
 nnoremap <C-=> <C-w>+
 nnoremap <C-_> <C-w>-
@@ -68,18 +70,21 @@ nnoremap <silent> <leader>w ZZ
 nnoremap <silent> <leader>h :vert help<CR>
 nnoremap <silent> <leader>p "+p
 nnoremap <silent> <leader>P "+P
-nnoremap <silent> <leader>sn :setlocal nowrap<CR>
-nnoremap <silent> <leader>ss :setlocal wrap<CR>
+nnoremap <silent> <leader>s :setlocal nowrap<CR>
+nnoremap <silent> <leader>S :setlocal wrap<CR>
 nnoremap <silent> <C-c> :let @/=""<CR>
 
 nnoremap <silent> <leader>e :Ex<CR>
 nnoremap <silent> <leader>u :UndotreeToggle<CR>
-nnoremap <silent> <leader>f :Files<CR>
-nnoremap <silent> <leader>b :Buffers<CR>
+nnoremap <silent> <leader>f :GFiles<CR>
+nnoremap <silent> <leader>F :Files<CR>
+nnoremap <silent> <leader>v :Buffers<CR>
 nnoremap <silent> <leader>m :Marks<CR>
 nnoremap <silent> <leader>j :Jumps<CR>
-nnoremap <silent> <leader>c :Changes<CR>
+nnoremap <silent> <leader>c :Commits<CR>
+nnoremap <silent> <leader>C :Changes<CR>
 nnoremap <silent> <leader>t :Lines<CR>
+nnoremap <silent> HH :Lines<CR>
 nnoremap <silent> <leader>/ :History/<CR>
 nnoremap <leader>g :Git 
 
@@ -104,7 +109,8 @@ Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 Plug 'sainnhe/everforest'
 
-Plug 'prabirshrestha/vim-lsp'
+"Plug 'prabirshrestha/vim-lsp'
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'junegunn/fzf.vim'
 Plug 'jasonccox/vim-wayland-clipboard'
 Plug 'prabirshrestha/async.vim'
@@ -143,6 +149,7 @@ augroup end
 
 augroup curorline
 	autocmd!
+	autocmd BufEnter * set cursorline
 	autocmd WinEnter * set cursorline
 	autocmd BufEnter * set cursorline
 	autocmd WinLeave * set nocursorline
@@ -181,6 +188,7 @@ function! s:on_lsp_buffer_enabled() abort
 	nnoremap <buffer> <leader>d <plug>(lsp-document-diagnostics)
     nnoremap <buffer> K <plug>(lsp-hover-float)
 	inoremap <buffer> <C-c> <Esc>
+	nnoremap <silent> <C-c> :let @/=""<CR>
 endfunction
 
 augroup lsp_clangd
