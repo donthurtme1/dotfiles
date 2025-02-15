@@ -42,6 +42,7 @@ let g:lsp_preview_float = 1
 let g:lsp_semantic_delay = 10
 let g:lsp_semantic_enabled = 1
 let g:lsp_max_buffer_size = 1000000
+
 " }}}
 
 " Mappings {{{ 
@@ -66,29 +67,15 @@ nnoremap <C-_> <C-w>-
 nnoremap <C-.> <C-w>>
 nnoremap <C-,> <C-w><
 
+nnoremap <silent> <leader>e :Ex<CR>
 nnoremap <silent> <leader>q ZQ
 nnoremap <silent> <leader>w ZZ
-nnoremap <silent> <leader>h :vert help<CR>
 nnoremap <silent> <leader>p "+p
 nnoremap <silent> <leader>P "+P
 nnoremap <silent> <leader>s :setlocal nowrap<CR>
 nnoremap <silent> <leader>S :setlocal wrap<CR>
-nnoremap <silent> <C-c> :let @/=""<CR>
-
-nnoremap <silent> <leader>e :Ex<CR>
 nnoremap <silent> <leader>u :UndotreeToggle<CR>
-nnoremap <silent> <leader>f :GFiles<CR>
-nnoremap <silent> <leader>F :Files<CR>
-nnoremap <silent> <leader>v :Buffers<CR>
-nnoremap <silent> <leader>m :Marks<CR>
-nnoremap <silent> <leader>j :Jumps<CR>
-nnoremap <silent> <leader>c :Commits<CR>
-nnoremap <silent> <leader>C :Changes<CR>
-nnoremap <silent> <leader>t :Lines<CR>
-nnoremap <silent> HH :Lines<CR>
-nnoremap <silent> <leader>/ :History/<CR>
-nnoremap <leader>g :Git 
-
+nnoremap <silent> <C-c> :let @/=""<CR>
 nnoremap <leader>, qq
 nnoremap <leader>. @q
 
@@ -101,6 +88,22 @@ nnoremap <expr> o (line(".") - line("w0") > winheight(0) * 2 / 3) ? '<C-e>o' : '
 nnoremap <expr> O (line(".") - line("w0") > winheight(0) * 2 / 3) ? '<C-e>O' : 'O'
 inoremap <expr> <CR> (line(".") - line("w0") > winheight(0) * 2 / 3) ? '<C-x><C-e><CR>' : '<CR>'
 "nnoremap <silent> <expr> 'z'.v:count.'<CR>' ':call LineToNumber('.v:count.')<CR>'
+
+" fzf-vim stuff
+nnoremap <silent> <leader>f :GFiles<CR>
+nnoremap <silent> <leader>F :Files<CR>
+nnoremap <silent> <leader>h :Help<CR>
+nnoremap <silent> <leader>v :Buffers<CR>
+nnoremap <silent> <leader>m :Marks<CR>
+nnoremap <silent> <leader>j :Jumps<CR>
+nnoremap <silent> <leader>c :Commits<CR>
+nnoremap <silent> <leader>C :Changes<CR>
+nnoremap <silent> <leader>t :Lines<CR>
+nnoremap <silent> HH :Lines<CR>/*
+nnoremap <silent> <leader>/ :History/<CR>
+nnoremap <leader>g :Git 
+
+" coc-nvim stuff
 " }}}
 
 " Plugins {{{ 
@@ -110,8 +113,11 @@ Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 Plug 'sainnhe/everforest'
 
-"Plug 'prabirshrestha/vim-lsp'
+Plug 'prabirshrestha/vim-lsp'
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+Plug 'Maxattax97/coc-ccls'
+Plug 'rhysd/vim-healthcheck'
+
 Plug 'junegunn/fzf.vim'
 Plug 'jasonccox/vim-wayland-clipboard'
 Plug 'prabirshrestha/async.vim'
@@ -175,6 +181,8 @@ function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
     setlocal tagfunc=lsp#tagfunc
     setlocal signcolumn=yes
+
+    nnoremap <buffer> K <plug>(lsp-hover-float)
     nnoremap <buffer> gd <plug>(lsp-definition)
     nnoremap <buffer> gD <plug>(lsp-declaration)
     nnoremap <buffer> gs <plug>(lsp-document-symbol-search)
@@ -186,7 +194,6 @@ function! s:on_lsp_buffer_enabled() abort
     nnoremap <buffer> [g <plug>(lsp-previous-diagnostic)
     nnoremap <buffer> ]g <plug>(lsp-next-diagnostic)
 	nnoremap <buffer> <leader>d <plug>(lsp-document-diagnostics)
-    nnoremap <buffer> K <plug>(lsp-hover-float)
 	inoremap <buffer> <C-c> <Esc>
 	nnoremap <silent> <C-c> :let @/=""<CR>
 endfunction
