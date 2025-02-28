@@ -109,8 +109,7 @@ Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 Plug 'sainnhe/everforest'
 
-"Plug 'prabirshrestha/vim-lsp'
-Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+Plug 'prabirshrestha/vim-lsp'
 Plug 'junegunn/fzf.vim'
 Plug 'jasonccox/vim-wayland-clipboard'
 Plug 'prabirshrestha/async.vim'
