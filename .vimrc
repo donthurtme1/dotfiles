@@ -1,4 +1,4 @@
-" General settings {{{ 
+" General settings " 
 set nocompatible
 set nu rnu
 set tabstop=4 shiftwidth=4 textwidth=0
@@ -6,9 +6,9 @@ set scrolloff=0
 set linebreak breakindent
 set breakindentopt=shift:8,sbr
 set showbreak=>
-set nowrap
+set wrap
 set cpoptions+=n
-set formatoptions-=cro
+set formatoptions-=o
 set smartcase showmatch hlsearch
 set wildmenu
 set foldmethod=manual
@@ -27,6 +27,7 @@ if has('persistent_undo')
 	set undofile
 endif
 
+let g:netrw_banner = 0
 
 let g:lsp_completion_docuentation_delay = 0
 let g:lsp_diagnostics_float_cursor = 1
@@ -36,31 +37,73 @@ let g:lsp_diagnostics_signs_delay = 250
 let g:lsp_diagnostics_virtual_text_align = "after"
 let g:lsp_diagnostics_virtual_text_prefix = "~ "
 let g:lsp_diagnostics_virtual_text_wrap = "truncate"
-let g:lsp_document_highlight_enabled = 0
+let g:lsp_document_highlight_enabled = 1
+let g:lsp_signature_help_enabled = 0
 let g:lsp_preview_autoclose = 0
-let g:lsp_preview_float = 1
+let g:lsp_preview_float = 0
 let g:lsp_semantic_delay = 10
-let g:lsp_semantic_enabled = 1
+let g:lsp_semantic_enabled = 0
 let g:lsp_max_buffer_size = 1000000
 
-" }}}
+" Plugins " 
+call plug#begin('~/.vim/plugged')
+Plug 'rose-pine/vim', { 'as': 'rosepine' }
+Plug 'sonph/onehalf', { 'rtp': 'vim' }
+Plug 'catppuccin/vim', { 'as': 'catppuccin' }
+Plug 'sainnhe/everforest'
 
-" Mappings {{{ 
+Plug 'prabirshrestha/vim-lsp'
+"Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+"Plug 'Maxattax97/coc-ccls'
+"Plug 'm-pilia/vim-ccls'
+Plug 'rhysd/vim-healthcheck'
+
+Plug 'junegunn/fzf.vim'
+Plug 'jasonccox/vim-wayland-clipboard'
+Plug 'prabirshrestha/async.vim'
+Plug 'mbbill/undotree'
+Plug 'vim-scripts/restore_view.vim'
+Plug 'tpope/vim-fugitive'
+call plug#end()
+
+" Colours "
+set termguicolors
+colorscheme rosepine_moon
+syntax on
+
+set t_ZH= " disable italics
+hi Normal guibg=#232136
+hi NormalCurrentWindow guibg=#232136 guifg=#e0def4
+
+hi Macro guifg=#f6c177
+hi Include guifg=#3e8fb0
+hi SpecialChar guifg=#3e8fb0
+hi SignColumn guibg=#232135
+hi StatusLineNC guibg=#232135
+hi MatchParen guifg=NONE
+hi Folded guifg=#c4a7e7
+
+hi link LspSemanticVariable Normal
+hi link LspSemanticProperty Normal
+hi link LspSemanticParameter Define
+hi link cdefine Define
+hi link cmacro Macro
+hi link ctypedef_type Type
+
+" Mappings "
 let mapleader = ","
-nnoremap <expr> j v:count == 0 ? 'gj' : "\<Esc>".v:count.'j'
-nnoremap <expr> k v:count == 0 ? 'gk' : "\<Esc>".v:count.'k'
-nnoremap gj j
-nnoremap gk k
+nnoremap <Space> :
+
 inoremap <C-c> <Esc>
 nnoremap <C-j> 8<C-e>
 nnoremap <C-k> 8<C-y>
 " why the fuck do i need this, fuck vim
-inoremap k k
-cnoremap k k
-vnoremap k k
-onoremap k k
-nnoremap <C-w>k <C-w>k
-nnoremap <C-o> <C-o>
+"inoremap k k
+"cnoremap k k
+"vnoremap k k
+"onoremap k k
+"nnoremap <C-w>k <C-w>k
+"nnoremap <C-o> <C-o>
 
 nnoremap <C-=> <C-w>+
 nnoremap <C-_> <C-w>-
@@ -89,7 +132,7 @@ nnoremap <expr> O (line(".") - line("w0") > winheight(0) * 2 / 3) ? '<C-e>O' : '
 inoremap <expr> <CR> (line(".") - line("w0") > winheight(0) * 2 / 3) ? '<C-x><C-e><CR>' : '<CR>'
 "nnoremap <silent> <expr> 'z'.v:count.'<CR>' ':call LineToNumber('.v:count.')<CR>'
 
-" fzf-vim stuff
+" fzf-vim stuff "
 nnoremap <silent> <leader>f :GFiles<CR>
 nnoremap <silent> <leader>F :Files<CR>
 nnoremap <silent> <leader>h :Help<CR>
@@ -99,88 +142,51 @@ nnoremap <silent> <leader>j :Jumps<CR>
 nnoremap <silent> <leader>c :Commits<CR>
 nnoremap <silent> <leader>C :Changes<CR>
 nnoremap <silent> <leader>t :Lines<CR>
-nnoremap <silent> HH :Lines<CR>/*
 nnoremap <silent> <leader>/ :History/<CR>
 nnoremap <leader>g :Git 
-
-" coc-nvim stuff
+nnoremap <silent> <leader>ne :LspNextError<CR>
 " }}}
 
-" Plugins {{{ 
-call plug#begin('~/.vim/plugged')
-Plug 'rose-pine/vim', { 'as': 'rosepine' }
-Plug 'sonph/onehalf', { 'rtp': 'vim' }
-Plug 'catppuccin/vim', { 'as': 'catppuccin' }
-Plug 'sainnhe/everforest'
-
-Plug 'prabirshrestha/vim-lsp'
-Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-Plug 'Maxattax97/coc-ccls'
-Plug 'rhysd/vim-healthcheck'
-
-Plug 'junegunn/fzf.vim'
-Plug 'jasonccox/vim-wayland-clipboard'
-Plug 'prabirshrestha/async.vim'
-Plug 'mbbill/undotree'
-Plug 'vim-scripts/restore_view.vim'
-Plug 'tpope/vim-fugitive'
-call plug#end()
-" }}}
-
-" Colours {{{
-set termguicolors
-colorscheme rosepine_moon
-syntax on
-
-set t_ZH= " disable italics
-hi Normal guibg=#232135
-hi Macro guifg=#f6c177
-hi Include guifg=#3e8fb0
-hi SpecialChar guifg=#3e8fb0
-hi SignColumn guibg=#232135
-hi StatusLineNC guibg=#232135
-hi MatchParen guifg=NONE
-hi Folded guifg=#c4a7e7
-
-hi link LspSemanticVariable Normal
-hi link LspSemanticProperty Normal
-hi link LspSemanticParameter Define
-" }}}
-
-" Vimscript {{{
-augroup filetype_vim
+" Vimscript "
+augroup aesthetics
 	autocmd!
-	autocmd FileType help set nu rnu cursorline
-	autocmd FileType netrw set nu rnu cursorline
-augroup end
 
-augroup curorline
-	autocmd!
+	" Current window "
+	autocmd WinEnter * set wincolor=NormalCurrentWindow
+	autocmd BufEnter * set wincolor=NormalCurrentWindow
+	autocmd WinLeave * set wincolor=Normal
+	autocmd BufLeave * set wincolor=Normal
+
+	" Cursorline "
 	autocmd BufEnter * set cursorline
 	autocmd WinEnter * set cursorline
 	autocmd WinLeave * set nocursorline
 augroup end
 
-augroup filetype_c
+augroup filetype
 	autocmd!
+
+	" Vim "
+	autocmd FileType help set nu rnu cursorline
+	autocmd FileType netrw set nu rnu cursorline
+
+	" C "
 	autocmd BufRead,BufNewFile *.c set filetype=c
 	autocmd BufRead,BufNewFile *.h set filetype=c
-augroup end
 
-augroup filetype_s
-	autocmd!
+	" Assembly "
 	autocmd BufRead,BufNewFile *.s setlocal lisp
 augroup end
-
-hi findfasterHighlight guifg=NONE guibg=#f6c177
-function! FindFaster_f(str)
-	syn keyword findfasterHighlight a:str
-endfunction
 
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
     setlocal tagfunc=lsp#tagfunc
     setlocal signcolumn=yes
+	setlocal formatoptions-=o
+
+	syn keyword cdefine #define 
+	syn match cmacro "\<\u\+\>"
+	syn match ctypedef_type "\<\(\u\l\+\)\+\>"
 
     nnoremap <buffer> K <plug>(lsp-hover-float)
     nnoremap <buffer> gd <plug>(lsp-definition)
@@ -194,6 +200,7 @@ function! s:on_lsp_buffer_enabled() abort
     nnoremap <buffer> [g <plug>(lsp-previous-diagnostic)
     nnoremap <buffer> ]g <plug>(lsp-next-diagnostic)
 	nnoremap <buffer> <leader>d <plug>(lsp-document-diagnostics)
+
 	inoremap <buffer> <C-c> <Esc>
 	nnoremap <silent> <C-c> :let @/=""<CR>
 endfunction
@@ -204,4 +211,11 @@ augroup lsp_clangd
 	autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 	autocmd FileType c call s:on_lsp_buffer_enabled()
 augroup end
-" }}}
+
+function! WindowColourOn() abort
+	hi NormalCurrentWindow guibg=#232135
+endfunction
+
+function! WindowColourOff() abort
+	hi NormalCurrentWindow guibg=#232136
+endfunction
