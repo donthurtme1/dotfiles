@@ -8,7 +8,6 @@ set breakindentopt=shift:8,sbr
 set showbreak=>
 set wrap
 set cpoptions+=n
-set formatoptions-=o
 set smartcase showmatch hlsearch
 set wildmenu
 set foldmethod=manual
@@ -17,6 +16,8 @@ set autoindent cindent
 set showcmd
 set splitright
 set viewoptions=cursor,slash,unix
+set formatoptions-=o
+set winwidth=60
 
 filetype on
 filetype plugin on
@@ -64,6 +65,7 @@ Plug 'prabirshrestha/async.vim'
 Plug 'mbbill/undotree'
 Plug 'vim-scripts/restore_view.vim'
 Plug 'tpope/vim-fugitive'
+Plug 'vim-utils/vim-man'
 call plug#end()
 
 " Colours "
@@ -73,9 +75,9 @@ syntax on
 
 set t_ZH= " disable italics
 hi Normal guibg=#232136
-hi NormalCurrentWindow guibg=#232136 guifg=#e0def4
+hi NormalCurrentWindow guibg=#232135 guifg=#e0def4
 hi SignColumn guibg=#232136
-hi SignColumnCurrentWindow guibg=#232136 guifg=#e0def4
+hi SignColumnCurrentWindow guibg=#232135 guifg=#e0def4
 
 hi Macro guifg=#f6c177
 hi Include guifg=#3e8fb0
@@ -144,7 +146,7 @@ nnoremap <silent> <leader>c :Commits<CR>
 nnoremap <silent> <leader>C :Changes<CR>
 nnoremap <silent> <leader>t :Lines<CR>
 nnoremap <silent> <leader>/ :History/<CR>
-nnoremap <leader>g :Git 
+"nnoremap <leader>g :Git 
 nnoremap <silent> <leader>ne :LspNextError<CR>
 " }}}
 
@@ -153,14 +155,13 @@ augroup aesthetics
 	autocmd!
 
 	" Current window "
-	autocmd WinEnter * set wincolor=NormalCurrentWindow
-	autocmd BufEnter * set wincolor=NormalCurrentWindow
-	autocmd WinLeave * set wincolor=Normal
-	autocmd BufLeave * set wincolor=Normal
+	autocmd BufEnter,WinEnter  * set wincolor=NormalCurrentWindow
+	autocmd BufLeave,WinLeave * set wincolor=Normal
+    "autocmd WinEnter * setlocal signcolumn=yes
+    "autocmd WinLeave * setlocal signcolumn=no
 
 	" Cursorline "
-	autocmd BufEnter * set cursorline
-	autocmd WinEnter * set cursorline
+	autocmd BufEnter,WinEnter * set cursorline
 	autocmd WinLeave * set nocursorline
 augroup end
 
@@ -168,8 +169,10 @@ augroup filetype
 	autocmd!
 
 	" Vim "
-	autocmd FileType help set nu rnu cursorline
-	autocmd FileType netrw set nu rnu cursorline
+	autocmd FileType help setlocal nu rnu cursorline nowrap
+	autocmd WinEnter,WinNew *help* set winwidth=84
+	autocmd WinLeave *help* set winwidth=60
+	autocmd FileType netrw setlocal nu rnu cursorline nowrap
 
 	" C "
 	autocmd BufRead,BufNewFile *.c set filetype=c
@@ -177,13 +180,16 @@ augroup filetype
 
 	" Assembly "
 	autocmd BufRead,BufNewFile *.s setlocal lisp
+
+	" Man "
+	autocmd BufNew,BufRead,WinEnter *\ manpage set cursorline
 augroup end
 
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
     setlocal tagfunc=lsp#tagfunc
-    "setlocal signcolumn=yes
 	setlocal formatoptions-=o
+	setlocal signcolumn=no
 
 	syn keyword cdefine #define 
 	syn match cmacro "\<\u\+\>"
@@ -215,8 +221,10 @@ augroup end
 
 function! WindowColourOn() abort
 	hi NormalCurrentWindow guibg=#232135
+	hi SignColumn guibg=#232135
 endfunction
 
 function! WindowColourOff() abort
 	hi NormalCurrentWindow guibg=#232136
+	hi SignColumn guibg=#232136
 endfunction
