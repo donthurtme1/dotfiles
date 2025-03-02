@@ -74,11 +74,12 @@ syntax on
 set t_ZH= " disable italics
 hi Normal guibg=#232136
 hi NormalCurrentWindow guibg=#232136 guifg=#e0def4
+hi SignColumn guibg=#232136
+hi SignColumnCurrentWindow guibg=#232136 guifg=#e0def4
 
 hi Macro guifg=#f6c177
 hi Include guifg=#3e8fb0
 hi SpecialChar guifg=#3e8fb0
-hi SignColumn guibg=#232135
 hi StatusLineNC guibg=#232135
 hi MatchParen guifg=NONE
 hi Folded guifg=#c4a7e7
@@ -110,9 +111,9 @@ nnoremap <C-_> <C-w>-
 nnoremap <C-.> <C-w>>
 nnoremap <C-,> <C-w><
 
-nnoremap <silent> <leader>e :Ex<CR>
-nnoremap <silent> <leader>q ZQ
-nnoremap <silent> <leader>w ZZ
+"nnoremap <silent> <leader>e :Ex<CR>
+"nnoremap <silent> <leader>q ZQ
+"nnoremap <silent> <leader>w ZZ
 nnoremap <silent> <leader>p "+p
 nnoremap <silent> <leader>P "+P
 nnoremap <silent> <leader>s :setlocal nowrap<CR>
@@ -181,7 +182,7 @@ augroup end
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
     setlocal tagfunc=lsp#tagfunc
-    setlocal signcolumn=yes
+    "setlocal signcolumn=yes
 	setlocal formatoptions-=o
 
 	syn keyword cdefine #define 
