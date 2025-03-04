@@ -6,7 +6,6 @@ alias man='batman --nh'
 alias r='ranger'
 
 alias webcord='webcord --enable-features=UseOzonePlatform --ozone-platform=wayland'
-alias c='calculator'
 alias volume='wpctl get-volume @DEFAULT_AUDIO_SINK@'
 alias dump='objdump -Mintel -Ds'
 alias objdump='objdump -Mintel'
