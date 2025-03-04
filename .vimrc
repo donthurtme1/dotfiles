@@ -4,8 +4,8 @@ set nu rnu
 set tabstop=4 shiftwidth=4 textwidth=0
 set scrolloff=0
 set linebreak breakindent
-set breakindentopt=shift:8,sbr
-set showbreak=>
+set breakindentopt=shift:4,sbr
+set showbreak=
 set wrap
 set cpoptions+=n
 set smartcase showmatch hlsearch
@@ -17,7 +17,7 @@ set showcmd
 set splitright
 set viewoptions=cursor,slash,unix
 set formatoptions-=o
-set winwidth=60
+set winwidth=84
 
 filetype on
 filetype plugin on
@@ -29,6 +29,7 @@ if has('persistent_undo')
 endif
 
 let g:netrw_banner = 0
+let g:ft_man_open_mode = 'vert'
 
 let g:lsp_completion_docuentation_delay = 0
 let g:lsp_diagnostics_float_cursor = 1
@@ -170,8 +171,8 @@ augroup filetype
 
 	" Vim "
 	autocmd FileType help setlocal nu rnu cursorline nowrap
-	autocmd WinEnter,WinNew *help* set winwidth=84
-	autocmd WinLeave *help* set winwidth=60
+	"autocmd WinEnter,WinNew *help* set winwidth=84
+	"autocmd WinLeave,BufLeave *help* set winwidth=60
 	autocmd FileType netrw setlocal nu rnu cursorline nowrap
 
 	" C "
@@ -191,7 +192,8 @@ function! s:on_lsp_buffer_enabled() abort
 	setlocal formatoptions-=o
 	setlocal signcolumn=no
 
-	syn keyword cdefine #define 
+	syn keyword Macro true false 
+	syn keyword Define #define 
 	syn match cmacro "\<\u\+\>"
 	syn match ctypedef_type "\<\(\u\l\+\)\+\>"
 
