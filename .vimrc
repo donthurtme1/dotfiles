@@ -1,12 +1,11 @@
 " General settings " 
 set nocompatible
 set nu rnu
-set tabstop=4 shiftwidth=4 textwidth=0
-set scrolloff=0
+set tabstop=4 shiftwidth=4
 set linebreak breakindent
 set breakindentopt=shift:4,sbr
 set showbreak=
-set wrap
+set nowrap
 set cpoptions+=n
 set smartcase showmatch hlsearch
 set wildmenu
@@ -17,7 +16,7 @@ set showcmd
 set splitright
 set viewoptions=cursor,slash,unix
 set formatoptions-=o
-set winwidth=84
+set winwidth=84 textwidth=84
 
 filetype on
 filetype plugin on
@@ -67,6 +66,7 @@ Plug 'mbbill/undotree'
 Plug 'vim-scripts/restore_view.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-utils/vim-man'
+Plug 'donthurtme1/vimhook'
 call plug#end()
 
 " Colours "
@@ -211,7 +211,6 @@ function! s:on_lsp_buffer_enabled() abort
 	nnoremap <buffer> <leader>d <plug>(lsp-document-diagnostics)
 
 	inoremap <buffer> <C-c> <Esc>
-	nnoremap <silent> <C-c> :let @/=""<CR>
 endfunction
 
 augroup lsp_clangd

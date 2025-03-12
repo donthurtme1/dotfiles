@@ -1,0 +1,14 @@
+[window]
+dynamic_padding = true
+opacity = 0.95
+blur = true
+
+[font]
+normal = { family = "HackNerdFont", style = "Regular" }
+bold = { family = "HackNerdFont", style = "Bold" }
+italic = { family = "HackNerdFont", style = "Italic" }
+bold_italic = { family = "HackNerdFont", style = "BoldItalic" }
+size = 11
+
+[mouse]
+hide_when_typing = true
