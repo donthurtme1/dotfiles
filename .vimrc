@@ -1,12 +1,12 @@
 " General settings " 
 set nocompatible
 set nu rnu
-set tabstop=4 shiftwidth=4 textwidth=0
+set tabstop=4 shiftwidth=4
 set scrolloff=0
 set linebreak breakindent
-set breakindentopt=shift:4,sbr
+set breakindentopt=shift:8,sbr
 set showbreak=
-set wrap
+set nowrap
 set cpoptions+=n
 set smartcase showmatch hlsearch
 set wildmenu
@@ -16,8 +16,8 @@ set autoindent cindent
 set showcmd
 set splitright
 set viewoptions=cursor,slash,unix
-set formatoptions-=o
-set winwidth=84
+set formatoptions-=o formatoptions+=t
+set winwidth=88 textwidth=84
 
 filetype on
 filetype plugin on
@@ -55,9 +55,6 @@ Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 Plug 'sainnhe/everforest'
 
 Plug 'prabirshrestha/vim-lsp'
-"Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-"Plug 'Maxattax97/coc-ccls'
-"Plug 'm-pilia/vim-ccls'
 Plug 'rhysd/vim-healthcheck'
 
 Plug 'junegunn/fzf.vim'
@@ -67,6 +64,9 @@ Plug 'mbbill/undotree'
 Plug 'vim-scripts/restore_view.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-utils/vim-man'
+
+" Custom "
+Plug '~/c/vimhook'
 call plug#end()
 
 " Colours "
@@ -97,32 +97,20 @@ hi link ctypedef_type Type
 " Mappings "
 let mapleader = ","
 nnoremap <Space> :
-
 inoremap <C-c> <Esc>
 nnoremap <C-j> 8<C-e>
 nnoremap <C-k> 8<C-y>
-" why the fuck do i need this, fuck vim
-"inoremap k k
-"cnoremap k k
-"vnoremap k k
-"onoremap k k
-"nnoremap <C-w>k <C-w>k
-"nnoremap <C-o> <C-o>
-
 nnoremap <C-=> <C-w>+
 nnoremap <C-_> <C-w>-
 nnoremap <C-.> <C-w>>
 nnoremap <C-,> <C-w><
 
-"nnoremap <silent> <leader>e :Ex<CR>
-"nnoremap <silent> <leader>q ZQ
-"nnoremap <silent> <leader>w ZZ
 nnoremap <silent> <leader>p "+p
 nnoremap <silent> <leader>P "+P
-nnoremap <silent> <leader>s :setlocal nowrap<CR>
-nnoremap <silent> <leader>S :setlocal wrap<CR>
-nnoremap <silent> <leader>u :UndotreeToggle<CR>
-nnoremap <silent> <C-c> :let @/=""<CR>
+nnoremap <silent> <leader>s <cmd>setlocal nowrap<CR>
+nnoremap <silent> <leader>S <cmd>setlocal wrap<CR>
+nnoremap <silent> <leader>u <cmd>UndotreeToggle<CR>
+nnoremap <silent> <C-c> <cmd>let @/=""<CR>
 nnoremap <leader>, qq
 nnoremap <leader>. @q
 
@@ -189,11 +177,13 @@ augroup end
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
     setlocal tagfunc=lsp#tagfunc
-	setlocal formatoptions-=o
+	setlocal formatoptions-=o formatoptions+=t
 	setlocal signcolumn=no
+	setlocal textwidth=80
 
 	syn keyword Macro true false 
 	syn keyword Define #define 
+	syn keyword Type GLuint SDL_Event SDL_Window SDL_GLContext
 	syn match cmacro "\<\u\+\>"
 	syn match ctypedef_type "\<\(\u\l\+\)\+\>"
 
@@ -230,3 +220,59 @@ function! WindowColourOff() abort
 	hi NormalCurrentWindow guibg=#232136
 	hi SignColumn guibg=#232136
 endfunction
+
+" Custom commands "
+function! s:help_current_window(subject)
+  let buftype = &buftype
+  let &buftype = 'help'
+  let v:errmsg = ''
+  let cmd = "help " . a:subject
+  silent! execute  cmd
+  if v:errmsg != ''
+    let &buftype = buftype
+    return cmd
+  else
+    call setbufvar('#', '&buftype', buftype)
+  endif
+endfunction
+command! -nargs=? -bar -complete=help H execute <SID>help_current_window(<q-args>)
+
+function! s:man_current_window(subject)
+  let buftype = &buftype
+  let &buftype = 'nofile'
+  let v:errmsg = ''
+  let cmd = "Man " . a:subject
+  silent! execute  cmd
+  if v:errmsg != ''
+    let &buftype = buftype
+    return cmd
+  else
+    call setbufvar('#', '&buftype', buftype)
+  endif
+endfunction
+command! -nargs=? -bar -complete=help M execute <SID>man_current_window(<q-args>)
+
+" Pokedex thing "
+function! s:dex_highlight()
+	syn keyword BlkType Drk Dra Gho
+	syn keyword RedType Fir
+	syn keyword GrnType Gra
+	syn keyword YlwType Bug Ele
+	syn keyword BluType Wtr Ice
+	syn keyword PurType Psy Fae Poi
+	syn keyword BrnType Grn Rck Fgh
+	syn keyword WhtType Nor Fly Stl
+	hi BlkType guifg=#908caa
+	hi RedType guifg=#eb6f92
+	hi GrnType guifg=#3e8fb0
+	hi YlwType guifg=#f6c177
+	hi BluType guifg=#9ccfd8
+	hi PurType guifg=#c4a7e7
+	hi BrnType guifg=#ea9a97
+	hi WhtType guifg=#c0bed4
+endfunction
+
+augroup pokedex
+	autocmd!
+	autocmd BufRead,BufEnter *.dex call s:dex_highlight()
+augroup end
