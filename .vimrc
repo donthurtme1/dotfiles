@@ -17,7 +17,7 @@ set showcmd
 set splitright
 set viewoptions=cursor,slash,unix
 set formatoptions-=o formatoptions+=t
-set winwidth=88 textwidth=84
+set winwidth=88 textwidth=88
 
 filetype on
 filetype plugin on
@@ -179,7 +179,7 @@ function! s:on_lsp_buffer_enabled() abort
     setlocal tagfunc=lsp#tagfunc
 	setlocal formatoptions-=o formatoptions+=t
 	setlocal signcolumn=no
-	setlocal textwidth=80
+	setlocal textwidth=88
 
 	syn keyword Macro true false 
 	syn keyword Define #define 
