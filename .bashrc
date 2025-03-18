@@ -1,7 +1,8 @@
 [[ $- != *i* ]] && return
 
-alias ls='ls --color=auto' # Ignore order based on last used and automatic colouring
+alias ls='ls --color=auto --width=92'
 alias grep='grep --color=auto'
+#alias man='batman --nh'
 alias r='ranger'
 
 alias webcord='webcord --enable-features=UseOzonePlatform --ozone-platform=wayland'
@@ -83,4 +84,4 @@ export BAT_THEME='rosepinetwo'
 export QT_QPA_PLATFORM=xcb
 export MANPAGER="vim +MANPAGER --not-a-term -"
 
-fetch
+salut
