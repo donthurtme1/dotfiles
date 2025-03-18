@@ -2,7 +2,6 @@
 
 alias ls='ls --color=auto' # Ignore order based on last used and automatic colouring
 alias grep='grep --color=auto'
-alias man='batman --nh'
 alias r='ranger'
 
 alias webcord='webcord --enable-features=UseOzonePlatform --ozone-platform=wayland'
@@ -21,6 +20,10 @@ function fd() {
 	export FZF_DEFAULT_COMMAND="tree -ifdFtr ${1}"
 	cd $(fzfdir $(fzf))
 	export FZF_DEFAULT_COMMAND="rg --files --hidden" # find dir
+}
+
+function fiew() {
+	cd $(fiew)
 }
 
 function f() {
@@ -78,5 +81,6 @@ export FZF_DEFAULT_COMMAND='rg --files --hidden'
 export FZF_DEFAULT_OPTS='--no-unicode --height=18 --algo=v2 --prompt=\ fzf\ \  --highlight-line --color=bw,fg:-1,hl:2:regular,pointer:4,prompt:2,current-fg:-1:regular:bold,current-bg:#44415a,current-hl:2:regular:bold'
 export BAT_THEME='rosepinetwo'
 export QT_QPA_PLATFORM=xcb
+export MANPAGER="vim +MANPAGER --not-a-term -"
 
 fetch
