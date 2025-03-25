@@ -45,8 +45,10 @@ let g:lsp_diagnostics_virtual_text_prefix = "~ "
 let g:lsp_diagnostics_virtual_text_wrap = "truncate"
 let g:lsp_document_highlight_enabled = 1
 let g:lsp_signature_help_enabled = 0
+" TODO: make fix to vim-lsp to keep hover info open while moving in line and
+" while in insert mode on current line. "
 let g:lsp_preview_autoclose = 0
-let g:lsp_preview_float = 0
+let g:lsp_preview_float = 1
 let g:lsp_semantic_delay = 10
 let g:lsp_semantic_enabled = 0
 let g:lsp_max_buffer_size = 1000000
@@ -117,8 +119,6 @@ nnoremap <silent> <leader>s <cmd>setlocal nowrap<CR>
 nnoremap <silent> <leader>S <cmd>setlocal wrap<CR>
 nnoremap <silent> <leader>u <cmd>UndotreeToggle<CR>
 nnoremap <silent> <C-c> <cmd>let @/=""<CR>
-nnoremap <leader>, qq
-nnoremap <leader>. @q
 
 nnoremap <silent> <C-w>n :new<CR>
 nnoremap <silent> <C-w><C-n> :new<CR>
@@ -214,7 +214,7 @@ function! s:on_lsp_buffer_enabled() abort
 	syn match Type "\<\w\+_t\>"
 
 	syn keyword Argument argc argv
-	hi Argument Define
+	hi link Argument Define
 
 	nnoremap <buffer> K <plug>(lsp-hover-float)
 	nnoremap <buffer> gd <plug>(lsp-definition)
