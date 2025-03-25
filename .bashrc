@@ -82,4 +82,4 @@ export BAT_THEME='rosepinetwo'
 export QT_QPA_PLATFORM=xcb
 export MANPAGER="vim +MANPAGER --not-a-term -"
 
-salut
+fetch

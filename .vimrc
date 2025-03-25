@@ -3,11 +3,7 @@ set nocompatible
 set nu rnu
 set tabstop=4 shiftwidth=4
 set scrolloff=0
-set linebreak breakindent
-set breakindentopt=shift:8,sbr
-set showbreak=
-set nowrap
-set cpoptions+=n
+set linebreak
 set smartcase showmatch hlsearch
 set wildmenu
 set foldmethod=manual
@@ -17,7 +13,15 @@ set showcmd
 set splitright
 set viewoptions=cursor,slash,unix
 set formatoptions-=o formatoptions+=t
-set winwidth=88 textwidth=88
+set winwidth=86 "textwidth=82
+set listchars=tab:\|\ 
+
+" line wraping "
+set breakindent
+set breakindentopt=shift:-100,sbr
+set showbreak=>\ 
+set wrap
+set cpoptions+=n
 
 filetype on
 filetype plugin on
@@ -98,8 +102,10 @@ hi link ctypedef_type Type
 let mapleader = ","
 nnoremap <Space> :
 inoremap <C-c> <Esc>
-nnoremap <C-j> 8<C-e>
-nnoremap <C-k> 8<C-y>
+nnoremap <C-j> gj
+nnoremap <C-k> gk
+"nnoremap _ ^ " this is default
+nnoremap + $
 nnoremap <C-=> <C-w>+
 nnoremap <C-_> <C-w>-
 nnoremap <C-.> <C-w>>
@@ -144,60 +150,83 @@ augroup aesthetics
 	autocmd!
 
 	" Current window "
-	autocmd BufEnter,WinEnter  * set wincolor=NormalCurrentWindow
+	autocmd BufEnter,WinEnter * set wincolor=NormalCurrentWindow
 	autocmd BufLeave,WinLeave * set wincolor=Normal
-    "autocmd WinEnter * setlocal signcolumn=yes
-    "autocmd WinLeave * setlocal signcolumn=no
+	"autocmd WinEnter * setlocal signcolumn=yes
+	"autocmd WinLeave * setlocal signcolumn=no
+	autocmd BufEnter,WinEnter * set wrap
+	autocmd BufLeave,WinLeave * set nowrap
 
 	" Cursorline "
 	autocmd BufEnter,WinEnter * set cursorline
 	autocmd WinLeave * set nocursorline
 augroup end
 
+function! s:glsl_file() abort
+	syn keyword Keyword layout location binding in out smooth
+
+	"syn region glslFuncDef transparent start="\(\h\w*\s*\)\{2,}(" end=")" contains=glslFuncParamHolder
+	"syn match glslFuncParamHolder transparent "\h\w*\s*\(\[\d*\]\)*\s*[,)]" contains=glslFuncParam,Operator
+	"syn match glslFuncParam "\h\w*" contained
+	"hi link glslFuncParam Define
+
+	syn match glslFunction transparent "\h\w*\s*(" contains=glslFuncName,Operator
+	syn match glslFuncName "\h\w*" contained
+	hi link glslFuncName Function
+	syn match Operator "\W\+"
+
+	syn region Comment start="\s*/\*" end="\*/"
+	syn match Comment "\s*//.*$"
+endfunction
+
 augroup filetype
 	autocmd!
 
 	" Vim "
 	autocmd FileType help setlocal nu rnu cursorline nowrap
+	autocmd FileType netrw setlocal nu rnu cursorline nowrap
 	"autocmd WinEnter,WinNew *help* set winwidth=84
 	"autocmd WinLeave,BufLeave *help* set winwidth=60
-	autocmd FileType netrw setlocal nu rnu cursorline nowrap
 
 	" C "
 	autocmd BufRead,BufNewFile *.c set filetype=c
 	autocmd BufRead,BufNewFile *.h set filetype=c
 
-	" Assembly "
+	" Other "
 	autocmd BufRead,BufNewFile *.s setlocal lisp
-
-	" Man "
 	autocmd BufNew,BufRead,WinEnter *\ manpage set cursorline
+	autocmd BufRead,BufNewFile *.glsl set filetype=glsl
+	autocmd FileType glsl call s:glsl_file()
 augroup end
 
 function! s:on_lsp_buffer_enabled() abort
-    setlocal omnifunc=lsp#complete
-    setlocal tagfunc=lsp#tagfunc
+	setlocal omnifunc=lsp#complete
+	setlocal tagfunc=lsp#tagfunc
 	setlocal formatoptions-=o formatoptions+=t
 	setlocal signcolumn=no
-	setlocal textwidth=88
+	setlocal textwidth=82
 
 	syn keyword Macro true false 
 	syn keyword Define #define 
 	syn keyword Type GLuint SDL_Event SDL_Window SDL_GLContext
 	syn match cmacro "\<\u\+\>"
 	syn match ctypedef_type "\<\(\u\l\+\)\+\>"
+	syn match Type "\<\w\+_t\>"
 
-    nnoremap <buffer> K <plug>(lsp-hover-float)
-    nnoremap <buffer> gd <plug>(lsp-definition)
-    nnoremap <buffer> gD <plug>(lsp-declaration)
-    nnoremap <buffer> gs <plug>(lsp-document-symbol-search)
-    nnoremap <buffer> gS <plug>(lsp-workspace-symbol-search)
-    nnoremap <buffer> gr <plug>(lsp-references)
-    nnoremap <buffer> gi <plug>(lsp-implementation)
-    nnoremap <buffer> gt <plug>(lsp-type-definition)
-    nnoremap <buffer> <leader>r <plug>(lsp-rename)
-    nnoremap <buffer> [g <plug>(lsp-previous-diagnostic)
-    nnoremap <buffer> ]g <plug>(lsp-next-diagnostic)
+	syn keyword Argument argc argv
+	hi Argument Define
+
+	nnoremap <buffer> K <plug>(lsp-hover-float)
+	nnoremap <buffer> gd <plug>(lsp-definition)
+	nnoremap <buffer> gD <plug>(lsp-declaration)
+	nnoremap <buffer> gs <plug>(lsp-document-symbol-search)
+	nnoremap <buffer> gS <plug>(lsp-workspace-symbol-search)
+	nnoremap <buffer> gr <plug>(lsp-references)
+	nnoremap <buffer> gi <plug>(lsp-implementation)
+	nnoremap <buffer> gt <plug>(lsp-type-definition)
+	nnoremap <buffer> <leader>r <plug>(lsp-rename)
+	nnoremap <buffer> [g <plug>(lsp-previous-diagnostic)
+	nnoremap <buffer> ]g <plug>(lsp-next-diagnostic)
 	nnoremap <buffer> <leader>d <plug>(lsp-document-diagnostics)
 
 	inoremap <buffer> <C-c> <Esc>
@@ -223,32 +252,32 @@ endfunction
 
 " Custom commands "
 function! s:help_current_window(subject)
-  let buftype = &buftype
-  let &buftype = 'help'
-  let v:errmsg = ''
-  let cmd = "help " . a:subject
-  silent! execute  cmd
-  if v:errmsg != ''
-    let &buftype = buftype
-    return cmd
-  else
-    call setbufvar('#', '&buftype', buftype)
-  endif
+	let buftype = &buftype
+	let &buftype = 'help'
+	let v:errmsg = ''
+	let cmd = "help " . a:subject
+	silent! execute  cmd
+	if v:errmsg != ''
+		let &buftype = buftype
+		return cmd
+	else
+		call setbufvar('#', '&buftype', buftype)
+	endif
 endfunction
 command! -nargs=? -bar -complete=help H execute <SID>help_current_window(<q-args>)
 
 function! s:man_current_window(subject)
-  let buftype = &buftype
-  let &buftype = 'nofile'
-  let v:errmsg = ''
-  let cmd = "Man " . a:subject
-  silent! execute  cmd
-  if v:errmsg != ''
-    let &buftype = buftype
-    return cmd
-  else
-    call setbufvar('#', '&buftype', buftype)
-  endif
+	let buftype = &buftype
+	let &buftype = 'nofile'
+	let v:errmsg = ''
+	let cmd = "Man " . a:subject
+	silent! execute  cmd
+	if v:errmsg != ''
+		let &buftype = buftype
+		return cmd
+	else
+		call setbufvar('#', '&buftype', buftype)
+	endif
 endfunction
 command! -nargs=? -bar -complete=help M execute <SID>man_current_window(<q-args>)
 
