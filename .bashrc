@@ -4,6 +4,7 @@ alias ls='ls --color=auto --width=92'
 alias grep='grep --color=auto'
 #alias man='batman --nh'
 alias r='ranger'
+alias mplayer='mplayer -msgcolor'
 
 alias webcord='webcord --enable-features=UseOzonePlatform --ozone-platform=wayland'
 alias volume='wpctl get-volume @DEFAULT_AUDIO_SINK@'
