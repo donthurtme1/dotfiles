@@ -163,20 +163,22 @@ augroup aesthetics
 augroup end
 
 function! s:glsl_file() abort
-	syn keyword Keyword layout location binding in out smooth
+	syn keyword Keyword layout location binding in out smooth struct
+	syn keyword Define #version
 
 	"syn region glslFuncDef transparent start="\(\h\w*\s*\)\{2,}(" end=")" contains=glslFuncParamHolder
 	"syn match glslFuncParamHolder transparent "\h\w*\s*\(\[\d*\]\)*\s*[,)]" contains=glslFuncParam,Operator
 	"syn match glslFuncParam "\h\w*" contained
 	"hi link glslFuncParam Define
 
-	syn match glslFunction transparent "\h\w*\s*(" contains=glslFuncName,Operator
+	syn match glslFunction "\h\w*\s*(" contains=glslFuncName,Operator transparent
 	syn match glslFuncName "\h\w*" contained
 	hi link glslFuncName Function
-	syn match Operator "\W\+"
 
-	syn region Comment start="\s*/\*" end="\*/"
-	syn match Comment "\s*//.*$"
+	syn match Operator "\V\[=+<>*/.,:;()[\]{}]"
+
+	syn region Comment start="/\*" end="\*/" extend
+	syn match Comment "//.*$"
 endfunction
 
 augroup filetype
