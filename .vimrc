@@ -175,7 +175,7 @@ function! s:glsl_file() abort
 	syn match glslFuncName "\h\w*" contained
 	hi link glslFuncName Function
 
-	syn match Operator "\V\[=+<>*/.,:;()[\]{}]"
+	syn match Operator "\V\[=+-<>*/.,:;()[\]{}]"
 
 	syn region Comment start="/\*" end="\*/" extend
 	syn match Comment "//.*$"
