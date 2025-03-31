@@ -13,7 +13,7 @@ set showcmd
 set splitright
 set viewoptions=cursor,slash,unix
 set formatoptions-=o formatoptions+=t
-set winwidth=86 "textwidth=82
+set winwidth=86
 set listchars=tab:\|\ 
 
 " line wraping "
@@ -25,7 +25,7 @@ set cpoptions+=n
 
 " folding "
 set fillchars=fold:\ 
-set foldtext=substitute(getline(v:foldstart),'\	','\ \ \ \ ','g').'\ \ \ \ '.(v:foldend\ -\ v:foldstart).'\ lines:\ \ ...'
+set foldtext=substitute(getline(v:foldstart),'\	','\ \ \ \ ','g').'\ \ \ \ ...\ \ \ \ '.(v:foldend\ -\ v:foldstart\ -\ 1).'\ lines\ \ \ \ ...\ \ \ \ '.getline(v:foldend)
 
 filetype on
 filetype plugin on
@@ -133,6 +133,19 @@ nnoremap <expr> o (line(".") - line("w0") > winheight(0) * 2 / 3) ? '<C-e>o' : '
 nnoremap <expr> O (line(".") - line("w0") > winheight(0) * 2 / 3) ? '<C-e>O' : 'O'
 inoremap <expr> <CR> (line(".") - line("w0") > winheight(0) * 2 / 3) ? '<C-x><C-e><CR>' : '<CR>'
 "nnoremap <silent> <expr> 'z'.v:count.'<CR>' ':call LineToNumber('.v:count.')<CR>'
+
+" fold all lines in current indent
+function! FoldIndent() abort
+	" get indent of current line
+	let cur_pos = getcurpos()[1]
+	let cur_indent = indent(cur_pos)
+	let idx = 1
+	while indent(cur_pos + idx) > cur_indent
+		let idx += 1
+	endwhile
+	return idx
+endfunction
+nnoremap <expr> z<CR> 'zf'.FoldIndent().'j'
 
 " fzf-vim stuff "
 nnoremap <silent> <leader>f :GFiles<CR>
