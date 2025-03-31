@@ -23,6 +23,16 @@ set showbreak=>\
 set wrap
 set cpoptions+=n
 
+" folding "
+function! s:string_of_char(c) abort
+	let string = ""
+	for i in range(winwidth(0))
+		let string .= a:c
+	endfor
+	return string
+endfunction
+set foldtext=substitute(getline(v:foldstart),'\	','\ \ \ \ ','g').'\ \ \ \ '.(v:foldend\ -\ v:foldstart).'\ lines:\ \ ...'.s:string_of_char('\ ')
+
 filetype on
 filetype plugin on
 filetype indent on
@@ -91,7 +101,7 @@ hi Include guifg=#3e8fb0
 hi SpecialChar guifg=#3e8fb0
 hi StatusLineNC guibg=#232135
 hi MatchParen guifg=NONE
-hi Folded guifg=#c4a7e7
+hi Folded guifg=#6e6a86
 
 hi link LspSemanticVariable Normal
 hi link LspSemanticProperty Normal
@@ -102,7 +112,7 @@ hi link ctypedef_type Type
 
 " Mappings "
 let mapleader = ","
-nnoremap <Space> :
+"nnoremap <Space> :
 inoremap <C-c> <Esc>
 nnoremap <C-j> gj
 nnoremap <C-k> gk
@@ -175,7 +185,9 @@ function! s:glsl_file() abort
 	syn match glslFuncName "\h\w*" contained
 	hi link glslFuncName Function
 
-	syn match Operator "\V\[=+-<>*/.,:;()[\]{}]"
+	syn match Operator "\V\[=+\-*/<>.,:;(){}]"
+	syn match Type "\.\@<=\h\w*"
+	syn match Define 'std\d\+'
 
 	syn region Comment start="/\*" end="\*/" extend
 	syn match Comment "//.*$"
@@ -206,7 +218,7 @@ function! s:on_lsp_buffer_enabled() abort
 	setlocal tagfunc=lsp#tagfunc
 	setlocal formatoptions-=o formatoptions+=t
 	setlocal signcolumn=no
-	setlocal textwidth=82
+	"setlocal textwidth=82
 
 	syn keyword Macro true false 
 	syn keyword Define #define 
