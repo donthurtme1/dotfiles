@@ -24,14 +24,8 @@ set wrap
 set cpoptions+=n
 
 " folding "
-function! s:string_of_char(c) abort
-	let string = ""
-	for i in range(winwidth(0))
-		let string .= a:c
-	endfor
-	return string
-endfunction
-set foldtext=substitute(getline(v:foldstart),'\	','\ \ \ \ ','g').'\ \ \ \ '.(v:foldend\ -\ v:foldstart).'\ lines:\ \ ...'.s:string_of_char('\ ')
+set fillchars=fold:\ 
+set foldtext=substitute(getline(v:foldstart),'\	','\ \ \ \ ','g').'\ \ \ \ '.(v:foldend\ -\ v:foldstart).'\ lines:\ \ ...'
 
 filetype on
 filetype plugin on
