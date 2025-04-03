@@ -327,6 +327,18 @@ function! s:dex_highlight()
 	hi WhtType guifg=#c0bed4
 endfunction
 
+" Autocommands "
+let g:clearhls_return_search_str = ""
+function! s:clearhls() abort
+	let g:clearhls_return_search_str = @/
+	let @/ = ""
+	nnoremap <silent> n :call s:returnhls()<CR>n
+endfunc
+function! s:returnhls() abort
+	let @/ = g:clearhls_return_search_str
+endfunc
+augroup clearhlsearch | au! | au CursorMoved * call s:clearhls() | augroup end
+
 augroup pokedex
 	autocmd!
 	autocmd BufRead,BufEnter *.dex call s:dex_highlight()
