@@ -15,6 +15,7 @@ set viewoptions=cursor,slash,unix
 set formatoptions-=o formatoptions+=t
 set winwidth=86
 set listchars=tab:\|\ 
+set incsearch
 
 " line wraping "
 set breakindent
@@ -36,9 +37,11 @@ if has('persistent_undo')
 	set undofile
 endif
 
+" vim "
 let g:netrw_banner = 0
 let g:ft_man_open_mode = 'vert'
 
+" vim-lsp "
 let g:lsp_completion_docuentation_delay = 0
 let g:lsp_diagnostics_float_cursor = 1
 let g:lsp_diagnostics_float_delay = 0
@@ -55,7 +58,7 @@ let g:lsp_preview_autoclose = 0
 let g:lsp_preview_float = 1
 let g:lsp_semantic_delay = 10
 let g:lsp_semantic_enabled = 0
-let g:lsp_max_buffer_size = 1000000
+let g:lsp_max_buffer_size = 500000
 
 " Plugins " 
 call plug#begin('~/.vim/plugged')
@@ -106,7 +109,6 @@ hi link ctypedef_type Type
 
 " Mappings "
 let mapleader = ","
-"nnoremap <Space> :
 inoremap <C-c> <Esc>
 nnoremap <C-j> gj
 nnoremap <C-k> gk
@@ -116,6 +118,7 @@ nnoremap <C-=> <C-w>+
 nnoremap <C-_> <C-w>-
 nnoremap <C-.> <C-w>>
 nnoremap <C-,> <C-w><
+nnoremap <C-w><C-c> <C-w><Esc>
 
 nnoremap <silent> <leader>p "+p
 nnoremap <silent> <leader>P "+P
@@ -234,9 +237,6 @@ function! s:on_lsp_buffer_enabled() abort
 	syn match ctypedef_type "\<\(\u\l\+\)\+\>"
 	syn match Type "\<\w\+_t\>"
 
-	syn keyword Argument argc argv
-	hi link Argument Define
-
 	nnoremap <buffer> K <plug>(lsp-hover-float)
 	nnoremap <buffer> gd <plug>(lsp-definition)
 	nnoremap <buffer> gD <plug>(lsp-declaration)
@@ -321,6 +321,13 @@ function! s:dex_highlight()
 	hi BrnType guifg=#ea9a97
 	hi WhtType guifg=#c0bed4
 endfunction
+
+" Autocommands "
+"function! s:clearshl() abort
+"	call feedkeys("\<cmd>nohl\<CR>")
+"endfunction
+"autocmd! CursorMoved *
+"autocmd CursorMoved * call s:clearshl()
 
 augroup pokedex
 	autocmd!

@@ -32,7 +32,7 @@ function f() {
 	export FZF_DEFAULT_COMMAND='rg --files --hidden'
 }
 
-PS1='\[\e[31m\]  \[\e[1;37m\] \t\[\e[0;34m\] \w\[\e[1;35m\]  \[\e[0m\] '
+PS1='\[\e[31m\]  \[\e[37m\] \t\[\e[34m\] \w\[\e[1;35m\]  \[\e[0m\] '
 
 if [ "$TERM" = "linux" ]; then
 	if [ "${tty}" = "/dev/tty1" ]; then
