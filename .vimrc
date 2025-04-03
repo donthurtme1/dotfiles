@@ -15,6 +15,7 @@ set viewoptions=cursor,slash,unix
 set formatoptions-=o formatoptions+=t
 set winwidth=86
 set listchars=tab:\|\ 
+set incsearch
 
 " line wraping "
 set breakindent
