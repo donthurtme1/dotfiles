@@ -82,7 +82,7 @@ call plug#end()
 
 " Colours "
 set termguicolors
-colorscheme rosepine_moon
+colorscheme rosepine
 syntax on
 
 set t_ZH= " disable italics
