@@ -26,7 +26,7 @@ set cpoptions+=n
 
 " folding "
 set fillchars=fold:\ 
-set foldtext=substitute(getline(v:foldstart),'\	','\ \ \ \ ','g').'\ \ \ \ ...\ \ \ \ '.(v:foldend\ -\ v:foldstart\ -\ 1).'\ lines\ \ \ \ ...\ \ \ \ '.getline(v:foldend)
+set foldtext=substitute(getline(v:foldstart),'\	','\ \ \ \ ',1).'\ \ \ \ \...\ \ \ \ '.(v:foldend\ -\ v:foldstart\ -\ 1).'\ lines'
 
 filetype on
 filetype plugin on
@@ -43,11 +43,11 @@ let g:ft_man_open_mode = 'vert'
 
 " vim-lsp "
 let g:lsp_completion_docuentation_delay = 0
+let g:lsp_diagnostics_enabled = 0
 let g:lsp_diagnostics_float_cursor = 1
-let g:lsp_diagnostics_float_delay = 0
 let g:lsp_diagnostics_highlights_delay = 250
 let g:lsp_diagnostics_signs_delay = 250
-let g:lsp_diagnostics_virtual_text_align = "after"
+let g:lsp_diagnostics_virtual_text_align = 0
 let g:lsp_diagnostics_virtual_text_prefix = "~ "
 let g:lsp_diagnostics_virtual_text_wrap = "truncate"
 let g:lsp_document_highlight_enabled = 1
@@ -57,7 +57,7 @@ let g:lsp_signature_help_enabled = 0
 let g:lsp_preview_autoclose = 0
 let g:lsp_preview_float = 1
 let g:lsp_semantic_delay = 10
-let g:lsp_semantic_enabled = 0
+let g:lsp_semantic_enabled = 1
 let g:lsp_max_buffer_size = 500000
 
 " Plugins " 
@@ -84,21 +84,9 @@ call plug#end()
 
 " Colours "
 set termguicolors
-colorscheme rosepine_moon
-syntax on
-
 set t_ZH= " disable italics
-hi Normal guibg=#232136
-hi NormalCurrentWindow guibg=#232135 guifg=#e0def4
-hi SignColumn guibg=#232136
-hi SignColumnCurrentWindow guibg=#232135 guifg=#e0def4
-
-hi Macro guifg=#f6c177
-hi Include guifg=#3e8fb0
-hi SpecialChar guifg=#3e8fb0
-hi StatusLineNC guibg=#232135
-hi MatchParen guifg=NONE
-hi Folded guifg=#6e6a86
+syntax on
+colorscheme rosepine_moon
 
 hi link LspSemanticVariable Normal
 hi link LspSemanticProperty Normal
@@ -106,6 +94,33 @@ hi link LspSemanticParameter Define
 hi link cdefine Define
 hi link cmacro Macro
 hi link ctypedef_type Type
+
+if g:colors_name == 'rosepine_moon'
+	hi Normal guibg=#232136
+	hi NormalCurrentWindow guibg=#232135 guifg=#e0def4
+	hi SignColumn guibg=#232136
+	hi SignColumnCurrentWindow guibg=#232135 guifg=#e0def4
+
+	hi Macro guifg=#f6c177
+	hi Include guifg=#3e8fb0
+	hi SpecialChar guifg=#3e8fb0
+	hi StatusLineNC guibg=#232135
+	hi MatchParen guifg=NONE
+	hi Folded guifg=#6e6a86
+	hi ModeMsg guifg=#e0def4
+
+	" 'rose' search highlight
+	hi Search guifg=#ea9a97
+	" 'love' search highlight
+	hi Search guifg=#eb6f92
+	hi IncSearch guibg=#eb6f92
+
+	augroup rosepine_moon_window_colour
+		autocmd!
+		autocmd BufEnter,WinEnter * set wincolor=NormalCurrentWindow
+		autocmd BufLeave,WinLeave * set wincolor=Normal
+	augroup end
+endif
 
 " Mappings "
 let mapleader = ","
@@ -165,23 +180,7 @@ nnoremap <silent> <leader>/ :History/<CR>
 nnoremap <silent> <leader>ne :LspNextError<CR>
 " }}}
 
-" Vimscript "
-augroup aesthetics
-	autocmd!
-
-	" Current window "
-	autocmd BufEnter,WinEnter * set wincolor=NormalCurrentWindow
-	autocmd BufLeave,WinLeave * set wincolor=Normal
-	"autocmd WinEnter * setlocal signcolumn=yes
-	"autocmd WinLeave * setlocal signcolumn=no
-	autocmd BufEnter,WinEnter * set wrap
-	autocmd BufLeave,WinLeave * set nowrap
-
-	" Cursorline "
-	autocmd BufEnter,WinEnter * set cursorline
-	autocmd WinLeave * set nocursorline
-augroup end
-
+" Functions "
 function! s:glsl_file() abort
 	syn keyword Keyword layout location binding in out smooth struct
 	syn keyword Define #version
@@ -202,26 +201,6 @@ function! s:glsl_file() abort
 	syn region Comment start="/\*" end="\*/" extend
 	syn match Comment "//.*$"
 endfunction
-
-augroup filetype
-	autocmd!
-
-	" Vim "
-	autocmd FileType help setlocal nu rnu cursorline nowrap
-	autocmd FileType netrw setlocal nu rnu cursorline nowrap
-	"autocmd WinEnter,WinNew *help* set winwidth=84
-	"autocmd WinLeave,BufLeave *help* set winwidth=60
-
-	" C "
-	autocmd BufRead,BufNewFile *.c set filetype=c
-	autocmd BufRead,BufNewFile *.h set filetype=c
-
-	" Other "
-	autocmd BufRead,BufNewFile *.s setlocal lisp
-	autocmd BufNew,BufRead,WinEnter *\ manpage set cursorline
-	autocmd BufRead,BufNewFile *.glsl set filetype=glsl
-	autocmd FileType glsl call s:glsl_file()
-augroup end
 
 function! s:on_lsp_buffer_enabled() abort
 	setlocal omnifunc=lsp#complete
@@ -253,13 +232,6 @@ function! s:on_lsp_buffer_enabled() abort
 	inoremap <buffer> <C-c> <Esc>
 	nnoremap <silent> <C-c> :let @/=""<CR>
 endfunction
-
-augroup lsp_clangd
-	autocmd!
-	autocmd User lsp_setup call lsp#register_server({ 'name': 'clangd', 'cmd': { server_info->['clangd'] }, 'allowlist': ['c'], })
-	autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-	autocmd FileType c call s:on_lsp_buffer_enabled()
-augroup end
 
 function! WindowColourOn() abort
 	hi NormalCurrentWindow guibg=#232135
@@ -302,8 +274,56 @@ function! s:man_current_window(subject)
 endfunction
 command! -nargs=? -bar -complete=help M execute <SID>man_current_window(<q-args>)
 
-" Pokedex thing "
-function! s:dex_highlight()
+" Autocommands "
+let g:clearhls_return_search_str = ""
+function! s:clearhls() abort
+	"let g:clearhls_return_search_str = @/
+	"let @/ = ""
+	"nnoremap <silent> n :let @/ = g:clearhls_return_search_str<CR>n
+	call feedkeys("\<cmd>nohl\<cr>")
+endfunc
+augroup clearhlsearch | au! | au CursorMoved * call s:clearhls() | augroup end
+
+augroup current_window
+	autocmd BufEnter,WinEnter * set wrap
+	autocmd BufLeave,WinLeave * set nowrap
+	autocmd BufEnter,WinEnter * set cursorline
+	autocmd WinLeave * set nocursorline
+augroup end
+
+augroup filetype
+	autocmd!
+
+	" Vim "
+	autocmd FileType help setlocal nu rnu cursorline nowrap
+	autocmd FileType netrw setlocal nu rnu cursorline nowrap
+	"autocmd WinEnter,WinNew *help* set winwidth=84
+	"autocmd WinLeave,BufLeave *help* set winwidth=60
+
+	" C "
+	autocmd BufRead,BufNewFile *.c set filetype=c
+	autocmd BufRead,BufNewFile *.h set filetype=c
+
+	" Other "
+	autocmd BufRead,BufNewFile *.s setlocal lisp
+	autocmd BufNew,BufRead,WinEnter *\ manpage set cursorline
+	autocmd BufRead,BufNewFile *.glsl set filetype=glsl
+	autocmd FileType glsl call s:glsl_file()
+augroup end
+
+augroup vim_glsl
+	autocmd!
+	autocmd BufNewFile,BufRead *.glsl,*.vs,*.fs set filetype=glsl
+augroup end
+
+augroup lsp_clangd
+	autocmd!
+	autocmd User lsp_setup call lsp#register_server({ 'name': 'clangd', 'cmd': { server_info->['clangd'] }, 'allowlist': ['c'], })
+	autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+	autocmd FileType c call s:on_lsp_buffer_enabled()
+augroup end
+
+function! s:pokedex_highlight()
 	syn keyword BlkType Drk Dra Gho
 	syn keyword RedType Fir
 	syn keyword GrnType Gra
@@ -321,15 +341,4 @@ function! s:dex_highlight()
 	hi BrnType guifg=#ea9a97
 	hi WhtType guifg=#c0bed4
 endfunction
-
-" Autocommands "
-"function! s:clearshl() abort
-"	call feedkeys("\<cmd>nohl\<CR>")
-"endfunction
-"autocmd! CursorMoved *
-"autocmd CursorMoved * call s:clearshl()
-
-augroup pokedex
-	autocmd!
-	autocmd BufRead,BufEnter *.dex call s:dex_highlight()
-augroup end
+augroup pokedex | au! | au BufRead,BufEnter *.dex call s:pokedex_highlight() | augroup end
