@@ -12,10 +12,14 @@ set autoindent cindent
 set showcmd
 set splitright
 set viewoptions=cursor,slash,unix
+set viminfo='256,<256,%64
 set formatoptions-=o formatoptions+=t
-set winwidth=86
+"set winwidth=100
 set listchars=tab:\|\ 
 set incsearch
+set ignorecase
+set autowriteall
+set noequalalways
 
 " line wraping "
 set breakindent
@@ -39,12 +43,12 @@ endif
 
 " vim "
 let g:netrw_banner = 0
-let g:ft_man_open_mode = 'vert'
+let g:ft_man_open_mode = "vert"
 
 " vim-lsp "
 let g:lsp_completion_docuentation_delay = 0
 let g:lsp_diagnostics_enabled = 0
-let g:lsp_diagnostics_float_cursor = 1
+let g:lsp_diagnostics_float_cursor = 0
 let g:lsp_diagnostics_highlights_delay = 250
 let g:lsp_diagnostics_signs_delay = 250
 let g:lsp_diagnostics_virtual_text_align = 0
@@ -52,13 +56,17 @@ let g:lsp_diagnostics_virtual_text_prefix = "~ "
 let g:lsp_diagnostics_virtual_text_wrap = "truncate"
 let g:lsp_document_highlight_enabled = 1
 let g:lsp_signature_help_enabled = 0
-" TODO: make fix to vim-lsp to keep hover info open while moving in line and
-" while in insert mode on current line. "
-let g:lsp_preview_autoclose = 0
-let g:lsp_preview_float = 1
+
+" semantic "
 let g:lsp_semantic_delay = 10
-let g:lsp_semantic_enabled = 1
+let g:lsp_semantic_enabled = 0
 let g:lsp_max_buffer_size = 500000
+
+" preview window "
+let g:lsp_hover_ui = "preview"
+let g:lsp_preview_autoclose = 1
+let g:lsp_preview_float = 0
+let g:lsp_preview_max_width = 40
 
 " Plugins " 
 call plug#begin('~/.vim/plugged')
@@ -213,10 +221,11 @@ function! s:on_lsp_buffer_enabled() abort
 	syn keyword Define #define 
 	syn keyword Type GLuint SDL_Event SDL_Window SDL_GLContext
 	syn match cmacro "\<\u\+\>"
-	syn match ctypedef_type "\<\(\u\l\+\)\+\>"
+	syn match ctypedef_type "\<\(\u[a-z0-9]\+\)\+\>"
 	syn match Type "\<\w\+_t\>"
 
-	nnoremap <buffer> K <plug>(lsp-hover-float)
+	nnoremap <buffer> K <plug>(lsp-hover)
+	nnoremap <buffer> <silent> <C-c> :call execute(":close" . bufwinnr('LspHoverPreview'))<CR>
 	nnoremap <buffer> gd <plug>(lsp-definition)
 	nnoremap <buffer> gD <plug>(lsp-declaration)
 	nnoremap <buffer> gs <plug>(lsp-document-symbol-search)
@@ -330,7 +339,7 @@ function! s:pokedex_highlight()
 	syn keyword YlwType Bug Ele
 	syn keyword BluType Wtr Ice
 	syn keyword PurType Psy Fae Poi
-	syn keyword BrnType Grn Rck Fgh
+	syn keyword BrnType Gnd Rck Fgh
 	syn keyword WhtType Nor Fly Stl
 	hi BlkType guifg=#908caa
 	hi RedType guifg=#eb6f92

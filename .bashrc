@@ -5,6 +5,7 @@ alias grep='grep --color=auto'
 #alias man='batman --nh'
 alias r='ranger'
 alias mplayer='mplayer -msgcolor'
+alias rm='rm -I'
 
 alias webcord='webcord --enable-features=UseOzonePlatform --ozone-platform=wayland'
 alias c='calculator'
@@ -54,7 +55,7 @@ if [ "$TERM" = "linux" ]; then
 	echo -en "\e]P49ccfd8" #darkblue
 	echo -en "\e]PC9ccfd8" #blue
 
-	echo -en "\e]P5c4a7e7" #darkmagen4ta
+	echo -en "\e]P5c4a7e7" #darkmageneta
 	echo -en "\e]PDc4a7e7" #magenta
 
    	echo -en "\e]P64960af" #darkcyan
@@ -82,5 +83,6 @@ export FZF_DEFAULT_OPTS='--no-unicode --height=18 --algo=v2 --prompt=\ fzf\ \
 export BAT_THEME='rosepinetwo'
 export QT_QPA_PLATFORM=xcb
 export MANPAGER="vim +MANPAGER --not-a-term -"
+export XDG_CURRENT_DESKTOP=dwl
 
 fetch
