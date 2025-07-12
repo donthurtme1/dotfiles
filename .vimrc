@@ -30,7 +30,7 @@ set cpoptions+=n
 
 " folding "
 set fillchars=fold:\ 
-set foldtext=substitute(getline(v:foldstart),'\	','\ \ \ \ ',1).'\ \ \ \ \...\ \ \ \ '.(v:foldend\ -\ v:foldstart\ -\ 1).'\ lines'
+set foldtext=substitute(getline(v:foldstart),'\	','\ \ \ \ ',1).'\ \ \ \ \...\ \ \ \ '.(v:foldend\ -\ v:foldstart\ +\ 1).'\ lines'
 
 filetype on
 filetype plugin on
