@@ -1,22 +1,22 @@
 [[ $- != *i* ]] && return
 
-alias ls='ls --color=auto --width=92'
-alias grep='grep --color=auto'
+alias ls='ls --color=always'
+alias grep='grep --color=always'
+alias less='less -R'
+alias cbonsai="cbonsai -c'&'"
 #alias man='batman --nh'
-alias r='ranger'
 alias mplayer='mplayer -msgcolor'
+alias mv='mv -i'
 alias rm='rm -I'
 
 alias webcord='webcord --enable-features=UseOzonePlatform --ozone-platform=wayland'
 alias c='calculator'
 alias volume='wpctl get-volume @DEFAULT_AUDIO_SINK@'
-alias dump='objdump -Mintel -Ds'
 alias objdump='objdump -Mintel'
 alias etch='xorriso-dd-target -DO_WRITE -with_sudo -image_file' # etch [image_file] [device_name]
 
 alias update-osu='wget https://github.com/ppy/osu/releases/latest/download/osu.AppImage ; mv osu.AppImage /usr/local/bin/osu ; chmod a+x /usr/local/bin/osu'
 
-alias re='cd ~ && clear && fetch'
 alias fe='export FZF_DEFAULT_COMMAND="rg --files /bin /usr/local/bin" ; $(fzf) ; export FZF_DEFAULT_COMMAND="rg --files --hidden"' # find executable
 alias ef='$EDITOR $(fzf)' # edit file
 #alias ls='export FZF_DEFAULT_COMMAND="ls -F" ; $(fzf) ; export FZF_DEFAULT_COMMAND="rg --files --hidden"'
@@ -34,6 +34,18 @@ function f() {
 }
 
 PS1='\[\e[31m\]  \[\e[37m\] \t\[\e[34m\] \w\[\e[1;35m\]  \[\e[0m\] '
+PS1="
+  ᥥ ᥥ      ︵*︵
+(◜o̴̶̷̤⩊o̴̶̷̤◝)   (＿ ＿)  UNA!!!
+ ́(   ) ̀   ̀/◟o̴̶̷̤^o̴̶̷̤◞\\ ́
+  ˇ ˇ       U U
+ \t \[\e[35m\]\u@\h \[\e[34m\]\w \[\e[35m\]  \[\e[0m\]"
+PS1="
+    ∧,,∧
+   ( . .)
+   /   |   /￣￣￣/
+乀(ˍ U U＿/＿＿＿/
+ \t \[\e[35m\]\u@\h \[\e[34m\]\w \[\e[35m\]  \[\e[0m\]"
 
 if [ "$TERM" = "linux" ]; then
 	if [ "${tty}" = "/dev/tty1" ]; then
@@ -66,7 +78,13 @@ if [ "$TERM" = "linux" ]; then
 
 	clear #for background artifacting
 
-	PS1='\[\e[31m\] -\[\e[1;37m\] \t\[\e[34m\] \w\[\e[1;35m\] >\[\e[0m\] '
+	PS1='\[\e[31m\] <3\[\e[1;37m\] \t\[\e[34m\] \w\[\e[1;35m\] >\[\e[0m\] '
+	PS1="\[\e[1m\]
+   /\\/\\ 
+  ( . .)   _______
+  /   |   /      /
+\\(ˍ U U__/______/
+ \t \[\e[35m\]\u@\h \[\e[34m\]\w \[\e[35m\]>  \[\e[0m\]"
 
 	export LESS_TERMCAP_mb=$'\e[1;31m'
 	export LESS_TERMCAP_me=$'\e[0m'
@@ -85,4 +103,4 @@ export QT_QPA_PLATFORM=xcb
 export MANPAGER="vim +MANPAGER --not-a-term -"
 export XDG_CURRENT_DESKTOP=dwl
 
-fetch
+#fetch

@@ -1,14 +1,13 @@
 " General settings " 
 set nu rnu
-set tabstop=4 shiftwidth=4
-set smartcase showmatch hlsearch
+set tabstop=4 shiftwidth=4 noexpandtab
+set smartcase hlsearch
 set nocompatible wildmenu signcolumn=no
 set foldmethod=manual
 set cursorline autoindent cindent showcmd
 set viewoptions=cursor,slash,unix
 set viminfo='256,<256,%64
-set fo-=o,O,r fo+=j,l
-set list lcs=tab:│\ 
+set fo+=j,l fo-=c,o,O,r
 set incsearch ignorecase
 set autowriteall noequalalways
 set cpoptions+=n
@@ -19,43 +18,68 @@ filetype on
 
 " folding "
 set fillchars=fold:\ 
-set foldtext=substitute(getline(v:foldstart),'\	','\ \ \ \ ',1).'\ \ \ \ \...\ \ \ \ '.(v:foldend\ -\ v:foldstart\ +\ 1).'\ lines'
+set foldtext=substitute(getline(v:foldstart),'\	','\ \ \ \ ',1)
+\.'\ \ \ \ \...\ \ \ \ '
+\.(v:foldend\ -\ v:foldstart\ +\ 1)
+\.'\ lines'
 
 let g:netrw_banner = 0
-let g:lsp_diagnostics_virtual_text_align = "below"
+let g:netrw_preview = 1
+
+" lsp diagnostics "
+let g:lsp_diagnostics_enabled = 1
+let g:lsp_diagnostics_highlights_enabled = 0
+let g:lsp_diagnostics_virtual_text_align = "after"
 let g:lsp_diagnostics_virtual_text_prefix = " ~ "
-let g:lsp_diagnostics_virtual_text_wrap = "wrap"
+let g:lsp_diagnostics_virtual_text_wrap = "truncate"
 let g:lsp_diagnostics_virtual_text_delay = 0
 let g:lsp_diagnostics_virtual_text_enabled = 1
 let g:lsp_diagnostics_virtual_text_insert_mode_enabled = 1
-let g:lsp_diagnostics_highlights_enabled = 0
-let g:lsp_diagnostics_enabled = 1
+let g:lsp_diagnostics_signs_insert_mode_enabled = 1
+
+" lsp document "
 let g:lsp_document_highlight_enabled = 0
+let g:lsp_document_code_action_signs_enabled = 0
+
+let g:lsp_completion_documentation_enabled = 1
 let g:lsp_signature_help_enabled = 0
 let g:lsp_signature_help_delay = 0
 let g:lsp_semantic_enabled = 1
 let g:lsp_semantic_delay = 0
-let g:vim_man_cmd = '/usr/bin/man'
 let g:lsp_use_native_client = 1
 let g:lsp_use_lua = 1
 let g:lsp_format_sync_timeout = 500
 let g:lsp_preview_keep_focus = 0
 let g:lsp_float_max_width = float2nr(winwidth(0) * 0.6)
 
+" lsp settings "
+let g:lsp_settings = {
+\	'clangd': {
+\		'cmd': ['clangd',
+\		'--header-insertion=never'],
+\	},
+\}
+"\		'--completion-style=detailed',
+
 packadd nohlsearch
-let g:hlyank_duration = 200
+let g:hlyank_duration = 400
+let g:vim_man_cmd = '/usr/bin/man'
+let g:asyncomplete_auto_popup = 0
 
 
 " Plugins " 
 call plug#begin('~/.vim/plugged')
 Plug 'rose-pine/vim', { 'as': 'rosepine' }
 Plug 'prabirshrestha/vim-lsp'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'mattn/vim-lsp-settings'
 Plug 'mbbill/undotree'
 Plug 'jasonccox/vim-wayland-clipboard'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-utils/vim-man'
+Plug 'machakann/vim-sandwich'
 call plug#end()
 
 
@@ -66,13 +90,22 @@ nnoremap <C-.> <C-w>>
 nnoremap <C-,> <C-w><
 nnoremap <C-w><C-c> <C-w><Esc>
 nnoremap <silent> U <cmd>UndotreeToggle<cr>
+nnoremap <silent> <Enter> o<Esc>
+nnoremap <silent> <S-Enter> O<Esc>
+command! H Help
 command! F Files
+command! B Buffers
 inoremap <C-c> <Esc>
+inoremap <expr> <C-x> pumvisible() ? asyncomplete#cancel_popup() : "\<C-x>"
+"TODO:
+"vnoremap J dpV
+"vnoremap K dkPV
 
 nnoremap <silent> '0 :call LoadSession()<cr>
 func! LoadSession() abort
 	if filereadable('.vim_session')
 		so .vim_session
+		call delete('.vim_session')
 	endif
 	au VimLeave * mks! .vim_session
 endf
@@ -98,7 +131,9 @@ if g:colors_name == 'rosepine_moon'
 
 	hi Search guifg=#eb6f92
 	hi IncSearch guibg=#eb6f92
-	hi SpecialKey guifg=#44415a
+
+	"set list lcs=tab:│\ 
+	"hi SpecialKey guifg=#44415a
 endif
 
 
@@ -137,10 +172,20 @@ func! s:on_filetype_c() abort
 
 	syn keyword Macro true false 
 	syn keyword Type GLuint SDL_Event SDL_Window SDL_GLContext
+	syn keyword Type uchar ushort uint ulong
 	syn match Type "\<\(\u[a-z0-9]\+\)\+\>"
 	syn match Type "\<\w\+_t\>"
 	syn match Operator "[(){}\[\].,:;]"
 
+	inoremap <silent> <c-h> <c-o><plug>(lsp-signature-help)
+	setlocal signcolumn=yes
+	setlocal omnifunc=lsp#complete complete=o
+endf
+
+au BufEnter *.S set filetype=asm
+au FileType asm call s:on_filetype_asm()
+func! s:on_filetype_asm() abort
+	set ts=8		" tab_stop
 	inoremap <silent> <c-h> <c-o><plug>(lsp-signature-help)
 endf
 
