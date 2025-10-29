@@ -115,7 +115,7 @@ endf
 set termguicolors
 "set t_ZH= " disable italics
 syn on
-color rosepine_moon
+color rosepine
 if g:colors_name == 'rosepine_moon'
 	hi Normal guibg=#232136
 	hi NormalCurrentWindow guibg=#232135 guifg=#e0def4

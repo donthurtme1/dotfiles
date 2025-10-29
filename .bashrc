@@ -101,6 +101,3 @@ export FZF_DEFAULT_OPTS='--no-unicode --height=18 --algo=v2 --prompt=\ fzf\ \
 export BAT_THEME='rosepinetwo'
 export QT_QPA_PLATFORM=xcb
 export MANPAGER="vim +MANPAGER --not-a-term -"
-export XDG_CURRENT_DESKTOP=dwl
-
-#fetch
