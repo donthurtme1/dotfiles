@@ -1,0 +1,5 @@
+show = run
+
+key_up=Ctrl+u
+key_down=Ctrl+d
+key_exit=Ctrl+c

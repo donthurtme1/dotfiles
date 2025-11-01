@@ -1,0 +1,14 @@
+#window {
+	background-color: rgba(1, 1, 1, 0.8);
+	border-radius: 6px;
+	border: 1px solid rgba(100, 100, 100, 1);
+	font-family: 'monospace';
+}
+
+#input {
+	background: linear-gradient(to right,
+				rgba(0, 0, 255, 0.1) 0%,
+				rgba(255, 0, 255, 0.05) 100%);
+	color: rgb(224, 222, 244);
+	border: none;
+}

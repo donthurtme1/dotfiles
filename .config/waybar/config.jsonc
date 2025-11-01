@@ -1,0 +1,29 @@
+{
+	"position": "bottom",
+	"height": 23,
+	
+	"spacing": 4,
+	"modules-left": [
+		"hyprland/workspaces"
+	],
+	"modules-center": [
+		"clock"
+	],
+	"modules-right": [
+		"battery",
+		"network"
+	],
+
+	"clock": {
+	},
+
+	"battery": {
+		"format": "BAT {capacity}%"
+	},
+	"network": {
+		"format": " NET connecting...",
+		"format-disconnected": " NET disconnected",
+		"format-wifi": " WIFI {signalStrength}%",
+		"format-ethernet": " ETH {signalStrength}%"
+	}
+}
