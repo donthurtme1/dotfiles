@@ -1,58 +1,14 @@
-window {
-    margin: 0px;
-    background-color: #232136;
-    border-radius: 4px;
-    border: 1px solid #eb6f92;
-    color: #e0def4;
-    font-family: 'Monofur Nerd Font';
-    font-size: 20px;
+#window {
+	background-color: rgba(1, 1, 1, 0.8);
+	border-radius: 6px;
+	border: 1px solid rgba(100, 100, 100, 1);
+	font-family: 'monospace';
 }
 
 #input {
-    margin: 5px;
-    border-radius: 0px;
-    border: none;
-    border-radius: 0px;;
-    color: #eb6f92;
-    background-color: #393552;
-    
-}
-
-#inner-box {
-    margin: 5px;
-    border: none;
-    background-color: #393552;
-    color: #232136;
-    border-radius: 0px;
-}
-
-#outer-box {
-    margin: 15px;
-    border: none;
-    background-color: #232136;
-}
-
-#scroll {
-    margin: 0px;
-    border: none;
-}
-
-#text {
-    margin: 5px;
-    border: none;
-    color: #e0def4;
-} 
-
-#entry:selected {
-    background-color: #eb6f92;
-    color: #232136;
-    border-radius: 0px;;
-    outline: none;
-}
-
-#entry:selected * {
-    background-color: #eb6f92;
-    color: #232136;
-    border-radius: 0px;;
-    outline: none;
+	background: linear-gradient(to right,
+				rgba(0, 0, 255, 0.1) 0%,
+				rgba(255, 0, 255, 0.05) 100%);
+	color: rgb(224, 222, 244);
+	border: none;
 }
