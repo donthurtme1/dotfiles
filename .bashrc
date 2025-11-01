@@ -53,7 +53,7 @@ PS1="
    ( . .)
    /   |   /￣￣￣/
 乀(ˍ U U＿/＿＿＿/
-\t \[\e[35m\]\u@\h \[\e[34m\]\w$(parse_git_branch) \[\e[35m\]  \[\e[0m\]"
+\t \[\e[35m\]\u@\h $(parse_git_branch)\[\e[34m\]\w \[\e[35m\]  \[\e[0m\]"
 
 function cd() {
 	builtin cd "$@"
