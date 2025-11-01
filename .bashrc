@@ -34,6 +34,12 @@ function f() {
 	export FZF_DEFAULT_COMMAND='rg --files --hidden'
 }
 
+function parse_git_branch() {
+	if [ -e ".git" ]; then
+		echo '\[\e[32m\]$(git branch --show-current)\[\e[0m\]:'
+	fi
+}
+
 PS1='\[\e[31m\]  \[\e[37m\] \t\[\e[34m\] \w\[\e[1;35m\]  \[\e[0m\] '
 PS1="
   ᥥ ᥥ      ︵*︵
@@ -46,7 +52,17 @@ PS1="
    ( . .)
    /   |   /￣￣￣/
 乀(ˍ U U＿/＿＿＿/
- \t \[\e[35m\]\u@\h \[\e[34m\]\w \[\e[35m\]  \[\e[0m\]"
+\t \[\e[35m\]\u@\h \[\e[34m\]\w$(parse_git_branch) \[\e[35m\]  \[\e[0m\]"
+
+function cd() {
+	builtin cd "$@"
+	export PS1="
+    ∧,,∧
+   ( . .)
+   /   |   /￣￣￣/
+乀(ˍ U U＿/＿＿＿/
+\t \[\e[35m\]\u@\h $(parse_git_branch)\[\e[34m\]\w \[\e[35m\]  \[\e[0m\]"
+}
 
 if [ "$TERM" = "linux" ]; then
 	if [ "${tty}" = "/dev/tty1" ]; then
@@ -103,5 +119,3 @@ export BAT_THEME='rosepinetwo'
 export QT_QPA_PLATFORM=xcb
 export MANPAGER="vim +MANPAGER --not-a-term -"
 export XDG_CURRENT_DESKTOP=dwl
-
-#fetch
