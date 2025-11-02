@@ -1,5 +1,10 @@
-show = run
+show=run
+term=foot
 
-key_up=Ctrl+u
-key_down=Ctrl+d
-key_exit=Ctrl+c
+key_next=Ctrl-n
+key_prev=Ctrl-p
+key_pgup=Ctrl-u
+key_pgdn=Ctrl-d
+
+key_copy=
+key_exit=Ctrl-c
