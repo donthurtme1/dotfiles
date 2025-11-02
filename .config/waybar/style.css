@@ -1,21 +1,21 @@
 * {
 	font-family: monospace;
-	font-size: 13px;
+	font-size: 12pt;
 	padding: 0;
 	margin: -2px 1px;
 }
 
 window#waybar {
-	background-color: rgba(25, 23, 36, 0.88);
-	color: rgb(244, 222, 244);
+	background-color: rgba(35, 33, 54, 0.88);
+	color: rgb(224, 222, 244);
 }
 
 #workspaces button {
 	padding: 0 4px;
-	color: rgb(244, 222, 244);
+	color: rgb(224, 222, 244);
 }
 
 #workspaces button.active {
-	background-color: rgba(49, 116, 143, 1);
+	background-color: rgba(62, 143, 176, 0.98);
 	color: rgba(0, 0, 0, 1);
 }
