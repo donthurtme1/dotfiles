@@ -1,4 +1,4 @@
-show=run
+show=run,drun
 term=foot
 
 key_down=Ctrl-n

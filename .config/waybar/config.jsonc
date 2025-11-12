@@ -1,5 +1,5 @@
 {
-	"position": "bottom",
+	"position": "top",
 	"height": 28,
 	
 	"spacing": 4,
@@ -11,19 +11,30 @@
 	],
 	"modules-right": [
 		"battery",
-		"network"
+		"network",
+		"wireplumber"
 	],
 
 	"clock": {
+		"format": "{:%a %d %b %Y - %R %Z} "
 	},
 
 	"battery": {
-		"format": "BAT {capacity}%"
+		"format": " BAT {capacity}% "
 	},
 	"network": {
-		"format": " NET connecting...",
-		"format-disconnected": " NET disconnected",
-		"format-wifi": " WIFI {signalStrength}%",
-		"format-ethernet": " ETH {signalStrength}%"
+		"format": " NET connecting... ",
+		"format-disconnected": " NET disconnected ",
+		"format-wifi": " WIFI {signalStrength}% ",
+		"format-ethernet": " NET {bandwidthTotalBytes} ",
+		"interval": 8
+	},
+	"wireplumber": {
+		"format": " VOL {volume}% "
+	},
+
+	"custom/discord": {
+		"format": " {icon} ",
+		"format-icons": [" ", ""]
 	}
 }

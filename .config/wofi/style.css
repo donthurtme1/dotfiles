@@ -21,6 +21,10 @@
 	margin-bottom: 6px;
 }
 
+#entry {
+	color: rgb(224, 222, 244);
+}
+
 #entry:selected {
 	background-color: rgba(42, 40, 62, 0.98);
 	border-radius: 6px;

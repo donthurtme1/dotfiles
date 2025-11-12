@@ -7,12 +7,13 @@ set foldmethod=manual
 set cursorline autoindent cindent showcmd
 set viewoptions=cursor,slash,unix
 set viminfo='256,<256,%64
-set fo+=j,l fo-=c,o,O,r
+set fo=qjl
 set incsearch ignorecase
 set autowriteall noequalalways
 set cpoptions+=n
 set undodir=$HOME/.vim/undodir undofile
-set ssop-=options ssop+=localoptions
+"set ssop-=options
+set ssop+=localoptions
 set ttyscroll=0
 filetype on
 
@@ -84,6 +85,9 @@ call plug#end()
 
 
 " Mappings "
+nmap s <Nop>
+xmap s <Nop>
+xmap sa <Plug>(sandwich-add)
 nnoremap <C-=> <C-w>+
 nnoremap <C-_> <C-w>-
 nnoremap <C-.> <C-w>>
@@ -98,8 +102,8 @@ command! B Buffers
 inoremap <C-c> <Esc>
 inoremap <expr> <C-x> pumvisible() ? asyncomplete#cancel_popup() : "\<C-x>"
 "TODO:
-"vnoremap J dpV
-"vnoremap K dkPV
+xnoremap J dpV
+xnoremap K dkPV
 
 nnoremap <silent> '0 :call LoadSession()<cr>
 func! LoadSession() abort
@@ -140,7 +144,7 @@ endif
 " Autocommands "
 aug clearhlsearch
 	au!
-	au ModeChanged *:[vi]* call feedkeys("\<cmd>nohl\<cr>")
+	au ModeChanged *:[xi]* call feedkeys("\<cmd>nohl\<cr>")
 	au TextChanged * call feedkeys("\<cmd>nohl\<cr>")
 	"au CmdlineEnter : set nohls
 	au CmdlineEnter [/?] set hls
