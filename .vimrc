@@ -12,7 +12,6 @@ set incsearch ignorecase
 set autowriteall noequalalways
 set cpoptions+=n
 set undodir=$HOME/.vim/undodir undofile
-"set ssop-=options
 set ssop+=localoptions
 set ttyscroll=0
 filetype on
@@ -101,17 +100,28 @@ command! F Files
 command! B Buffers
 inoremap <C-c> <Esc>
 inoremap <expr> <C-x> pumvisible() ? asyncomplete#cancel_popup() : "\<C-x>"
-"TODO:
+" TODO: improve speed of these mappings
 xnoremap J dpV
 xnoremap K dkPV
 
-nnoremap <silent> '0 :call LoadSession()<cr>
+
+" Vim Session Settings "
+command NewSession au VimLeave * call WriteSession()
+
+au VimEnter * call LoadSession()
 func! LoadSession() abort
+	if argc() == 0 || !filereadable('.vim_session')
+		if filereadable('.vim_session') && argc() == 0
+			so .vim_session
+		endif
+		au VimLeave * call WriteSession()
+	endif
+endf
+func! WriteSession() abort
 	if filereadable('.vim_session')
-		so .vim_session
 		call delete('.vim_session')
 	endif
-	au VimLeave * mks! .vim_session
+	mks! .vim_session
 endf
 
 
