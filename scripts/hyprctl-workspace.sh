@@ -7,6 +7,9 @@ if [[ $(hyprctl monitors | grep "active workspace" | awk '{print $3}' | grep "$w
 	hyprctl dispatch moveworkspacetomonitor $workspace_id $focusmon_id;
 	hyprctl dispatch workspace $workspace_id
 else
+	if [[ $(hyprctl activeworkspace | grep "workspace ID " | awk '{print $3}') == $workspace_id ]]; then
+		return
+	fi
 	mon0_workspace=$(hyprctl monitors | grep "ID 0" -A7 | grep "active workspace" | awk '{print $3}')
 	mon1_workspace=$(hyprctl monitors | grep "ID 1" -A7 | grep "active workspace" | awk '{print $3}')
 

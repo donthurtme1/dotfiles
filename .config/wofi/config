@@ -1,5 +1,8 @@
 show=run,drun
 term=foot
+width=40%
+height=50%
+normal_window=true
 
 key_down=Ctrl-n
 key_up=Ctrl-p

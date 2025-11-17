@@ -69,6 +69,7 @@ let g:asyncomplete_auto_popup = 0
 
 " Plugins " 
 call plug#begin('~/.vim/plugged')
+Plug '~/c/vimsession'
 Plug 'rose-pine/vim', { 'as': 'rosepine' }
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete.vim'
@@ -106,23 +107,23 @@ xnoremap K dkPV
 
 
 " Vim Session Settings "
-command NewSession au VimLeave * call WriteSession()
-
-au VimEnter * call LoadSession()
-func! LoadSession() abort
-	if argc() == 0 || !filereadable('.vim_session')
-		if filereadable('.vim_session') && argc() == 0
-			so .vim_session
-		endif
-		au VimLeave * call WriteSession()
-	endif
-endf
-func! WriteSession() abort
-	if filereadable('.vim_session')
-		call delete('.vim_session')
-	endif
-	mks! .vim_session
-endf
+"command NewSession au VimLeave * call WriteSession()
+"
+"au VimEnter * call LoadSession()
+"func! LoadSession() abort
+"	if argc() == 0 || !filereadable('.vim_session')
+"		if filereadable('.vim_session') && argc() == 0
+"			so .vim_session
+"		endif
+"		au VimLeave * call WriteSession()
+"	endif
+"endf
+"func! WriteSession() abort
+"	if filereadable('.vim_session')
+"		call delete('.vim_session')
+"	endif
+"	mks! .vim_session
+"endf
 
 
 " Colour "
