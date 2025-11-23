@@ -11,8 +11,8 @@ window#waybar {
 }
 
 #workspaces button {
-	padding: 0 4px;
-	margin: 7px 0px;
+	padding: 0 3px;
+	margin: 8px 0px;
 	border: 0px solid rgba(0, 0, 0, 0);
 	color: rgb(224, 222, 244);
 }

@@ -7,12 +7,12 @@ set foldmethod=manual
 set cursorline autoindent cindent showcmd
 set viewoptions=cursor,slash,unix
 set viminfo='256,<256,%64
-set fo=qjl
+set fo=qjl fo-=cro
 set incsearch ignorecase
 set autowriteall noequalalways
 set cpoptions+=n
 set undodir=$HOME/.vim/undodir undofile
-set ssop+=localoptions
+set ssop=buffers,curdir,folds,help,tabpages,winsize
 set ttyscroll=0
 filetype on
 
@@ -69,7 +69,6 @@ let g:asyncomplete_auto_popup = 0
 
 " Plugins " 
 call plug#begin('~/.vim/plugged')
-Plug '~/c/vimsession'
 Plug 'rose-pine/vim', { 'as': 'rosepine' }
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete.vim'
@@ -81,6 +80,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-utils/vim-man'
 Plug 'machakann/vim-sandwich'
+"Plug '~/c/vimsession' " Must be after vim-lsp
 call plug#end()
 
 
@@ -104,26 +104,6 @@ inoremap <expr> <C-x> pumvisible() ? asyncomplete#cancel_popup() : "\<C-x>"
 " TODO: improve speed of these mappings
 xnoremap J dpV
 xnoremap K dkPV
-
-
-" Vim Session Settings "
-"command NewSession au VimLeave * call WriteSession()
-"
-"au VimEnter * call LoadSession()
-"func! LoadSession() abort
-"	if argc() == 0 || !filereadable('.vim_session')
-"		if filereadable('.vim_session') && argc() == 0
-"			so .vim_session
-"		endif
-"		au VimLeave * call WriteSession()
-"	endif
-"endf
-"func! WriteSession() abort
-"	if filereadable('.vim_session')
-"		call delete('.vim_session')
-"	endif
-"	mks! .vim_session
-"endf
 
 
 " Colour "
