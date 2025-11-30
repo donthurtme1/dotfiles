@@ -34,7 +34,7 @@ let g:lsp_diagnostics_virtual_text_prefix = " ~ "
 let g:lsp_diagnostics_virtual_text_wrap = "truncate"
 let g:lsp_diagnostics_virtual_text_delay = 0
 let g:lsp_diagnostics_virtual_text_enabled = 1
-let g:lsp_diagnostics_virtual_text_insert_mode_enabled = 1
+let g:lsp_diagnostics_virtual_text_insert_mode_enabled = 0
 let g:lsp_diagnostics_signs_insert_mode_enabled = 1
 
 " lsp document "
@@ -45,10 +45,9 @@ let g:lsp_completion_documentation_enabled = 1
 let g:lsp_signature_help_enabled = 0
 let g:lsp_signature_help_delay = 0
 let g:lsp_semantic_enabled = 1
-let g:lsp_semantic_delay = 0
+let g:lsp_semantic_delay = 10
 let g:lsp_use_native_client = 1
 let g:lsp_use_lua = 1
-let g:lsp_format_sync_timeout = 500
 let g:lsp_preview_keep_focus = 0
 let g:lsp_float_max_width = float2nr(winwidth(0) * 0.6)
 
@@ -56,10 +55,10 @@ let g:lsp_float_max_width = float2nr(winwidth(0) * 0.6)
 let g:lsp_settings = {
 \	'clangd': {
 \		'cmd': ['clangd',
+\		'--completion-style=detailed',
 \		'--header-insertion=never'],
 \	},
 \}
-"\		'--completion-style=detailed',
 
 packadd nohlsearch
 let g:hlyank_duration = 400
@@ -108,7 +107,6 @@ xnoremap K dkPV
 
 " Colour "
 set termguicolors
-"set t_ZH= " disable italics
 syn on
 color rosepine_moon
 if g:colors_name == 'rosepine_moon'
@@ -117,6 +115,9 @@ if g:colors_name == 'rosepine_moon'
 
 	hi Macro guifg=#f6c177
 	hi Include guifg=#3e8fb0
+	hi Structure guifg=#3e8fb0
+	hi Typedef guifg=#3e8fb0
+	hi StorageClass guifg=#3e8fb0
 	hi SpecialChar guifg=#3e8fb0
 	hi StatusLineNC guibg=#232135
 	hi MatchParen guifg=NONE
@@ -166,11 +167,16 @@ func! s:on_filetype_c() abort
 	hi link LspSemanticParameter Normal
 
 	syn keyword Macro true false 
+	syn keyword Conditional case default
 	syn keyword Type GLuint SDL_Event SDL_Window SDL_GLContext
-	syn keyword Type uchar ushort uint ulong
 	syn match Type "\<\(\u[a-z0-9]\+\)\+\>"
 	syn match Type "\<\w\+_t\>"
-	syn match Operator "[(){}\[\].,:;]"
+	syn match Function "\<\h\w*\>\ze\_s*("
+	syn match Macro "\<\u[0-9A-Z_]*\>"
+	"syn match Operator "[\(){}\[\],;]"
+	syn match Operator "[^0-9A-Za-z_\\"'#]"
+	syn match Comment "/\*\_.\{-}\*/"
+	syn match Comment "\/\/.*"
 
 	inoremap <silent> <c-h> <c-o><plug>(lsp-signature-help)
 	setlocal signcolumn=yes
