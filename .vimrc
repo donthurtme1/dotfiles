@@ -44,7 +44,7 @@ let g:lsp_document_code_action_signs_enabled = 0
 let g:lsp_completion_documentation_enabled = 1
 let g:lsp_signature_help_enabled = 0
 let g:lsp_signature_help_delay = 0
-let g:lsp_semantic_enabled = 1
+let g:lsp_semantic_enabled = 0 " So slow
 let g:lsp_semantic_delay = 10
 let g:lsp_use_native_client = 1
 let g:lsp_use_lua = 1
@@ -55,10 +55,10 @@ let g:lsp_float_max_width = float2nr(winwidth(0) * 0.6)
 let g:lsp_settings = {
 \	'clangd': {
 \		'cmd': ['clangd',
-\		'--completion-style=detailed',
-\		'--header-insertion=never'],
+\		'--completion-style=detailed'],
 \	},
 \}
+"\		'--header-insertion=never',
 
 packadd nohlsearch
 let g:hlyank_duration = 400
@@ -92,9 +92,10 @@ nnoremap <C-_> <C-w>-
 nnoremap <C-.> <C-w>>
 nnoremap <C-,> <C-w><
 nnoremap <C-w><C-c> <C-w><Esc>
-nnoremap <silent> U <cmd>UndotreeToggle<cr>
+nnoremap <silent> U <CMD>UndotreeToggle<CR>
 nnoremap <silent> <Enter> o<Esc>
 nnoremap <silent> <S-Enter> O<Esc>
+nnoremap <silent> <Tab> <CMD>tabn<CR>
 command! H Help
 command! F Files
 command! B Buffers
@@ -109,6 +110,7 @@ xnoremap K dkPV
 set termguicolors
 syn on
 color rosepine_moon
+hi MatchParen guifg=NONE
 if g:colors_name == 'rosepine_moon'
 	hi Normal guibg=#232136
 	hi NormalCurrentWindow guibg=#232135 guifg=#e0def4
@@ -120,10 +122,8 @@ if g:colors_name == 'rosepine_moon'
 	hi StorageClass guifg=#3e8fb0
 	hi SpecialChar guifg=#3e8fb0
 	hi StatusLineNC guibg=#232135
-	hi MatchParen guifg=NONE
 	hi Folded guifg=#6e6a86
 	hi ModeMsg guifg=#e0def4
-	hi link Function Normal
 
 	hi Search guifg=#eb6f92
 	hi IncSearch guibg=#eb6f92
@@ -165,6 +165,7 @@ func! s:on_filetype_c() abort
 	hi link LspSemanticVariable Normal
 	hi link LspSemanticProperty Normal
 	hi link LspSemanticParameter Normal
+	hi link cSeparator Operator
 
 	syn keyword Macro true false 
 	syn keyword Conditional case default
@@ -172,11 +173,11 @@ func! s:on_filetype_c() abort
 	syn match Type "\<\(\u[a-z0-9]\+\)\+\>"
 	syn match Type "\<\w\+_t\>"
 	syn match Function "\<\h\w*\>\ze\_s*("
-	syn match Macro "\<\u[0-9A-Z_]*\>"
-	"syn match Operator "[\(){}\[\],;]"
-	syn match Operator "[^0-9A-Za-z_\\"'#]"
-	syn match Comment "/\*\_.\{-}\*/"
-	syn match Comment "\/\/.*"
+	syn match Macro "\<[0-9A-Z_]\+\>"
+	syn match cSeparator "[\(){}\[\],;:?]"
+	"syn match Operator "[^0-9A-Za-z_\\"'#]"
+	"syn match Comment "/\*\_.\{-}\*/"
+	"syn match Comment "\/\/.*"
 
 	inoremap <silent> <c-h> <c-o><plug>(lsp-signature-help)
 	setlocal signcolumn=yes
