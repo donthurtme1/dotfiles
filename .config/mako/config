@@ -11,7 +11,7 @@ icon-location=left
 background-color=#232136cc
 border-size=1
 border-color=#595959aa
-border-radius=4
+border-radius=0
 
 [urgency=high]
 border-color=#eb6f92aa

@@ -7,7 +7,7 @@ alias cbonsai="cbonsai -c'&'"
 #alias man='batman --nh'
 alias mplayer='mplayer -msgcolor'
 alias mv='mv -i'
-alias rm='rm -I'
+alias rm='rm'
 alias ggraph='git log --graph --oneline --all'
 
 alias webcord='webcord --enable-features=UseOzonePlatform --ozone-platform=wayland'

@@ -26,6 +26,13 @@ set foldtext=substitute(getline(v:foldstart),'\	','\ \ \ \ ',1)
 let g:netrw_banner = 0
 let g:netrw_preview = 1
 
+" undotree "
+let g:undotree_HelpLine = 0
+let g:undotree_StatusLine = 0
+
+" highlight url "
+let g:highlighturl_guifg = "#a0f0f0"
+
 " lsp diagnostics "
 let g:lsp_diagnostics_enabled = 1
 let g:lsp_diagnostics_highlights_enabled = 0
@@ -58,6 +65,12 @@ let g:lsp_settings = {
 \		'--header-insertion=never',
 \		'--completion-style=detailed'],
 \	},
+\    "rust-analyzer": {
+\        "initialization_options": {
+\            "completion": { "autoimport": {"enable": v:false } },
+\            "procMacro": { "enable": v:true }
+\        }
+\    },
 \}
 
 packadd nohlsearch
@@ -80,12 +93,19 @@ Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-utils/vim-man'
 Plug 'machakann/vim-sandwich'
+Plug 'itchyny/vim-highlighturl'
+Plug 'rust-lang/rust.vim'
 "Plug '~/c/vimsession' " Must be after vim-lsp
-Plug '~/vimscript/fuzzy_colour'
+Plug '~/vimscript/fuzzy_colors'
 call plug#end()
 
 
 " Mappings "
+nnoremap gh H
+nnoremap gl L
+nnoremap H ^
+nnoremap L $
+
 nmap s <Nop>
 xmap s <Nop>
 xmap sa <Plug>(sandwich-add)
@@ -100,14 +120,12 @@ nnoremap <silent> U <CMD>UndotreeToggle<CR>
 nnoremap <silent> <Enter> o<Esc>
 nnoremap <silent> <S-Enter> O<Esc>
 nnoremap <silent> <Tab> <CMD>tabn<CR>
+
 command! H Help
 command! F Files
 command! B Buffers
 inoremap <C-c> <Esc>
 inoremap <expr> <C-x> pumvisible() ? asyncomplete#cancel_popup() : "\<C-x>"
-" TODO: improve speed of these mappings
-xnoremap J dpV
-xnoremap K dkPV
 
 
 " Colour "
@@ -146,6 +164,11 @@ func! s:on_change_colorscheme() abort
 		hi Macro guifg=#f6c177
 		hi! link PreProc StorageClass
 		"hi! link Type Normal
+		set t_md=""
+	endif
+
+	if g:colors_name == 'fuzzy_colors'
+		hi Macro guifg=#f6c177
 		set t_md=""
 	endif
 endf
@@ -202,11 +225,15 @@ func! s:on_filetype_c() abort
 	"syn match Comment "/\*\_.\{-}\*/"
 	"syn match Comment "\/\/.*"
 
-	syn match Type "\(#\s*\)\@<!\(\<\h\w*\)\ze[ 	*]\+\(\h\w*\s*[=;,()]\)"
+	syn match Type "\(#\s*\)\@<!\(\<\h\w*\)\ze[ 	*]\+\(\h\w*[ 	\n]*[=;,(){}\[\]]\)"
+	syn match Type "([a-zA-Z0-9_ 	*]*\zs\<\h\w*\ze[ 	\n]*)[ 	\n]*{"
 
 	inoremap <silent> <c-h> <c-o><plug>(lsp-signature-help)
 	setlocal signcolumn=yes
 	setlocal omnifunc=lsp#complete complete=o
+
+	color fuzzy_colors
+	call s:on_change_colorscheme()
 endf
 
 au BufEnter *.S set filetype=asm
@@ -218,10 +245,7 @@ endf
 
 au FileType rust call s:on_filetype_rust()
 func! s:on_filetype_rust() abort
-	let g:lsp_diagnostics_virtual_text_align = "after"
-	let g:lsp_diagnostics_virtual_text_wrap = "truncate"
-	let g:lsp_diagnostics_virtual_text_delay = 200
-	let g:lsp_diagnostics_virtual_text_insert_mode_enabled = 1
+	let g:lsp_diagnostics_highlights_enabled = 0
 	let g:lsp_document_highlight_enabled = 0
 	let g:lsp_semantic_enabled = 1
 	let g:lsp_semantic_delay = 200
@@ -235,6 +259,7 @@ func! s:on_filetype_rust() abort
 	syn match Operator "[(){}\[\].,:;]"
 
 	inoremap <silent> <c-h> <c-o><plug>(lsp-signature-help)
+	setlocal omnifunc=lsp#complete complete=o
 endf
 
 au User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
