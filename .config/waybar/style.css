@@ -11,24 +11,34 @@ window#waybar {
 }
 
 #tags button {
-	padding: 0 3px;
+	padding: 2px 5px;
 	margin: 6px 0px;
-	border-width: 2px;
+	border-width: 0px;
 	color: rgb(86, 82, 110);
 }
 
 #tags button.occupied {
-	padding: 0 3px;
+	padding: 2px 5px;
 	margin: 6px 0px;
-	border-width: 2px;
+	border-width: 0px;
 	color: rgb(224, 222, 244);
 }
 
 #tags button.focused {
-	padding: 0 3px;
+	padding: 0 5px;
+	padding-top: 2px;
 	margin: 6px 0px;
+
 	border-width: 2px;
-	color: rgb(224, 222, 244);
-	border-image: linear-gradient(-30deg, #d4aff7, #a4dfe8);
+	border-top: 0px;
+	border-left: 0px;
+	border-right: 0px;
+
+	border-image: linear-gradient(-90deg, #d4aff7, #a4dfe8);
 	border-image-slice: 1;
+	color: rgb(224, 222, 244);
+}
+
+#custom-sep {
+	color: rgb(86, 82, 110);
 }
