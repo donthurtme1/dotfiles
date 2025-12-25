@@ -14,6 +14,7 @@
 	],
 	"modules-right": [
 		"custom/sep",
+		"cava",
 		"mpd",
 		"custom/sep",
 		"network",
@@ -40,6 +41,13 @@
 		"format": " BAT {capacity}% ",
 		"tooltip": false
 	},
+	"cava": {
+		"method": "raw",
+		"bars": 12,
+		"format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"],
+		"hide_on_silence": false,
+		"tooltip": false
+	},
 	"mpd": {
 		"format": " {stateIcon}{album} - {title} ",
 		"state-icons" : {
@@ -58,7 +66,7 @@
 		"tooltip": false
 	},
 	"wireplumber": {
-		"format": " VOL {volume}% ",
+		"format": " VOL {volume}%  ",
 		"tooltip": false
 	},
 
