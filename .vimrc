@@ -215,18 +215,13 @@ func! s:on_filetype_c() abort
 
 	syn keyword Macro true false 
 	syn keyword Conditional case default
-	"syn keyword Type GLuint SDL_Event SDL_Window SDL_GLContext
-	"syn match Type "\<\(\u[a-z0-9]\+\)\+\>"
-	"syn match Type "\<\w\+_t\>"
 	syn match Function "\<\h\w*\>\ze\_s*("
 	syn match Macro "\<[A-Z_][0-9A-Z_]*\>"
 	syn match cSeparator "[\(){}\[\],;:?]"
-	"syn match Operator "[^0-9A-Za-z_\\"'#]"
-	"syn match Comment "/\*\_.\{-}\*/"
-	"syn match Comment "\/\/.*"
 
 	syn match Type "\(#\s*\)\@<!\(\<\h\w*\)\ze[ 	*]\+\(\h\w*[ 	\n]*[=;,(){}\[\]]\)"
-	syn match Type "([a-zA-Z0-9_ 	*]*\zs\<\h\w*\ze[ 	\n]*)[ 	\n]*{"
+	"syn match Type "([a-zA-Z0-9_ 	*]*\zs\<\h\w*\ze[ 	\n]*)[ 	\n]*{"
+	syn match Type "^struct\s\+\zs\(\<\h\w*\)\ze\s\+{"
 
 	inoremap <silent> <c-h> <c-o><plug>(lsp-signature-help)
 	setlocal signcolumn=yes
