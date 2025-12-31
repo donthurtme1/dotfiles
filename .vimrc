@@ -1,3 +1,21 @@
+" Plugins " 
+call plug#begin('~/.vim/plugged')
+Plug 'rose-pine/vim', { 'as': 'rosepine' }
+Plug 'ntk148v/vim-horizon'
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+Plug 'mbbill/undotree'
+Plug 'jasonccox/vim-wayland-clipboard'
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'vim-utils/vim-man'
+Plug 'machakann/vim-sandwich'
+Plug 'itchyny/vim-highlighturl'
+Plug 'rust-lang/rust.vim'
+"Plug '~/c/vimsession' " Must be after vim-lsp
+Plug '~/vimscript/fuzzy_colors'
+call plug#end()
+
+
 " General settings " 
 set nu rnu
 set tabstop=4 shiftwidth=4 noexpandtab
@@ -7,7 +25,6 @@ set foldmethod=manual
 set cursorline autoindent cindent showcmd
 set viewoptions=cursor,slash,unix
 set viminfo='256,<256,%64
-set fo=qjl fo-=cro
 set incsearch ignorecase
 set autowriteall noequalalways
 set cpoptions+=n
@@ -33,79 +50,13 @@ let g:undotree_StatusLine = 0
 " highlight url "
 let g:highlighturl_guifg = "#a0f0f0"
 
-" lsp diagnostics "
-let g:lsp_diagnostics_enabled = 1
-let g:lsp_diagnostics_highlights_enabled = 0
-let g:lsp_diagnostics_virtual_text_align = "after"
-let g:lsp_diagnostics_virtual_text_prefix = " ~ "
-let g:lsp_diagnostics_virtual_text_wrap = "truncate"
-let g:lsp_diagnostics_virtual_text_delay = 0
-let g:lsp_diagnostics_virtual_text_enabled = 1
-let g:lsp_diagnostics_virtual_text_insert_mode_enabled = 0
-let g:lsp_diagnostics_signs_insert_mode_enabled = 1
-
-" lsp document "
-let g:lsp_document_highlight_enabled = 0
-let g:lsp_document_code_action_signs_enabled = 0
-
-let g:lsp_completion_documentation_enabled = 1
-let g:lsp_signature_help_enabled = 0
-let g:lsp_signature_help_delay = 0
-let g:lsp_semantic_enabled = 0 " So slow
-let g:lsp_semantic_delay = 10
-let g:lsp_use_native_client = 1
-let g:lsp_use_lua = 1
-let g:lsp_preview_keep_focus = 0
-let g:lsp_float_max_width = float2nr(winwidth(0) * 0.6)
-
-" lsp settings "
-let g:lsp_settings = {
-\	'clangd': {
-\		'cmd': ['clangd',
-\		'--header-insertion=never',
-\		'--completion-style=detailed'],
-\	},
-\    "rust-analyzer": {
-\        "initialization_options": {
-\            "completion": { "autoimport": {"enable": v:false } },
-\            "procMacro": { "enable": v:true }
-\        }
-\    },
-\}
-
 packadd nohlsearch
 let g:hlyank_duration = 400
 let g:vim_man_cmd = '/usr/bin/man'
 let g:asyncomplete_auto_popup = 0
 
 
-" Plugins " 
-call plug#begin('~/.vim/plugged')
-Plug 'rose-pine/vim', { 'as': 'rosepine' }
-Plug 'ntk148v/vim-horizon'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-Plug 'mattn/vim-lsp-settings'
-Plug 'mbbill/undotree'
-Plug 'jasonccox/vim-wayland-clipboard'
-Plug 'junegunn/fzf.vim'
-Plug 'tpope/vim-fugitive'
-Plug 'vim-utils/vim-man'
-Plug 'machakann/vim-sandwich'
-Plug 'itchyny/vim-highlighturl'
-Plug 'rust-lang/rust.vim'
-"Plug '~/c/vimsession' " Must be after vim-lsp
-Plug '~/vimscript/fuzzy_colors'
-call plug#end()
-
-
 " Mappings "
-nnoremap gh H
-nnoremap gl L
-nnoremap H ^
-nnoremap L $
-
 nmap s <Nop>
 xmap s <Nop>
 xmap sa <Plug>(sandwich-add)
@@ -120,12 +71,12 @@ nnoremap <silent> U <CMD>UndotreeToggle<CR>
 nnoremap <silent> <Enter> o<Esc>
 nnoremap <silent> <S-Enter> O<Esc>
 nnoremap <silent> <Tab> <CMD>tabn<CR>
+nnoremap <silent> <C-i> <C-i>
 
 command! H Help
 command! F Files
 command! B Buffers
-inoremap <C-c> <Esc>
-inoremap <expr> <C-x> pumvisible() ? asyncomplete#cancel_popup() : "\<C-x>"
+imap <C-c> <Esc>
 
 
 " Colour "
@@ -169,8 +120,13 @@ func! s:on_change_colorscheme() abort
 
 	if g:colors_name == 'fuzzy_colors'
 		hi Macro guifg=#f6c177
+		hi Search guifg=#eb6f92 guibg=#272c42
+		hi IncSearch guifg=#272c42 guibg=#eb6f92 cterm=NONE
 		set t_md=""
 	endif
+
+	hi! link CocErrorSign Error
+	hi! link CocWarningSign WarningMsg
 endf
 
 set termguicolors
@@ -201,32 +157,39 @@ aug end
 au WinResized * call s:on_winresize()
 au VimResized * call s:on_winresize()
 func! s:on_winresize() abort
-	let g:lsp_float_max_width = float2nr(winwidth(0) * 0.6)
+endf
+
+au User CocNvimInit call s:on_coc_start()
+func! s:on_coc_start() abort
+	nnoremap gd <Plug>(coc-definition)
+	nnoremap <silent> <C-c> :call coc#float#close_all(0)<CR>
+	nnoremap <expr> K CocHasProvider('hover') ? CocActionAsync('definitionHover') : "K"
+	inoremap <expr> <C-d> coc#pum#visible() ? coc#pum#scroll(1) : "\<C-d>"
+	inoremap <expr> <C-u> coc#pum#visible() ? coc#pum#scroll(0) : "\<C-u>"
+	inoremap <expr> <C-y> coc#pum#visible() ? coc#pum#select_confirm() : coc#start()
+
+	hi! link CocErrorSign Error
+	hi! link CocWarningSign WarningMsg
 endf
 
 au FileType help,netrw setl nu rnu cursorline
 au FileType c call s:on_filetype_c()
 func! s:on_filetype_c() abort
 	hi link cDefine Define
-	"hi link LspSemanticVariable Normal
-	"hi link LspSemanticProperty Normal
-	"hi link LspSemanticParameter Normal
 	"hi link cSeparator Operator
 
 	syn keyword Macro true false 
 	syn keyword Conditional case default
 	syn match Function "\<\h\w*\>\ze\_s*("
 	syn match Macro "\<[A-Z_][0-9A-Z_]*\>"
-	syn match cSeparator "[\(){}\[\],;:?]"
+	"syn match cSeparator "[\(){}\[\],;:?]"
 
-	syn match Type "\(#\s*\)\@<!\(\<\h\w*\)\ze[ 	*]\+\(\h\w*[ 	\n]*[=;,(){}\[\]]\)"
+	syn match Type "\(#\s*\)\@<!\<\h\w*\ze[ 	\n*]\+\(\h\w*[ 	\n]*[=;,(){}\[\]]\)"
+	"syn match Type "^\(#\s*\)\@<!.\{-}\(\<\h\w*\)\ze[ 	\n*]\+\(\h\w*[ 	\n]*[=;,(){}\[\]]\)"
 	"syn match Type "([a-zA-Z0-9_ 	*]*\zs\<\h\w*\ze[ 	\n]*)[ 	\n]*{"
-	syn match Type "^struct\s\+\zs\(\<\h\w*\)\ze\s\+{"
+	syn match Type "^struct[ 	\n]\+\zs\(\<\h\w*\)\ze[ 	\n]\+{"
 
-	inoremap <silent> <c-h> <c-o><plug>(lsp-signature-help)
 	setlocal signcolumn=yes
-	setlocal omnifunc=lsp#complete complete=o
-
 	color fuzzy_colors
 	call s:on_change_colorscheme()
 endf
@@ -235,31 +198,14 @@ au BufEnter *.S set filetype=asm
 au FileType asm call s:on_filetype_asm()
 func! s:on_filetype_asm() abort
 	set ts=8		" tab_stop
-	inoremap <silent> <c-h> <c-o><plug>(lsp-signature-help)
 endf
 
 au FileType rust call s:on_filetype_rust()
 func! s:on_filetype_rust() abort
-	let g:lsp_diagnostics_highlights_enabled = 0
-	let g:lsp_document_highlight_enabled = 0
-	let g:lsp_semantic_enabled = 1
-	let g:lsp_semantic_delay = 200
-
 	set noet
 
 	hi link rustEscape SpecialChar
-	hi link LspSemanticVariable Normal
-	hi link LspSemanticProperty Normal
-	hi link LspSemanticParameter Normal
-	syn match Operator "[(){}\[\].,:;]"
 
-	inoremap <silent> <c-h> <c-o><plug>(lsp-signature-help)
-	setlocal omnifunc=lsp#complete complete=o
-endf
-
-au User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-func! s:on_lsp_buffer_enabled() abort
-	nnoremap <buffer> K <plug>(lsp-hover)
-	nnoremap <buffer> gd <plug>(lsp-definition)
-	nnoremap <buffer> <silent> R :LspRename<cr>
+	setlocal signcolumn=yes
+	color fuzzy_colors
 endf
