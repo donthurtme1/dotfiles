@@ -119,9 +119,9 @@ func! s:on_change_colorscheme() abort
 	endif
 
 	if g:colors_name == 'fuzzy_colors'
-		hi Macro guifg=#f6c177
 		hi Search guifg=#eb6f92 guibg=#272c42
 		hi IncSearch guifg=#272c42 guibg=#eb6f92 cterm=NONE
+		hi! CocFloating guibg=#36383f
 		set t_md=""
 	endif
 
@@ -160,8 +160,10 @@ func! s:on_winresize() abort
 endf
 
 au User CocNvimInit call s:on_coc_start()
+au BufEnter * call s:on_change_colorscheme()
 func! s:on_coc_start() abort
 	nnoremap gd <Plug>(coc-definition)
+	nnoremap R <Plug>(coc-rename)
 	nnoremap <silent> <C-c> :call coc#float#close_all(0)<CR>
 	nnoremap <expr> K CocHasProvider('hover') ? CocActionAsync('definitionHover') : "K"
 	inoremap <expr> <C-d> coc#pum#visible() ? coc#pum#scroll(1) : "\<C-d>"
@@ -173,9 +175,11 @@ func! s:on_coc_start() abort
 endf
 
 au FileType help,netrw setl nu rnu cursorline
-au FileType c call s:on_filetype_c()
-func! s:on_filetype_c() abort
+au FileType c call s:on_filetype_c_call_once()
+func! s:on_filetype_c_call_once() abort
 	hi link cDefine Define
+	hi! link CocErrorSign Error
+	hi! link CocWarningSign WarningMsg
 	"hi link cSeparator Operator
 
 	syn keyword Macro true false 
@@ -189,9 +193,20 @@ func! s:on_filetype_c() abort
 	"syn match Type "([a-zA-Z0-9_ 	*]*\zs\<\h\w*\ze[ 	\n]*)[ 	\n]*{"
 	syn match Type "^struct[ 	\n]\+\zs\(\<\h\w*\)\ze[ 	\n]\+{"
 
-	setlocal signcolumn=yes
+	setlocal signcolumn=yes fo=qjlr
 	color fuzzy_colors
-	call s:on_change_colorscheme()
+	au! Filetype c call s:on_filetype_c()
+endf
+func! s:on_filetype_c() abort
+	hi link cDefine Define
+	syn keyword Macro true false 
+	syn keyword Conditional case default
+
+	syn match Function "\<\h\w*\>\ze\_s*("
+	syn match Macro "\<[A-Z_][0-9A-Z_]*\>"
+	syn match Type "\(#\s*\)\@<!\<\h\w*\ze[ 	\n*]\+\(\h\w*[ 	\n]*[=;,(){}\[\]]\)"
+	syn match Type "^struct[ 	\n]\+\zs\(\<\h\w*\)\ze[ 	\n]\+{"
+	setlocal signcolumn=yes fo=qjlr
 endf
 
 au BufEnter *.S set filetype=asm
@@ -200,12 +215,11 @@ func! s:on_filetype_asm() abort
 	set ts=8		" tab_stop
 endf
 
-au FileType rust call s:on_filetype_rust()
-func! s:on_filetype_rust() abort
-	set noet
-
+au FileType rust call s:on_filetype_rust_call_once()
+func! s:on_filetype_rust_call_once() abort
 	hi link rustEscape SpecialChar
 
 	setlocal signcolumn=yes
 	color fuzzy_colors
+	au! FileType rust setlocal signcolumn=yes " Call once
 endf
