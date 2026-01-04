@@ -131,7 +131,7 @@ endf
 
 set termguicolors
 syn on
-color rosepine_moon
+color fuzzy_colors
 hi MatchParen guifg=NONE
 
 

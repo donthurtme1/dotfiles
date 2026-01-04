@@ -56,7 +56,7 @@
 		"tooltip": false
 	},
 	"mpd": {
-		"format": " {stateIcon}{album} - {title} ",
+		"format": " {stateIcon}{artist} - {title} ",
 		"state-icons" : {
 			"playing": "",
 			"paused": "Paused: "
