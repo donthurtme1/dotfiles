@@ -56,32 +56,63 @@ let g:vim_man_cmd = '/usr/bin/man'
 let g:asyncomplete_auto_popup = 0
 
 
+" Vimscript "
+let g:vmode_y = ""
+let g:vy_start_line = ""
+let g:vy_start_col = ""
+let g:vy_end_line = ""
+let g:vy_end_col = ""
+func! s:visual_yank() abort
+	let g:vmode_y = visualmode()
+	let g:vy_start_line = line("'<")
+	let g:vy_start_col = virtcol("'<")
+	let g:vy_end_line = line("'>")
+	let g:vy_end_col = virtcol("'>")
+endf
+
+func! s:visual_swap() abort
+	let s:vmode_x = visualmode()
+	let s:vx_start_line = line("'<")
+	let s:vx_start_col = virtcol("'<")
+	let s:vx_end_line = line("'>")
+	let s:vx_end_col = virtcol("'>")
+
+	exec "norm! ".g:vy_start_line."G".g:vy_start_col."|".g:vmode_y.
+				\ g:vy_end_line."G".g:vy_end_col."|p".
+				\ s:vx_start_line."G".s:vx_start_col."|"
+				"\ .s:vmode_x.
+				"\ s:vx_end_line."G".s:vx_end_col."|"
+endf
+
+
 " Mappings "
+imap <C-c> <Esc>
 nmap s <Nop>
 xmap s <Nop>
 xmap sa <Plug>(sandwich-add)
+cnoremap <C-x> \%V
+nnoremap <C-,> <C-w><
+nnoremap <C-.> <C-w>>
 nnoremap <C-=> <C-w>+
 nnoremap <C-_> <C-w>-
-nnoremap <C-.> <C-w>>
-nnoremap <C-,> <C-w><
 nnoremap <C-w><C-c> <C-w><Esc>
-nnoremap <expr> n 'Nn'[v:searchforward]
 nnoremap <expr> N 'nN'[v:searchforward]
-nnoremap <silent> U <CMD>UndotreeToggle<CR>
+nnoremap <expr> n 'Nn'[v:searchforward]
+nnoremap <silent> <C-i> <C-i>
 nnoremap <silent> <Enter> o<Esc>
 nnoremap <silent> <S-Enter> O<Esc>
 nnoremap <silent> <Tab> <CMD>tabn<CR>
-nnoremap <silent> <C-i> <C-i>
+nnoremap <silent> U <CMD>UndotreeToggle<CR>
+vnoremap <silent> <C-x> <CMD>call <SID>visual_yank()<CR>p<CMD>call <SID>visual_swap()<CR>
 
 command! H Help
 command! F Files
 command! B Buffers
-imap <C-c> <Esc>
 
 
 " Colour "
-au ColorScheme * call s:on_change_colorscheme()
-func! s:on_change_colorscheme() abort
+au ColorScheme * call s:edit_colorscheme()
+func! s:edit_colorscheme() abort
 	if g:colors_name == 'rosepine_moon'
 		hi Normal guibg=#232136
 		hi NormalCurrentWindow guibg=#232135 guifg=#e0def4
@@ -124,9 +155,19 @@ func! s:on_change_colorscheme() abort
 		hi! CocFloating guibg=#36383f
 		set t_md=""
 	endif
+endf
 
+au ColorScheme * call s:coc_highlight()
+func! s:coc_highlight() abort
 	hi! link CocErrorSign Error
+	hi! link CocErrorFloat Error
 	hi! link CocWarningSign WarningMsg
+	hi! link CocWarningFloat WarningMsg
+
+	hi CocErrorHighlight cterm=underline guisp=#ec6a88
+	hi CocWarningHighlight cterm=underline guisp=#f6c177
+	hi CocMenuSel guibg=#45474e
+	hi clear CocUnderline
 endf
 
 set termguicolors
@@ -160,7 +201,6 @@ func! s:on_winresize() abort
 endf
 
 au User CocNvimInit call s:on_coc_start()
-au BufEnter * call s:on_change_colorscheme()
 func! s:on_coc_start() abort
 	nnoremap gd <Plug>(coc-definition)
 	nnoremap R <Plug>(coc-rename)
@@ -170,34 +210,14 @@ func! s:on_coc_start() abort
 	inoremap <expr> <C-u> coc#pum#visible() ? coc#pum#scroll(0) : "\<C-u>"
 	inoremap <expr> <C-y> coc#pum#visible() ? coc#pum#select_confirm() : coc#start()
 
-	hi! link CocErrorSign Error
-	hi! link CocWarningSign WarningMsg
+	" Fix highlight "
+	call s:coc_highlight()
 endf
 
 au FileType help,netrw setl nu rnu cursorline
-au FileType c call s:on_filetype_c_call_once()
-func! s:on_filetype_c_call_once() abort
-	hi link cDefine Define
-	hi! link CocErrorSign Error
-	hi! link CocWarningSign WarningMsg
-	"hi link cSeparator Operator
-
-	syn keyword Macro true false 
-	syn keyword Conditional case default
-	syn match Function "\<\h\w*\>\ze\_s*("
-	syn match Macro "\<[A-Z_][0-9A-Z_]*\>"
-	"syn match cSeparator "[\(){}\[\],;:?]"
-
-	syn match Type "\(#\s*\)\@<!\<\h\w*\ze[ 	\n*]\+\(\h\w*[ 	\n]*[=;,(){}\[\]]\)"
-	"syn match Type "^\(#\s*\)\@<!.\{-}\(\<\h\w*\)\ze[ 	\n*]\+\(\h\w*[ 	\n]*[=;,(){}\[\]]\)"
-	"syn match Type "([a-zA-Z0-9_ 	*]*\zs\<\h\w*\ze[ 	\n]*)[ 	\n]*{"
-	syn match Type "^struct[ 	\n]\+\zs\(\<\h\w*\)\ze[ 	\n]\+{"
-
-	setlocal signcolumn=yes fo=qjlr
-	color fuzzy_colors
-	au! Filetype c call s:on_filetype_c()
-endf
+au FileType c call s:on_filetype_c()
 func! s:on_filetype_c() abort
+	call s:coc_highlight()
 	hi link cDefine Define
 	syn keyword Macro true false 
 	syn keyword Conditional case default
@@ -215,11 +235,11 @@ func! s:on_filetype_asm() abort
 	set ts=8		" tab_stop
 endf
 
-au FileType rust call s:on_filetype_rust_call_once()
-func! s:on_filetype_rust_call_once() abort
-	hi link rustEscape SpecialChar
+au FileType rust call s:on_filetype_rust()
+func! s:on_filetype_rust() abort
+	call s:coc_highlight()
 
+	hi link rustEscape SpecialChar
 	setlocal signcolumn=yes
-	color fuzzy_colors
 	au! FileType rust setlocal signcolumn=yes " Call once
 endf

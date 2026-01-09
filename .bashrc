@@ -15,7 +15,7 @@ alias c='calculator'
 alias volume='wpctl get-volume @DEFAULT_AUDIO_SINK@'
 alias objdump='objdump -Mintel'
 alias etch='xorriso-dd-target -DO_WRITE -with_sudo -image_file' # etch [image_file] [device_name]
-alias dwl='export XDG_CURRENT_DESKTOP=dwl && dwl'
+alias dwl='dwl > ~/.cache/dwloutput'
 
 alias update-osu='wget https://github.com/ppy/osu/releases/latest/download/osu.AppImage ; mv osu.AppImage /usr/local/bin/osu ; chmod a+x /usr/local/bin/osu'
 

@@ -1,6 +1,7 @@
 {
 	"position": "top",
 	"height": 28,
+	"reload_style_on_change": true,
 	
 	"spacing": 4,
 	"modules-left": [
@@ -30,13 +31,12 @@
 	},
 	"dwl/window#layout": {
 		"format": "[{layout}]",
-		"max-length": 6,
-		"tooltip": "false"
+		"tooltip": false
 	},
 	"dwl/window#title": {
 		"format": "{title} ",
 		"max-length": 32,
-		"tooltip": "false"
+		"tooltip": false
 	},
 
 	"clock": {
@@ -70,6 +70,7 @@
 		"format-wifi": " WIFI {signalStrength}% ",
 		"format-ethernet": " NET {bandwidthTotalBytes} ",
 		"interval": 8,
+		"max-length": 19,
 		"tooltip": false
 	},
 	"wireplumber": {
