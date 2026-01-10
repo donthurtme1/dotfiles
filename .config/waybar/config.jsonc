@@ -9,20 +9,18 @@
 		"custom/sep",
 		"dwl/window#layout",
 		"custom/sep",
-		"dwl/window#title",
-		"custom/sep"
+		"dwl/window#title"
 	],
 	"modules-center": [
-		"clock"
 	],
 	"modules-right": [
 		"custom/sep",
 		"cava",
 		"mpd",
 		"custom/sep",
-		"network",
+		"wireplumber",
 		"custom/sep",
-		"wireplumber"
+		"clock"
 	],
 
 	"dwl/tags": {
@@ -35,12 +33,11 @@
 	},
 	"dwl/window#title": {
 		"format": "{title} ",
-		"max-length": 32,
 		"tooltip": false
 	},
 
-	"clock": {
-		"format": "{:%a %d %b %Y - %R %Z} ",
+	"custom/dwlclients": {
+		"exec": "$(HOME)/scripts/waybar-dwlclients.sh",
 		"tooltip": false
 	},
 
@@ -74,7 +71,11 @@
 		"tooltip": false
 	},
 	"wireplumber": {
-		"format": " VOL {volume}%  ",
+		"format": "VOL {volume}%",
+		"tooltip": false
+	},
+	"clock": {
+		"format": "{:%a %d/%m/%y - %R %Z} ",
 		"tooltip": false
 	},
 

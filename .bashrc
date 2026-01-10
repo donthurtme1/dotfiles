@@ -15,7 +15,7 @@ alias c='calculator'
 alias volume='wpctl get-volume @DEFAULT_AUDIO_SINK@'
 alias objdump='objdump -Mintel'
 alias etch='xorriso-dd-target -DO_WRITE -with_sudo -image_file' # etch [image_file] [device_name]
-alias dwl='dwl > ~/.cache/dwloutput'
+alias dwl='XDG_CURRENT_DESKTOP=dwl dwl > ~/.cache/dwloutput'
 
 alias update-osu='wget https://github.com/ppy/osu/releases/latest/download/osu.AppImage ; mv osu.AppImage /usr/local/bin/osu ; chmod a+x /usr/local/bin/osu'
 
@@ -65,32 +65,25 @@ function cd() {
  \t \[\e[35m\]\u@\h $(parse_git_branch)\[\e[34m\]\w \[\e[35m\]  \[\e[0m\]"
 }
 
-if [ "$TERM" = "linux" ]; then
-	if [ "${tty}" = "/dev/tty1" ]; then
+if [[ "$TERM" = "linux" ]]; then
+	if [[ "${tty}" = "/dev/tty1" ]]; then
 		exec dwl &
 	fi
 
-	echo -en "\e]P01e1a32" #black
-	echo -en "\e]P856526e" #darkgrey
-
+	#echo -en "\e]P01e1a32" #black
+	#echo -en "\e]P856526e" #darkgrey
 	echo -en "\e]P1eb6f9a" #darkred
 	echo -en "\e]P9eb6f92" #red
-
    	echo -en "\e]P23e8fb0" #darkgreen
    	echo -en "\e]PA3e8fb0" #green
-
    	echo -en "\e]P3f6c177" #darkyellow
    	echo -en "\e]PBf6c177" #yellow
-
 	echo -en "\e]P49ccfd8" #darkblue
 	echo -en "\e]PC9ccfd8" #blue
-
 	echo -en "\e]P5c4a7e7" #darkmageneta
 	echo -en "\e]PDc4a7e7" #magenta
-
    	echo -en "\e]P64960af" #darkcyan
    	echo -en "\e]PE4960af" #cyan
-
    	echo -en "\e]P7aca7cc" #lightgrey
    	echo -en "\e]PFe0def4" #white
 
