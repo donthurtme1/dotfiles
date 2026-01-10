@@ -84,10 +84,15 @@ func! s:visual_swap() abort
 				"\ s:vx_end_line."G".s:vx_end_col."|"
 endf
 
+func! s:yank_line(reg) abort
+	exec "norm! _\"".a:reg."y$"
+endf
+
 
 " Mappings "
 imap <C-c> <Esc>
 nmap s <Nop>
+"nmap <expr> Y ":echo ".<reg>
 xmap s <Nop>
 xmap sa <Plug>(sandwich-add)
 cnoremap <C-x> \%V
@@ -242,4 +247,15 @@ func! s:on_filetype_rust() abort
 	hi link rustEscape SpecialChar
 	setlocal signcolumn=yes
 	au! FileType rust setlocal signcolumn=yes " Call once
+endf
+
+au BufWinEnter * call s:check_read_stdin()
+func! s:check_read_stdin() abort
+	if get(v:argv, len(v:argv) - 1, '') == '-'
+		set syntax=pager
+		AnsiEsc
+		setlocal nowrap
+	endif
+	" XXX Call only once "
+	au! BufWinEnter * call s:check_read_stdin()
 endf
