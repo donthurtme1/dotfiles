@@ -92,7 +92,7 @@ endf
 " Mappings "
 imap <C-c> <Esc>
 nmap s <Nop>
-"nmap <expr> Y ":echo ".<reg>
+nmap Y _"wy$
 xmap s <Nop>
 xmap sa <Plug>(sandwich-add)
 cnoremap <C-x> \%V
@@ -255,7 +255,21 @@ func! s:check_read_stdin() abort
 		set syntax=pager
 		AnsiEsc
 		setlocal nowrap
+
+		nmap <buffer> <silent> yy :call <SID>yank_commit_hash()<CR>
+		func! s:yank_commit_hash() abort
+			let s:lnum = line(".")
+			let s:column = getpos(".")[2]
+			call cursor(s:lnum, 1)
+			if search("\\x\\{7}\\>", "c", s:lnum) == 0
+				echo "No commit hash in current line"
+				call cursor(s:lnum, s:column)
+				return
+			endif
+			echo 
+			norm! "wye
+		endf
 	endif
 	" XXX Call only once "
-	au! BufWinEnter * call s:check_read_stdin()
+	au! BufWinEnter
 endf
