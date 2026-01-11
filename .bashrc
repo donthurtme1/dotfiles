@@ -26,9 +26,10 @@ function git {
 	shift
 	extra=""
 	if [[ "$cmd" == "log" ]]; then
-		extra="--graph --oneline"
+		"`which git`" "$cmd" --graph --oneline "$@"
+	else
+		"`which git`" "$cmd" "$@"
 	fi
-	"`which git`" "$cmd" "$@"
 }
 
 function fd() {
