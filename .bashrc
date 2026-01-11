@@ -8,7 +8,6 @@ alias cbonsai="cbonsai -c'&'"
 alias mplayer='mplayer -msgcolor'
 alias mv='mv -i'
 alias rm='rm'
-alias ggraph='git log --graph --oneline --all'
 
 alias webcord='webcord --enable-features=UseOzonePlatform --ozone-platform=wayland'
 alias c='calculator'
@@ -22,6 +21,16 @@ alias update-osu='wget https://github.com/ppy/osu/releases/latest/download/osu.A
 alias fe='export FZF_DEFAULT_COMMAND="rg --files /bin /usr/local/bin" ; $(fzf) ; export FZF_DEFAULT_COMMAND="rg --files --hidden"' # find executable
 alias ef='$EDITOR $(fzf)' # edit file
 #alias ls='export FZF_DEFAULT_COMMAND="ls -F" ; $(fzf) ; export FZF_DEFAULT_COMMAND="rg --files --hidden"'
+
+function git {
+	cmd=$1
+	shift
+	extra=""
+	if [[ "$cmd" == "log" ]]; then
+		extra="--graph"
+	fi
+	"`which git`" "$cmd" "$@"
+}
 
 function fd() {
 	export FZF_DEFAULT_COMMAND="tree -ifdFtr ${1}"
@@ -111,6 +120,6 @@ export FZF_DEFAULT_COMMAND='rg --files --hidden'
 export FZF_DEFAULT_OPTS='--no-unicode --height=18 --algo=v2 --prompt=\ fzf\ \  --highlight-line --color=bw,fg:-1,hl:2:regular,pointer:4,prompt:2,current-fg:-1:regular:bold,current-bg:#44415a,current-hl:2:regular:bold'
 export BAT_THEME='rosepinetwo'
 export QT_QPA_PLATFORM=xcb
-export PAGER="vim -R -"
+#export PAGER="vim -R -"
 export MANPAGER="vim +MANPAGER --not-a-term -"
 export WINEPREFIX="$HOME/.wine"

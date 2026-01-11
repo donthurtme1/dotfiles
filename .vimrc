@@ -270,6 +270,7 @@ func! s:check_read_stdin() abort
 			norm! "wye
 		endf
 	endif
+	" TODO: fix slow to move on to line with git hash (with j/k)
 	" XXX Call only once "
 	au! BufWinEnter
 endf
