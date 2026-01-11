@@ -4,7 +4,6 @@ alias ls='ls --color=always'
 alias grep='grep --color=always'
 alias less='less -R'
 alias cbonsai="cbonsai -c'&'"
-#alias man='batman --nh'
 alias mplayer='mplayer -msgcolor'
 alias mv='mv -i'
 alias rm='rm'
@@ -120,6 +119,6 @@ export FZF_DEFAULT_COMMAND='rg --files --hidden'
 export FZF_DEFAULT_OPTS='--no-unicode --height=18 --algo=v2 --prompt=\ fzf\ \  --highlight-line --color=bw,fg:-1,hl:2:regular,pointer:4,prompt:2,current-fg:-1:regular:bold,current-bg:#44415a,current-hl:2:regular:bold'
 export BAT_THEME='rosepinetwo'
 export QT_QPA_PLATFORM=xcb
-#export PAGER="vim -R -"
+export PAGER="~/scripts/my_pager.sh"
 export MANPAGER="vim +MANPAGER --not-a-term -"
 export WINEPREFIX="$HOME/.wine"
