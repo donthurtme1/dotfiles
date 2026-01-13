@@ -255,6 +255,7 @@ func! s:check_read_stdin() abort
 		set syntax=pager
 		AnsiEsc
 		setlocal nowrap
+		setlocal concealcursor=nvic
 
 		nmap <buffer> <silent> yy :call <SID>yank_commit_hash()<CR>
 		func! s:yank_commit_hash() abort
