@@ -11,18 +11,24 @@
 	"modules-left": [
 		"dwl/tags",
 		"dwl/window#layout",
+		"custom/sep",
 		"custom/sep"
 	],
 	"modules-center": [
 		"custom/dwlfocus0",
 		"custom/dwlfocus1",
 		"custom/dwlfocus2",
-		"custom/dwlfocus3"
+		"custom/dwlfocus3",
+		"custom/dwlfocus4",
+		"custom/dwlfocus5",
+		"custom/dwlfocus6",
+		"custom/dwlfocus7"
 	],
 	"modules-right": [
 		"custom/sep",
-		"mpd",
 		"custom/sep",
+		/*"mpd",
+		"custom/sep",*/
 		"wireplumber",
 		"custom/sep",
 		"clock"
@@ -38,42 +44,42 @@
 	},
 
 	"custom/dwlfocus0": {
-		"exec": "$HOME/scripts/focusmon2.sh DP-1 0",
+		"exec": "waybar-dwltabs $HOME/.cache/dwloutput DP-1 0",
 		"return-type": "json", "format": "{text}",
 		"restart-interval": 1, "expand": true, "tooltip": false
 	},
 	"custom/dwlfocus1": {
-		"exec": "$HOME/scripts/focusmon2.sh DP-1 1",
+		"exec": "waybar-dwltabs $HOME/.cache/dwloutput DP-1 1",
 		"return-type": "json", "format": "{text}",
 		"restart-interval": 1, "expand": true, "tooltip": false
 	},
 	"custom/dwlfocus2": {
-		"exec": "$HOME/scripts/focusmon2.sh DP-1 2",
+		"exec": "waybar-dwltabs $HOME/.cache/dwloutput DP-1 2",
 		"return-type": "json", "format": "{text}",
 		"restart-interval": 1, "expand": true, "tooltip": false
 	},
 	"custom/dwlfocus3": {
-		"exec": "$HOME/scripts/focusmon2.sh DP-1 3",
+		"exec": "waybar-dwltabs $HOME/.cache/dwloutput DP-1 3",
 		"return-type": "json", "format": "{text}",
 		"restart-interval": 1, "expand": true, "tooltip": false
 	},
 	"custom/dwlfocus4": {
-		"exec": "$HOME/scripts/focusmon2.sh DP-1 4",
+		"exec": "waybar-dwltabs $HOME/.cache/dwloutput DP-1 4",
 		"return-type": "json", "format": "{text}",
 		"restart-interval": 1, "expand": true, "tooltip": false
 	},
 	"custom/dwlfocus5": {
-		"exec": "$HOME/scripts/focusmon2.sh DP-1 5",
+		"exec": "waybar-dwltabs $HOME/.cache/dwloutput DP-1 5",
 		"return-type": "json", "format": "{text}",
 		"restart-interval": 1, "expand": true, "tooltip": false
 	},
 	"custom/dwlfocus6": {
-		"exec": "$HOME/scripts/focusmon2.sh DP-1 6",
+		"exec": "waybar-dwltabs $HOME/.cache/dwloutput DP-1 6",
 		"return-type": "json", "format": "{text}",
 		"restart-interval": 1, "expand": true, "tooltip": false
 	},
 	"custom/dwlfocus7": {
-		"exec": "$HOME/scripts/focusmon2.sh DP-1 7",
+		"exec": "waybar-dwltabs $HOME/.cache/dwloutput DP-1 7",
 		"return-type": "json", "format": "{text}",
 		"restart-interval": 1, "expand": true, "tooltip": false
 	},
@@ -138,18 +144,24 @@
 	"modules-left": [
 		"dwl/tags",
 		"dwl/window#layout",
+		"custom/sep",
 		"custom/sep"
 	],
 	"modules-center": [
 		"custom/dwlfocus0",
 		"custom/dwlfocus1",
 		"custom/dwlfocus2",
-		"custom/dwlfocus3"
+		"custom/dwlfocus3",
+		"custom/dwlfocus4",
+		"custom/dwlfocus5",
+		"custom/dwlfocus6",
+		"custom/dwlfocus7"
 	],
 	"modules-right": [
 		"custom/sep",
-		"mpd",
 		"custom/sep",
+		/*"mpd",
+		"custom/sep",*/
 		"wireplumber",
 		"custom/sep",
 		"clock"
@@ -165,42 +177,42 @@
 	},
 
 	"custom/dwlfocus0": {
-		"exec": "$HOME/scripts/focusmon2.sh HDMI-A-1 0",
+		"exec": "waybar-dwltabs $HOME/.cache/dwloutput HDMI-A-1 0",
 		"return-type": "json", "format": "{text}",
 		"restart-interval": 1, "expand": true, "tooltip": false
 	},
 	"custom/dwlfocus1": {
-		"exec": "$HOME/scripts/focusmon2.sh HDMI-A-1 1",
+		"exec": "waybar-dwltabs $HOME/.cache/dwloutput HDMI-A-1 1",
 		"return-type": "json", "format": "{text}",
 		"restart-interval": 1, "expand": true, "tooltip": false
 	},
 	"custom/dwlfocus2": {
-		"exec": "$HOME/scripts/focusmon2.sh HDMI-A-1 2",
+		"exec": "waybar-dwltabs $HOME/.cache/dwloutput HDMI-A-1 2",
 		"return-type": "json", "format": "{text}",
 		"restart-interval": 1, "expand": true, "tooltip": false
 	},
 	"custom/dwlfocus3": {
-		"exec": "$HOME/scripts/focusmon2.sh HDMI-A-1 3",
+		"exec": "waybar-dwltabs $HOME/.cache/dwloutput HDMI-A-1 3",
 		"return-type": "json", "format": "{text}",
 		"restart-interval": 1, "expand": true, "tooltip": false
 	},
 	"custom/dwlfocus4": {
-		"exec": "$HOME/scripts/focusmon2.sh HDMI-A-1 4",
+		"exec": "waybar-dwltabs $HOME/.cache/dwloutput HDMI-A-1 4",
 		"return-type": "json", "format": "{text}",
 		"restart-interval": 1, "expand": true, "tooltip": false
 	},
 	"custom/dwlfocus5": {
-		"exec": "$HOME/scripts/focusmon2.sh HDMI-A-1 5",
+		"exec": "waybar-dwltabs $HOME/.cache/dwloutput HDMI-A-1 5",
 		"return-type": "json", "format": "{text}",
 		"restart-interval": 1, "expand": true, "tooltip": false
 	},
 	"custom/dwlfocus6": {
-		"exec": "$HOME/scripts/focusmon2.sh HDMI-A-1 6",
+		"exec": "waybar-dwltabs $HOME/.cache/dwloutput HDMI-A-1 6",
 		"return-type": "json", "format": "{text}",
 		"restart-interval": 1, "expand": true, "tooltip": false
 	},
 	"custom/dwlfocus7": {
-		"exec": "$HOME/scripts/focusmon2.sh HDMI-A-1 7",
+		"exec": "waybar-dwltabs $HOME/.cache/dwloutput HDMI-A-1 7",
 		"return-type": "json", "format": "{text}",
 		"restart-interval": 1, "expand": true, "tooltip": false
 	},

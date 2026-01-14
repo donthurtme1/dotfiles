@@ -30,7 +30,7 @@ set autowriteall noequalalways
 set cpoptions+=n
 set undodir=$HOME/.vim/undodir undofile
 set ssop=buffers,curdir,folds,help,tabpages,winsize
-set ttyscroll=0
+set ttyscroll=0 title
 filetype on
 
 " folding "
