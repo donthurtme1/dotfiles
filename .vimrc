@@ -27,7 +27,7 @@ set viewoptions=cursor,slash,unix
 set viminfo='256,<256,%64
 set incsearch ignorecase
 set autowriteall noequalalways
-set cpoptions+=n
+set cpoptions-=z
 set undodir=$HOME/.vim/undodir undofile
 set ssop=buffers,curdir,folds,help,tabpages,winsize
 set ttyscroll=0 title
