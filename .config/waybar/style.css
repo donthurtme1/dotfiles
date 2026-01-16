@@ -61,6 +61,7 @@ window#waybar {
 #custom-dwlfocus6.focused,
 #custom-dwlfocus7.focused {
 	margin: 4px 0px;
+	padding-top: 2px;
 
 	border-style: solid;
 	border-width: 2px;
