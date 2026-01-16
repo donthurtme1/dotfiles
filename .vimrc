@@ -210,10 +210,12 @@ func! s:on_coc_start() abort
 	nnoremap gd <Plug>(coc-definition)
 	nnoremap R <Plug>(coc-rename)
 	nnoremap <silent> <C-c> :call coc#float#close_all(0)<CR>
-	nnoremap <expr> K CocHasProvider('hover') ? CocActionAsync('definitionHover') : "K"
+	nnoremap <expr> K CocHasProvider('hover') ? CocAction('definitionHover') : "K"
 	inoremap <expr> <C-d> coc#pum#visible() ? coc#pum#scroll(1) : "\<C-d>"
 	inoremap <expr> <C-u> coc#pum#visible() ? coc#pum#scroll(0) : "\<C-u>"
 	inoremap <expr> <C-y> coc#pum#visible() ? coc#pum#select_confirm() : coc#start()
+	inoremap <expr> <C-l> "<CMD>call CocAction('showSignatureHelp')<CR>"
+	inoremap <expr> <C-h> coc#float#has_float() ? coc#float#close_all(1) : "<CMD>call CocAction('showSignatureHelp')<CR>"
 
 	" Fix highlight "
 	call s:coc_highlight()
