@@ -7,6 +7,7 @@ alias cbonsai="cbonsai -c'&'"
 alias mplayer='mplayer -msgcolor'
 alias mv='mv -i'
 alias rm='rm'
+alias hexedit='hexedit --color'
 
 alias webcord='webcord --enable-features=UseOzonePlatform --ozone-platform=wayland'
 alias c='calculator'
