@@ -209,8 +209,8 @@ au User CocNvimInit call s:on_coc_start()
 func! s:on_coc_start() abort
 	nnoremap gd <Plug>(coc-definition)
 	nnoremap R <Plug>(coc-rename)
-	nnoremap <silent> <C-c> :call coc#float#close_all(0)<CR>
-	nnoremap <expr> K CocHasProvider('hover') ? CocAction('definitionHover') : "K"
+	nnoremap <silent> <C-c> <CMD>call coc#float#close_all(0)<CR>
+	nnoremap <expr> K CocHasProvider('hover') ? "<CMD>call CocAction('definitionHover')<CR>" : "K"
 	inoremap <expr> <C-d> coc#pum#visible() ? coc#pum#scroll(1) : "\<C-d>"
 	inoremap <expr> <C-u> coc#pum#visible() ? coc#pum#scroll(0) : "\<C-u>"
 	inoremap <expr> <C-y> coc#pum#visible() ? coc#pum#select_confirm() : coc#start()
