@@ -95,14 +95,14 @@ nmap s <Nop>
 nmap Y _"wy$
 xmap s <Nop>
 xmap sa <Plug>(sandwich-add)
+noremap <expr> N 'nN'[v:searchforward]
+noremap <expr> n 'Nn'[v:searchforward]
 cnoremap <C-x> \%V
 nnoremap <C-,> <C-w><
 nnoremap <C-.> <C-w>>
 nnoremap <C-=> <C-w>+
 nnoremap <C-_> <C-w>-
 nnoremap <C-w><C-c> <C-w><Esc>
-nnoremap <expr> N 'nN'[v:searchforward]
-nnoremap <expr> n 'Nn'[v:searchforward]
 nnoremap <silent> <C-i> <C-i>
 nnoremap <silent> <Enter> o<Esc>
 nnoremap <silent> <S-Enter> O<Esc>
