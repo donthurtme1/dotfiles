@@ -155,6 +155,7 @@ func! s:edit_colorscheme() abort
 	endif
 
 	if g:colors_name == 'fuzzy_colors'
+		hi CursorLine guibg=#1c1e26
 		hi Search guifg=#eb6f92 guibg=#272c42
 		hi IncSearch guifg=#272c42 guibg=#eb6f92 cterm=NONE
 		hi! CocFloating guibg=#36383f
@@ -179,6 +180,9 @@ set termguicolors
 syn on
 color fuzzy_colors
 hi MatchParen guifg=NONE
+hi link CursorLineSign CursorLineNr
+hi link CursorLineFold CursorLineNr
+hi link Folded CursorLineNr
 
 
 " Autocommands "
@@ -239,7 +243,7 @@ endf
 au BufEnter *.S set filetype=asm
 au FileType asm call s:on_filetype_asm()
 func! s:on_filetype_asm() abort
-	set ts=8		" tab_stop
+	setlocal ts=8		" tab_stop
 endf
 
 au FileType rust call s:on_filetype_rust()
