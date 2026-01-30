@@ -52,29 +52,20 @@ function parse_git_branch() {
 	fi
 }
 
-PS1='\[\e[31m\]  \[\e[37m\] \t\[\e[34m\] \w\[\e[1;35m\]  \[\e[0m\] '
-PS1="
-  ᥥ ᥥ      ︵o︵
-(◜o̴̶̷̤⩊o̴̶̷̤◝)   (＿*＿)  UNA!!!
- ́(   ) ̀   ̀/◟o̴̶̷̤^o̴̶̷̤◞\\ ́
-  ˇ ˇ       U U
- \t \[\e[35m\]\u@\h \[\e[34m\]\w \[\e[35m\]  \[\e[0m\]"
-PS1="
-    ∧,,∧
-   ( . .)
-   /   |   /￣￣￣/
-乀(ˍ U U＿/＿＿＿/
- \t \[\e[35m\]\u@\h $(parse_git_branch)\[\e[34m\]\w \[\e[35m\]  \[\e[0m\]"
 
-function cd() {
-	builtin cd "$@"
-	export PS1="
+#PS1='\[\e[31m\]  \[\e[37m\] \t\[\e[34m\] \w\[\e[1;35m\]  \[\e[0m\] '
+#PS1="
+#  ᥥ ᥥ      ︵o︵
+#(◜o̴̶̷̤⩊o̴̶̷̤◝)   (＿*＿)  UNA!!!
+# ́(   ) ̀   ̀/◟o̴̶̷̤^o̴̶̷̤◞\\ ́
+#  ˇ ˇ       U U
+# \t \[\e[35m\]\u@\h \[\e[34m\]\w \[\e[35m\]  \[\e[0m\]"
+REM_PS1="
     ∧,,∧
    ( . .)
    /   |   /￣￣￣/
 乀(ˍ U U＿/＿＿＿/
  \t \[\e[35m\]\u@\h $(parse_git_branch)\[\e[34m\]\w \[\e[35m\]  \[\e[0m\]"
-}
 
 if [[ "$TERM" = "linux" ]]; then
 	if [[ "${tty}" = "/dev/tty1" ]]; then
@@ -100,8 +91,8 @@ if [[ "$TERM" = "linux" ]]; then
 
 	clear #for background artifacting
 
-	PS1='\[\e[31m\] <3\[\e[1;37m\] \t\[\e[34m\] \w\[\e[1;35m\] >\[\e[0m\] '
-	PS1="\[\e[1m\]
+	#PS1='\[\e[31m\] <3\[\e[1;37m\] \t\[\e[34m\] \w\[\e[1;35m\] >\[\e[0m\] '
+	REM_PS1="\[\e[1m\]
    /\\/\\ 
   ( . .)   _______
   /   |   /      /
@@ -115,6 +106,12 @@ if [[ "$TERM" = "linux" ]]; then
 	export LESS_TERMCAP_so=$'\e[0;30;41m'
 	export LESS_TERMCAP_se=$'\e[0m'
 fi
+
+PS1="$REM_PS1"
+function cd() {
+	builtin cd "$@"
+	export PS1="$REM_PS1"
+}
 
 export EDITOR='vim'
 export WLR_RENDERER='vulkan'
