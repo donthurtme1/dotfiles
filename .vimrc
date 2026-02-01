@@ -95,6 +95,8 @@ nmap s <Nop>
 nmap Y _"wy$
 xmap s <Nop>
 xmap sa <Plug>(sandwich-add)
+"TODO: fix sandwich delete
+xmap sd <Plug>(sandwich-delete)
 noremap <expr> N 'nN'[v:searchforward]
 noremap <expr> n 'Nn'[v:searchforward]
 cnoremap <C-x> \%V
@@ -214,12 +216,16 @@ func! s:on_coc_start() abort
 	nnoremap gd <Plug>(coc-definition)
 	nnoremap R <Plug>(coc-rename)
 	nnoremap <silent> <C-c> <CMD>call coc#float#close_all(0)<CR>
-	nnoremap <expr> K CocHasProvider('hover') ? "<CMD>call CocAction('definitionHover')<CR>" : "K"
+	nnoremap <expr> K CocHasProvider('hover') ?
+					\ "<CMD>call CocAction('definitionHover')<CR>" : "K"
+
 	inoremap <expr> <C-d> coc#pum#visible() ? coc#pum#scroll(1) : "\<C-d>"
 	inoremap <expr> <C-u> coc#pum#visible() ? coc#pum#scroll(0) : "\<C-u>"
 	inoremap <expr> <C-y> coc#pum#visible() ? coc#pum#select_confirm() : coc#start()
-	inoremap <expr> <C-l> "<CMD>call CocAction('showSignatureHelp')<CR>"
-	inoremap <expr> <C-h> coc#float#has_float() ? coc#float#close_all(1) : "<CMD>call CocAction('showSignatureHelp')<CR>"
+
+	inoremap <expr> <C-h> coc#float#has_float() ?
+						\ coc#float#close_all(1) :
+						\ "<CMD>call CocAction('showSignatureHelp')<CR>"
 
 	" Fix highlight "
 	call s:coc_highlight()
@@ -235,15 +241,20 @@ func! s:on_filetype_c() abort
 
 	syn match Function "\<\h\w*\>\ze\_s*("
 	syn match Macro "\<[A-Z_][0-9A-Z_]*\>"
+
+	"typecast
+	syn match Type "\(\(\<\h\w*\s\+\)\@<!(\s*\(\(struct\|enum\)\s*\)\?\)\@<=\h\w*\ze\s*\**)"
+	"struct/enum definition
+	syn match Type "\(\(struct\|enum\)\s\+\)\@<=\h\w*\ze[ 	\n]*{"
+	"function arg type
 	syn match Type "\(#\s*\)\@<!\<\h\w*\ze[ 	\n*]\+\(\h\w*[ 	\n]*[=;,(){}\[\]]\)"
-	syn match Type "^struct[ 	\n]\+\zs\(\<\h\w*\)\ze[ 	\n]\+{"
 	setlocal signcolumn=yes fo=qjlr
 endf
 
 au BufEnter *.S set filetype=asm
 au FileType asm call s:on_filetype_asm()
 func! s:on_filetype_asm() abort
-	setlocal ts=8		" tab_stop
+	"setlocal ts=8		" tab_stop
 endf
 
 au FileType rust call s:on_filetype_rust()
