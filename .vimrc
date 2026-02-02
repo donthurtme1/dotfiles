@@ -244,9 +244,9 @@ func! s:on_filetype_c() abort
 	syn match Macro "\<[A-Z_][0-9A-Z_]*\>"
 
 	" variable or function definition
-	syn match Type "\v((\_^|;|\(|,)\_s*((const|static|struct|extern|register)\_s+)*)@<=\h\w*\ze[ \t\n*]+\h\w*"
+	syn match Type "\v((\_^|;|\(|,)\_s*((const|static|struct|enum|extern|register)\_s+)*)@<=\h\w*\ze[ \t\n*]+\h\w*"
 	" typecast
-	syn match Type "\v((\<\h\w*\s*)@<!\(\s*((struct|enum)\s*)?)@<=\h\w*\ze\s*\**\)"
+	syn match Type "\v((<\h\w*\s*)@<!\(\s*((const|static|struct|enum|extern|register)\_s+)*)@<=\h\w*\ze\s*\**\)"
 	syn match Type "\v(return\s+\()@<=\h\w*\ze\s*\**\)"
 	" struct/enum definition
 	syn match Type "\v((struct|enum)\_s+)@<=\h\w*\ze\_s*\{"
