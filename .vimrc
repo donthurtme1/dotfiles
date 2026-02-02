@@ -238,16 +238,21 @@ func! s:on_filetype_c() abort
 	hi link cDefine Define
 	syn keyword Macro true false 
 	syn keyword Conditional case default
+	syn keyword Todo contained NOTE
 
-	syn match Function "\<\h\w*\>\ze\_s*("
+	syn match Function "\<\h\w*\ze\_s*("
 	syn match Macro "\<[A-Z_][0-9A-Z_]*\>"
 
-	"typecast
-	syn match Type "\(\(\<\h\w*\s\+\)\@<!(\s*\(\(struct\|enum\)\s*\)\?\)\@<=\h\w*\ze\s*\**)"
-	"struct/enum definition
-	syn match Type "\(\(struct\|enum\)\s\+\)\@<=\h\w*\ze[ 	\n]*{"
-	"function arg type
-	syn match Type "\(#\s*\)\@<!\<\h\w*\ze[ 	\n*]\+\(\h\w*[ 	\n]*[=;,(){}\[\]]\)"
+	" variable or function definition
+	syn match Type "\v((\_^|;|\(|,)\_s*((const|static|struct|extern|register)\_s+)*)@<=\h\w*\ze[ \t\n*]+\h\w*"
+	" typecast
+	syn match Type "\v((\<\h\w*\s*)@<!\(\s*((struct|enum)\s*)?)@<=\h\w*\ze\s*\**\)"
+	syn match Type "\v(return\s+\()@<=\h\w*\ze\s*\**\)"
+	" struct/enum definition
+	syn match Type "\v((struct|enum)\_s+)@<=\h\w*\ze\_s*\{"
+	"syn match Type "\(typedef\_s\+\(struct\|enum\)\_s\+\<\h\w*\_s*{\_.\{-}}\_s\)\@<=\<\h\w*\ze\_s*;"
+	" function type
+	"syn match Type "\(#\s*\)\@<!\<\h\w*\ze\_s\+\(\h\w*\_s*[=;,(){}\[\]]\)"
 	setlocal signcolumn=yes fo=qjlr
 endf
 
