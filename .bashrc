@@ -97,7 +97,7 @@ if [[ "$TERM" = "linux" ]]; then
   ( . .)   _______
   /   |   /      /
 \\(ˍ U U__/______/
- \t \[\e[35m\]\u@\h \[\e[34m\]\w \[\e[35m\]>  \[\e[0m\]"
+ \t \[\e[35m\]\u@\h $(parse_git_branch)\[\e[34m\]\w \[\e[35m\]>  \[\e[0m\]"
 
 	export LESS_TERMCAP_mb=$'\e[1;31m'
 	export LESS_TERMCAP_me=$'\e[0m'
