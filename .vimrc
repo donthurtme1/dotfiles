@@ -185,6 +185,7 @@ hi MatchParen guifg=NONE
 hi link CursorLineSign CursorLineNr
 hi link CursorLineFold CursorLineNr
 hi link Folded CursorLineNr
+hi Todo guibg=#1c1e26
 
 
 " Autocommands "
