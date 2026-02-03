@@ -54,18 +54,17 @@ function parse_git_branch() {
 
 
 #PS1='\[\e[31m\]  \[\e[37m\] \t\[\e[34m\] \w\[\e[1;35m\]  \[\e[0m\] '
-#PS1="
-#  ᥥ ᥥ      ︵o︵
-#(◜o̴̶̷̤⩊o̴̶̷̤◝)   (＿*＿)  UNA!!!
-# ́(   ) ̀   ̀/◟o̴̶̷̤^o̴̶̷̤◞\\ ́
-#  ˇ ˇ       U U
-# \t \[\e[35m\]\u@\h \[\e[34m\]\w \[\e[35m\]  \[\e[0m\]"
-REM_PS1="
+USAGI="
+  ᥥ ᥥ      ︵o︵
+(◜o̴̶̷̤⩊o̴̶̷̤◝)   (＿*＿)  UNA!!!
+ ́(   ) ̀   ̀/◟o̴̶̷̤^o̴̶̷̤◞\\ ́
+  ˇ ˇ       U U"
+CAT="
     ∧,,∧
    ( . .)
    /   |   /￣￣￣/
-乀(ˍ U U＿/＿＿＿/
- \t \[\e[35m\]\u@\h $(parse_git_branch)\[\e[34m\]\w \[\e[35m\]  \[\e[0m\]"
+乀(ˍ U U＿/＿＿＿/"
+PROMPT_ARROW=" "
 
 if [[ "$TERM" = "linux" ]]; then
 	if [[ "${tty}" = "/dev/tty1" ]]; then
@@ -92,12 +91,11 @@ if [[ "$TERM" = "linux" ]]; then
 	clear #for background artifacting
 
 	#PS1='\[\e[31m\] <3\[\e[1;37m\] \t\[\e[34m\] \w\[\e[1;35m\] >\[\e[0m\] '
-	REM_PS1="\[\e[1m\]
+	CAT="\[\e[1m\]
    /\\/\\ 
   ( . .)   _______
   /   |   /      /
-\\(ˍ U U__/______/
- \t \[\e[35m\]\u@\h $(parse_git_branch)\[\e[34m\]\w \[\e[35m\]>  \[\e[0m\]"
+\\(ˍ U U__/______/"
 
 	export LESS_TERMCAP_mb=$'\e[1;31m'
 	export LESS_TERMCAP_me=$'\e[0m'
@@ -107,10 +105,12 @@ if [[ "$TERM" = "linux" ]]; then
 	export LESS_TERMCAP_se=$'\e[0m'
 fi
 
-PS1="$REM_PS1"
+PS1="$CAT
+ \t \[\e[35m\]\u@\h $(parse_git_branch)\[\e[34m\]\w \[\e[35m\]$PROMPT_ARROW \[\e[0m\]"
 function cd() {
 	builtin cd "$@"
-	export PS1="$REM_PS1"
+	export PS1="$CAT
+ \t \[\e[35m\]\u@\h $(parse_git_branch)\[\e[34m\]\w \[\e[35m\]$PROMPT_ARROW \[\e[0m\]"
 }
 
 export EDITOR='vim'
