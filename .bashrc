@@ -96,6 +96,7 @@ if [[ "$TERM" = "linux" ]]; then
   ( . .)   _______
   /   |   /      /
 \\(ˍ U U__/______/"
+	PROMPT_ARROW="> "
 
 	export LESS_TERMCAP_mb=$'\e[1;31m'
 	export LESS_TERMCAP_me=$'\e[0m'
