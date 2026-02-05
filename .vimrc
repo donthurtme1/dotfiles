@@ -110,6 +110,8 @@ nnoremap <silent> <Enter> o<Esc>
 nnoremap <silent> <S-Enter> O<Esc>
 nnoremap <silent> <Tab> <CMD>tabn<CR>
 nnoremap <silent> U <CMD>UndotreeToggle<CR>
+vnoremap > >gv
+vnoremap < <gv
 vnoremap <silent> <C-x> <CMD>call <SID>visual_yank()<CR>p<CMD>call <SID>visual_swap()<CR>
 
 command! H Help
