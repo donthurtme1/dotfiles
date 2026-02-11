@@ -1,4 +1,5 @@
 {
+	"coc.preferences.jumpCommand": "edit",
 	"inlayHint.enable": false,
 	"inlayHint.enableParameter": false,
 	"suggest.autoTrigger": "always",

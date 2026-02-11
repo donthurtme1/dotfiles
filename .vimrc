@@ -216,18 +216,20 @@ endf
 
 au User CocNvimInit call s:on_coc_start()
 func! s:on_coc_start() abort
-	nnoremap gd <Plug>(coc-definition)
 	nnoremap R <Plug>(coc-rename)
+	nnoremap gd <Plug>(coc-definition)
 	nnoremap <silent> <C-c> <CMD>call coc#float#close_all(0)<CR>
 	nnoremap <expr> K CocHasProvider('hover') ?
 					\ "<CMD>call CocAction('definitionHover')<CR>" : "K"
+	nnoremap <expr> gs winheight(0) * 2.5 < winwidth(0) ?
+					\ "<CMD>call CocAction('jumpDefinition', 'vsplit')<CR>" :
+					\ "<CMD>call CocAction('jumpDefinition', 'split')<CR>"
 
 	inoremap <expr> <C-d> coc#pum#visible() ? coc#pum#scroll(1) : "\<C-d>"
 	inoremap <expr> <C-u> coc#pum#visible() ? coc#pum#scroll(0) : "\<C-u>"
 	inoremap <expr> <C-y> coc#pum#visible() ? coc#pum#select_confirm() : coc#start()
 
-	inoremap <expr> <C-h> coc#float#has_float() ?
-						\ coc#float#close_all(1) :
+	inoremap <expr> <C-h> coc#float#has_float() ? coc#float#close_all(1) :
 						\ "<CMD>call CocAction('showSignatureHelp')<CR>"
 
 	" Fix highlight "
@@ -256,7 +258,7 @@ func! s:on_filetype_c() abort
 	"syn match Type "\(typedef\_s\+\(struct\|enum\)\_s\+\<\h\w*\_s*{\_.\{-}}\_s\)\@<=\<\h\w*\ze\_s*;"
 	" function type
 	"syn match Type "\(#\s*\)\@<!\<\h\w*\ze\_s\+\(\h\w*\_s*[=;,(){}\[\]]\)"
-	setlocal signcolumn=yes fo=qjlr
+	"setlocal signcolumn=yes fo=qjlr
 endf
 
 au BufEnter *.S set filetype=asm
