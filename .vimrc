@@ -31,6 +31,7 @@ set cpoptions-=z
 set undodir=$HOME/.vim/undodir undofile
 set ssop=buffers,curdir,folds,help,tabpages,winsize
 set ttyscroll=0 title
+set statusline=%<%f\ %h%m%r%=row:%l,\ col:%v\ \ \ \ \ %L\ lines\ \ \ \ \ %P
 filetype on
 
 " folding "
@@ -184,9 +185,8 @@ set termguicolors
 syn on
 color fuzzy_colors
 hi MatchParen guifg=NONE
-hi link CursorLineSign CursorLineNr
-hi link CursorLineFold CursorLineNr
-hi link Folded CursorLineNr
+" TODO how to make this work
+"hi! link CursorLineFold CursorLineNr
 hi Todo guibg=#1c1e26
 
 
@@ -255,10 +255,11 @@ func! s:on_filetype_c() abort
 	syn match Type "\v(return\s+\()@<=\h\w*\ze\s*\**\)"
 	" struct/enum definition
 	syn match Type "\v((struct|enum)\_s+)@<=\h\w*\ze\_s*\{"
-	"syn match Type "\(typedef\_s\+\(struct\|enum\)\_s\+\<\h\w*\_s*{\_.\{-}}\_s\)\@<=\<\h\w*\ze\_s*;"
-	" function type
-	"syn match Type "\(#\s*\)\@<!\<\h\w*\ze\_s\+\(\h\w*\_s*[=;,(){}\[\]]\)"
-	"setlocal signcolumn=yes fo=qjlr
+
+	noremap <silent> w <CMD>call search("\\a\\+")<CR>
+	noremap <silent> b <CMD>call search("\\a\\+", 'b')<CR>
+	nnoremap <silent> e <CMD>call search("\\a\\+", 'e')<CR>
+	onoremap <silent> e <CMD>call search("\\a\\+.", 'e')<CR>
 endf
 
 au BufEnter *.S set filetype=asm
