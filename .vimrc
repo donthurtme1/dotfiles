@@ -257,10 +257,10 @@ func! s:on_filetype_c() abort
 	" struct/enum definition
 	syn match Type "\v((struct|enum)\_s+)@<=\h\w*\ze\_s*\{"
 
-	noremap <silent> w <CMD>call search("\\a\\+")<CR>
-	noremap <silent> b <CMD>call search("\\a\\+", 'b')<CR>
-	nnoremap <silent> e <CMD>call search("\\a\\+", 'e')<CR>
-	onoremap <silent> e <CMD>call search("\\a\\+.", 'e')<CR>
+	noremap <silent> w <CMD>call search("[0-9A-Za-z]\\+")<CR>
+	noremap <silent> b <CMD>call search("[0-9A-Za-z]\\+", 'b')<CR>
+	nnoremap <silent> e <CMD>call search("[0-9A-Za-z]\\+", 'e')<CR>
+	onoremap <silent> e <CMD>call search("[0-9A-Za-z]\\+.", 'e')<CR>
 endf
 
 au BufEnter *.S set filetype=asm
