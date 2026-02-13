@@ -92,16 +92,15 @@ endf
 
 
 " Mappings "
+map s <Nop>
 imap <C-c> <Esc>
-nmap s <Nop>
-nmap Y _"wy$
-xmap s <Nop>
 xmap sa <Plug>(sandwich-add)
 "TODO: fix sandwich delete
 xmap sd <Plug>(sandwich-delete)
 noremap <expr> N 'nN'[v:searchforward]
 noremap <expr> n 'Nn'[v:searchforward]
 cnoremap <C-x> \%V
+nnoremap Y _"wy$
 nnoremap <C-,> <C-w><
 nnoremap <C-.> <C-w>>
 nnoremap <C-=> <C-w>+
@@ -115,6 +114,11 @@ nnoremap <silent> U <CMD>UndotreeToggle<CR>
 vnoremap > >gv
 vnoremap < <gv
 vnoremap <silent> <C-x> <CMD>call <SID>visual_yank()<CR>p<CMD>call <SID>visual_swap()<CR>
+
+noremap <silent> w <CMD>call search("[0-9A-Za-z]\\+")<CR>
+noremap <silent> b <CMD>call search("[0-9A-Za-z]\\+", 'b')<CR>
+noremap <silent> e <CMD>call search("[0-9A-Za-z]\\+", 'e')<CR>
+omap <silent> e <CMD>norm! ve<CR>
 
 command! H Help
 command! F Files
@@ -256,11 +260,6 @@ func! s:on_filetype_c() abort
 	syn match Type "\v(return\s+\()@<=\h\w*\ze\s*\**\)"
 	" struct/enum definition
 	syn match Type "\v((struct|enum)\_s+)@<=\h\w*\ze\_s*\{"
-
-	noremap <silent> w <CMD>call search("[0-9A-Za-z]\\+")<CR>
-	noremap <silent> b <CMD>call search("[0-9A-Za-z]\\+", 'b')<CR>
-	nnoremap <silent> e <CMD>call search("[0-9A-Za-z]\\+", 'e')<CR>
-	onoremap <silent> e <CMD>call search("[0-9A-Za-z]\\+.", 'e')<CR>
 endf
 
 au BufEnter *.S set filetype=asm
