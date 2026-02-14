@@ -14,16 +14,16 @@
 		"custom/sep",
 		"custom/sep"
 	],
-	"modules-center": [
-		"custom/dwlfocus0",
-		"custom/dwlfocus1",
-		"custom/dwlfocus2",
-		"custom/dwlfocus3",
-		"custom/dwlfocus4",
-		"custom/dwlfocus5",
-		"custom/dwlfocus6",
-		"custom/dwlfocus7"
-	],
+	//"modules-center": [
+	//	"custom/dwlfocus0",
+	//	"custom/dwlfocus1",
+	//	"custom/dwlfocus2",
+	//	"custom/dwlfocus3",
+	//	"custom/dwlfocus4",
+	//	"custom/dwlfocus5",
+	//	"custom/dwlfocus6",
+	//	"custom/dwlfocus7"
+	//],
 	"modules-right": [
 		"custom/sep",
 		"custom/sep",
@@ -42,47 +42,57 @@
 		"format": "[{layout}]",
 		"tooltip": false
 	},
+	"keyboard-state": {
+		"format": " {name} {icon} ",
+		"capslock": true,
+		//"device-path": "/dev/input/by-id/usb-KBDFans_YDKB_KBD8x_MkIII_Keyboard__VIAL_DO6N__vial:f64c2b3c-if02-event-kbd",
+		"format-icons": {
+			"locked": " ON",
+			"unlocked": "OFF"
+		},
+		"tooltip": false
+	},
 
-	"custom/dwlfocus0": {
-		"exec": "waybar-dwltabs $HOME/.cache/dwloutput DP-1 0",
-		"return-type": "json", "format": "{text}",
-		"restart-interval": 1, "expand": true, "tooltip": false
-	},
-	"custom/dwlfocus1": {
-		"exec": "waybar-dwltabs $HOME/.cache/dwloutput DP-1 1",
-		"return-type": "json", "format": "{text}",
-		"restart-interval": 1, "expand": true, "tooltip": false
-	},
-	"custom/dwlfocus2": {
-		"exec": "waybar-dwltabs $HOME/.cache/dwloutput DP-1 2",
-		"return-type": "json", "format": "{text}",
-		"restart-interval": 1, "expand": true, "tooltip": false
-	},
-	"custom/dwlfocus3": {
-		"exec": "waybar-dwltabs $HOME/.cache/dwloutput DP-1 3",
-		"return-type": "json", "format": "{text}",
-		"restart-interval": 1, "expand": true, "tooltip": false
-	},
-	"custom/dwlfocus4": {
-		"exec": "waybar-dwltabs $HOME/.cache/dwloutput DP-1 4",
-		"return-type": "json", "format": "{text}",
-		"restart-interval": 1, "expand": true, "tooltip": false
-	},
-	"custom/dwlfocus5": {
-		"exec": "waybar-dwltabs $HOME/.cache/dwloutput DP-1 5",
-		"return-type": "json", "format": "{text}",
-		"restart-interval": 1, "expand": true, "tooltip": false
-	},
-	"custom/dwlfocus6": {
-		"exec": "waybar-dwltabs $HOME/.cache/dwloutput DP-1 6",
-		"return-type": "json", "format": "{text}",
-		"restart-interval": 1, "expand": true, "tooltip": false
-	},
-	"custom/dwlfocus7": {
-		"exec": "waybar-dwltabs $HOME/.cache/dwloutput DP-1 7",
-		"return-type": "json", "format": "{text}",
-		"restart-interval": 1, "expand": true, "tooltip": false
-	},
+	//"custom/dwlfocus0": {
+	//	"exec": "waybar-dwltabs $HOME/.cache/dwloutput DP-1 0",
+	//	"return-type": "json", "format": "{text}",
+	//	"restart-interval": 1, "expand": true, "tooltip": false
+	//},
+	//"custom/dwlfocus1": {
+	//	"exec": "waybar-dwltabs $HOME/.cache/dwloutput DP-1 1",
+	//	"return-type": "json", "format": "{text}",
+	//	"restart-interval": 1, "expand": true, "tooltip": false
+	//},
+	//"custom/dwlfocus2": {
+	//	"exec": "waybar-dwltabs $HOME/.cache/dwloutput DP-1 2",
+	//	"return-type": "json", "format": "{text}",
+	//	"restart-interval": 1, "expand": true, "tooltip": false
+	//},
+	//"custom/dwlfocus3": {
+	//	"exec": "waybar-dwltabs $HOME/.cache/dwloutput DP-1 3",
+	//	"return-type": "json", "format": "{text}",
+	//	"restart-interval": 1, "expand": true, "tooltip": false
+	//},
+	//"custom/dwlfocus4": {
+	//	"exec": "waybar-dwltabs $HOME/.cache/dwloutput DP-1 4",
+	//	"return-type": "json", "format": "{text}",
+	//	"restart-interval": 1, "expand": true, "tooltip": false
+	//},
+	//"custom/dwlfocus5": {
+	//	"exec": "waybar-dwltabs $HOME/.cache/dwloutput DP-1 5",
+	//	"return-type": "json", "format": "{text}",
+	//	"restart-interval": 1, "expand": true, "tooltip": false
+	//},
+	//"custom/dwlfocus6": {
+	//	"exec": "waybar-dwltabs $HOME/.cache/dwloutput DP-1 6",
+	//	"return-type": "json", "format": "{text}",
+	//	"restart-interval": 1, "expand": true, "tooltip": false
+	//},
+	//"custom/dwlfocus7": {
+	//	"exec": "waybar-dwltabs $HOME/.cache/dwloutput DP-1 7",
+	//	"return-type": "json", "format": "{text}",
+	//	"restart-interval": 1, "expand": true, "tooltip": false
+	//},
 
 	"battery": {
 		"format": " BAT {capacity}% ",
@@ -147,16 +157,16 @@
 		"custom/sep",
 		"custom/sep"
 	],
-	"modules-center": [
-		"custom/dwlfocus0",
-		"custom/dwlfocus1",
-		"custom/dwlfocus2",
-		"custom/dwlfocus3",
-		"custom/dwlfocus4",
-		"custom/dwlfocus5",
-		"custom/dwlfocus6",
-		"custom/dwlfocus7"
-	],
+	//"modules-center": [
+	//	"custom/dwlfocus0",
+	//	"custom/dwlfocus1",
+	//	"custom/dwlfocus2",
+	//	"custom/dwlfocus3",
+	//	"custom/dwlfocus4",
+	//	"custom/dwlfocus5",
+	//	"custom/dwlfocus6",
+	//	"custom/dwlfocus7"
+	//],
 	"modules-right": [
 		"custom/sep",
 		"custom/sep",
@@ -175,47 +185,56 @@
 		"format": "[{layout}]",
 		"tooltip": false
 	},
+	"keyboard-state": {
+		"format": " {name} {icon} ",
+		"capslock": true,
+		"format-icons": {
+			"locked": " ON",
+			"unlocked": "OFF"
+		},
+		"tooltip": false
+	},
 
-	"custom/dwlfocus0": {
-		"exec": "waybar-dwltabs $HOME/.cache/dwloutput HDMI-A-1 0",
-		"return-type": "json", "format": "{text}",
-		"restart-interval": 1, "expand": true, "tooltip": false
-	},
-	"custom/dwlfocus1": {
-		"exec": "waybar-dwltabs $HOME/.cache/dwloutput HDMI-A-1 1",
-		"return-type": "json", "format": "{text}",
-		"restart-interval": 1, "expand": true, "tooltip": false
-	},
-	"custom/dwlfocus2": {
-		"exec": "waybar-dwltabs $HOME/.cache/dwloutput HDMI-A-1 2",
-		"return-type": "json", "format": "{text}",
-		"restart-interval": 1, "expand": true, "tooltip": false
-	},
-	"custom/dwlfocus3": {
-		"exec": "waybar-dwltabs $HOME/.cache/dwloutput HDMI-A-1 3",
-		"return-type": "json", "format": "{text}",
-		"restart-interval": 1, "expand": true, "tooltip": false
-	},
-	"custom/dwlfocus4": {
-		"exec": "waybar-dwltabs $HOME/.cache/dwloutput HDMI-A-1 4",
-		"return-type": "json", "format": "{text}",
-		"restart-interval": 1, "expand": true, "tooltip": false
-	},
-	"custom/dwlfocus5": {
-		"exec": "waybar-dwltabs $HOME/.cache/dwloutput HDMI-A-1 5",
-		"return-type": "json", "format": "{text}",
-		"restart-interval": 1, "expand": true, "tooltip": false
-	},
-	"custom/dwlfocus6": {
-		"exec": "waybar-dwltabs $HOME/.cache/dwloutput HDMI-A-1 6",
-		"return-type": "json", "format": "{text}",
-		"restart-interval": 1, "expand": true, "tooltip": false
-	},
-	"custom/dwlfocus7": {
-		"exec": "waybar-dwltabs $HOME/.cache/dwloutput HDMI-A-1 7",
-		"return-type": "json", "format": "{text}",
-		"restart-interval": 1, "expand": true, "tooltip": false
-	},
+	//"custom/dwlfocus0": {
+	//	"exec": "waybar-dwltabs $HOME/.cache/dwloutput HDMI-A-1 0",
+	//	"return-type": "json", "format": "{text}",
+	//	"restart-interval": 1, "expand": true, "tooltip": false
+	//},
+	//"custom/dwlfocus1": {
+	//	"exec": "waybar-dwltabs $HOME/.cache/dwloutput HDMI-A-1 1",
+	//	"return-type": "json", "format": "{text}",
+	//	"restart-interval": 1, "expand": true, "tooltip": false
+	//},
+	//"custom/dwlfocus2": {
+	//	"exec": "waybar-dwltabs $HOME/.cache/dwloutput HDMI-A-1 2",
+	//	"return-type": "json", "format": "{text}",
+	//	"restart-interval": 1, "expand": true, "tooltip": false
+	//},
+	//"custom/dwlfocus3": {
+	//	"exec": "waybar-dwltabs $HOME/.cache/dwloutput HDMI-A-1 3",
+	//	"return-type": "json", "format": "{text}",
+	//	"restart-interval": 1, "expand": true, "tooltip": false
+	//},
+	//"custom/dwlfocus4": {
+	//	"exec": "waybar-dwltabs $HOME/.cache/dwloutput HDMI-A-1 4",
+	//	"return-type": "json", "format": "{text}",
+	//	"restart-interval": 1, "expand": true, "tooltip": false
+	//},
+	//"custom/dwlfocus5": {
+	//	"exec": "waybar-dwltabs $HOME/.cache/dwloutput HDMI-A-1 5",
+	//	"return-type": "json", "format": "{text}",
+	//	"restart-interval": 1, "expand": true, "tooltip": false
+	//},
+	//"custom/dwlfocus6": {
+	//	"exec": "waybar-dwltabs $HOME/.cache/dwloutput HDMI-A-1 6",
+	//	"return-type": "json", "format": "{text}",
+	//	"restart-interval": 1, "expand": true, "tooltip": false
+	//},
+	//"custom/dwlfocus7": {
+	//	"exec": "waybar-dwltabs $HOME/.cache/dwloutput HDMI-A-1 7",
+	//	"return-type": "json", "format": "{text}",
+	//	"restart-interval": 1, "expand": true, "tooltip": false
+	//},
 
 	"battery": {
 		"format": " BAT {capacity}% ",
