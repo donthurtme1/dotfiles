@@ -89,10 +89,12 @@ endf
 
 " Mappings "
 map s <Nop>
-map <C-c> <Esc>
+map  <C-c> <Esc>
+map! <C-c> <Esc>
 xmap sa <Plug>(sandwich-add)
-"TODO: fix sandwich delete
+"TODO: improve sandwich delete
 xmap sd <Plug>(sandwich-delete)
+noremap <C-w><C-c> <C-w><Esc>
 noremap <expr> N 'nN'[v:searchforward]
 noremap <expr> n 'Nn'[v:searchforward]
 cnoremap <C-x> \%V
@@ -113,9 +115,9 @@ vnoremap <silent> * "vy<CMD>let @/=@v<CR>n
 vnoremap <silent> # "vy<CMD>let @/=@v<CR>N
 vnoremap <silent> <C-x> <CMD>call <SID>visual_yank()<CR>p<CMD>call <SID>visual_swap()<CR>
 
-noremap <silent> w <CMD>call search("\\v([0-9A-Za-z]+\|\\s@<=\\S)")<CR>
-noremap <silent> b <CMD>call search("\\v([0-9A-Za-z]+\|\\s@<=\\S)", 'b')<CR>
-noremap <silent> e <CMD>call search("\\v([0-9A-Za-z]+\|\\s@<=\\S)", 'e')<CR>
+noremap <silent> w <CMD>call search("\\v([0-9A-Za-z]+\|\\s@<=\\S)", 'W')<CR>
+noremap <silent> b <CMD>call search("\\v([0-9A-Za-z]+\|\\s@<=\\S)", 'bW')<CR>
+noremap <silent> e <CMD>call search("\\v([0-9A-Za-z]+\|\\s@<=\\S)", 'eW')<CR>
 omap <silent> e <CMD>norm! ve<CR>
 
 command! H Help
@@ -219,15 +221,10 @@ endf
 
 au User CocNvimInit call s:on_coc_start()
 func! s:on_coc_start() abort
-	" Definition / Declaration "
 	nnoremap gd <Plug>(coc-definition)
 	nnoremap <expr> gs winheight(0) * 2.5 < winwidth(0) ?
 					\ "<CMD>call CocAction('jumpDefinition', 'vsplit')<CR>" :
 					\ "<CMD>call CocAction('jumpDefinition', 'split')<CR>"
-	nnoremap gD <Plug>(coc-declaration)
-	nnoremap <expr> gS winheight(0) * 2.5 < winwidth(0) ?
-					\ "<CMD>call CocAction('jumpDeclaration', 'vsplit')<CR>" :
-					\ "<CMD>call CocAction('jumpDeclaration', 'split')<CR>"
 
 	nnoremap R <Plug>(coc-rename)
 	nnoremap <silent> <C-c> <CMD>call coc#float#close_all(0)<CR>
@@ -264,6 +261,8 @@ func! s:on_filetype_c() abort
 	syn match Type "\v(return\s+\()@<=\h\w*\ze\s*\**\)"
 	" struct/enum definition
 	syn match Type "\v((struct|enum)\_s+)@<=\h\w*\ze\_s*\{"
+
+	set path+=include,./include,../include
 endf
 
 au BufEnter *.S set filetype=asm
