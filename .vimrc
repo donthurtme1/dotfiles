@@ -221,14 +221,20 @@ endf
 
 au User CocNvimInit call s:on_coc_start()
 func! s:on_coc_start() abort
-	nnoremap R <Plug>(coc-rename)
+	" Definition / Declaration "
 	nnoremap gd <Plug>(coc-definition)
-	nnoremap <silent> <C-c> <CMD>call coc#float#close_all(0)<CR>
-	nnoremap <expr> K CocHasProvider('hover') ?
-					\ "<CMD>call CocAction('definitionHover')<CR>" : "K"
 	nnoremap <expr> gs winheight(0) * 2.5 < winwidth(0) ?
 					\ "<CMD>call CocAction('jumpDefinition', 'vsplit')<CR>" :
 					\ "<CMD>call CocAction('jumpDefinition', 'split')<CR>"
+	nnoremap gD <Plug>(coc-declaration)
+	nnoremap <expr> gS winheight(0) * 2.5 < winwidth(0) ?
+					\ "<CMD>call CocAction('jumpDeclaration', 'vsplit')<CR>" :
+					\ "<CMD>call CocAction('jumpDeclaration', 'split')<CR>"
+
+	nnoremap R <Plug>(coc-rename)
+	nnoremap <silent> <C-c> <CMD>call coc#float#close_all(0)<CR>
+	nnoremap <expr> K CocHasProvider('hover') ?
+					\ "<CMD>call CocAction('definitionHover')<CR>" : "K"
 
 	inoremap <expr> <C-d> coc#pum#visible() ? coc#pum#scroll(1) : "\<C-d>"
 	inoremap <expr> <C-u> coc#pum#visible() ? coc#pum#scroll(0) : "\<C-u>"
