@@ -86,14 +86,10 @@ func! s:visual_swap() abort
 				"\ s:vx_end_line."G".s:vx_end_col."|"
 endf
 
-func! s:yank_line(reg) abort
-	exec "norm! _\"".a:reg."y$"
-endf
-
 
 " Mappings "
 map s <Nop>
-imap <C-c> <Esc>
+map <C-c> <Esc>
 xmap sa <Plug>(sandwich-add)
 "TODO: fix sandwich delete
 xmap sd <Plug>(sandwich-delete)
@@ -105,19 +101,21 @@ nnoremap <C-,> <C-w><
 nnoremap <C-.> <C-w>>
 nnoremap <C-=> <C-w>+
 nnoremap <C-_> <C-w>-
-nnoremap <C-w><C-c> <C-w><Esc>
 nnoremap <silent> <C-i> <C-i>
 nnoremap <silent> <Enter> o<Esc>
 nnoremap <silent> <S-Enter> O<Esc>
 nnoremap <silent> <Tab> <CMD>tabn<CR>
 nnoremap <silent> U <CMD>UndotreeToggle<CR>
+
 vnoremap > >gv
 vnoremap < <gv
+vnoremap <silent> * "vy<CMD>let @/=@v<CR>n
+vnoremap <silent> # "vy<CMD>let @/=@v<CR>N
 vnoremap <silent> <C-x> <CMD>call <SID>visual_yank()<CR>p<CMD>call <SID>visual_swap()<CR>
 
-noremap <silent> w <CMD>call search("[0-9A-Za-z]\\+")<CR>
-noremap <silent> b <CMD>call search("[0-9A-Za-z]\\+", 'b')<CR>
-noremap <silent> e <CMD>call search("[0-9A-Za-z]\\+", 'e')<CR>
+noremap <silent> w <CMD>call search("\\v([0-9A-Za-z]+\|\\s@<=\\S)")<CR>
+noremap <silent> b <CMD>call search("\\v([0-9A-Za-z]+\|\\s@<=\\S)", 'b')<CR>
+noremap <silent> e <CMD>call search("\\v([0-9A-Za-z]+\|\\s@<=\\S)", 'e')<CR>
 omap <silent> e <CMD>norm! ve<CR>
 
 command! H Help
