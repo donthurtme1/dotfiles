@@ -1,10 +1,9 @@
-[
-{
-	"output": "DP-1",
+[{
+	//"output": "DP-1",
 	"position": "top",
 	"height": 28,
 	"reload_style_on_change": true,
-	"fixed-center": false,
+	"fixed-center": true,
 	"expand-center": true,
 
 	"spacing": 4,
@@ -13,6 +12,9 @@
 		"dwl/window#layout",
 		"custom/sep",
 		"custom/sep"
+	],
+	"modules-center": [
+		"dwl/window#title"
 	],
 	"modules-right": [
 		"custom/sep",
@@ -32,14 +34,9 @@
 		"format": "[{layout}]",
 		"tooltip": false
 	},
-	"keyboard-state": {
-		"format": " {name} {icon} ",
-		"capslock": true,
-		//"device-path": "/dev/input/by-id/usb-KBDFans_YDKB_KBD8x_MkIII_Keyboard__VIAL_DO6N__vial:f64c2b3c-if02-event-kbd",
-		"format-icons": {
-			"locked": " ON",
-			"unlocked": "OFF"
-		},
+
+	"dwl/window#title": {
+		"format": " {title} ",
 		"tooltip": false
 	},
 
@@ -90,5 +87,4 @@
 		"interval" : 0,
 		"tooltip": false
 	}
-}
-]
+}]
