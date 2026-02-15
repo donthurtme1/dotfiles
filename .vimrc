@@ -263,6 +263,7 @@ func! s:on_filetype_c() abort
 	syn match Type "\v((struct|enum)\_s+)@<=\h\w*\ze\_s*\{"
 
 	set path+=include,./include,../include
+	set path+=src,./src,../src
 endf
 
 au BufEnter *.S set filetype=asm
