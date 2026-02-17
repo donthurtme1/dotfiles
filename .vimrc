@@ -23,6 +23,7 @@ set smartcase hlsearch
 set nocompatible wildmenu signcolumn=no
 set foldmethod=manual
 set cursorline autoindent cindent showcmd
+set cinoptions+=:0,l1,t0
 set viewoptions=cursor,slash,unix
 set viminfo='256,<256,%64
 set incsearch ignorecase
@@ -90,14 +91,13 @@ endf
 " Mappings "
 map s <Nop>
 map  <C-c> <Esc>
-map! <C-c> <Esc>
+imap <C-c> <Esc>
 xmap sa <Plug>(sandwich-add)
 "TODO: improve sandwich delete
 xmap sd <Plug>(sandwich-delete)
 noremap <C-w><C-c> <C-w><Esc>
 noremap <expr> N 'nN'[v:searchforward]
 noremap <expr> n 'Nn'[v:searchforward]
-cnoremap <C-x> \%V
 nnoremap Y _"wy$
 nnoremap <C-,> <C-w><
 nnoremap <C-.> <C-w>>
@@ -111,14 +111,15 @@ nnoremap <silent> U <CMD>UndotreeToggle<CR>
 
 vnoremap > >gv
 vnoremap < <gv
+vnoremap :s/ :s/\%V
 vnoremap <silent> * "vy<CMD>let @/=@v<CR>n
 vnoremap <silent> # "vy<CMD>let @/=@v<CR>N
 vnoremap <silent> <C-x> <CMD>call <SID>visual_yank()<CR>p<CMD>call <SID>visual_swap()<CR>
 
-noremap <silent> w <CMD>call search("\\v([0-9A-Za-z]+\|\\s@<=\\S)", 'W')<CR>
-noremap <silent> b <CMD>call search("\\v([0-9A-Za-z]+\|\\s@<=\\S)", 'bW')<CR>
-noremap <silent> e <CMD>call search("\\v([0-9A-Za-z]+\|\\s@<=\\S)", 'eW')<CR>
-omap <silent> e <CMD>norm! ve<CR>
+map <silent> w <CMD>call search("\\v([0-9A-Za-z]+\|\\_s@<=\\S)", 'W')<CR>
+map <silent> b <CMD>call search("\\v([0-9A-Za-z]+\|\\_s@<=\\S)", 'bW')<CR>
+map <silent> e <CMD>call search("\\v([0-9A-Za-z]+\|\\S\\_s@=)",  'eW')<CR>
+omap <silent> e <CMD>call search("\\v([0-9A-Za-z]+\|\\S\\_s@=).?", 'eW')<CR>
 
 command! H Help
 command! F Files
@@ -240,6 +241,7 @@ func! s:on_coc_start() abort
 
 	" Fix highlight "
 	call s:coc_highlight()
+	au SourcePost .vimrc call s:on_coc_start()
 endf
 
 au FileType help,netrw setl nu rnu cursorline
