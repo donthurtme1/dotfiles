@@ -3,7 +3,7 @@
 	"position": "top",
 	"height": 28,
 	"reload_style_on_change": true,
-	"fixed-center": true,
+	"fixed-center": false,
 	"expand-center": true,
 
 	"spacing": 4,
