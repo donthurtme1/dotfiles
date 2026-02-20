@@ -266,6 +266,7 @@ func! s:on_filetype_c() abort
 
 	set path+=include,./include,../include
 	set path+=src,./src,../src
+	set fo=qjlr
 endf
 
 au BufEnter *.S set filetype=asm
