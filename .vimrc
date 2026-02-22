@@ -109,7 +109,7 @@ nnoremap <C-_> <C-w>-
 nnoremap <silent> <C-i> <C-i>
 nnoremap <silent> <Enter> o<Esc>
 nnoremap <silent> <S-Enter> O<Esc>
-nnoremap <silent> <Tab> <CMD>tabn<CR>
+nnoremap <silent> <Tab> gt
 nnoremap <silent> U <CMD>UndotreeToggle<CR>
 
 vnoremap > >gv
