@@ -92,9 +92,12 @@ endf
 map s <Nop>
 map  <C-c> <Esc>
 imap <C-c> <Esc>
+nmap <space>   g
+nmap <S-space> g
 xmap sa <Plug>(sandwich-add)
 "TODO: improve sandwich delete
 xmap sd <Plug>(sandwich-delete)
+
 noremap <C-w><C-c> <C-w><Esc>
 noremap <expr> N 'nN'[v:searchforward]
 noremap <expr> n 'Nn'[v:searchforward]
@@ -120,6 +123,7 @@ map <silent> w <CMD>call search("\\v([0-9A-Za-z]+\|\\_s@<=\\S)", 'W')<CR>
 map <silent> b <CMD>call search("\\v([0-9A-Za-z]+\|\\_s@<=\\S)", 'bW')<CR>
 map <silent> e <CMD>call search("\\v([0-9A-Za-z]+\|\\S\\_s@=)",  'eW')<CR>
 omap <silent> e <CMD>call search("\\v([0-9A-Za-z]+\|\\S\\_s@=).?", 'eW')<CR>
+"map <silent> <expr> w search("_\\@<=[0-9A-Za-z]") ? '<CMD>call search("_\\@<=[0-9A-Za-z]")<CR>' : "w"
 
 command! H Help
 command! F Files
