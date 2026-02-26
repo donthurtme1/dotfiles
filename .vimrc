@@ -1,18 +1,20 @@
 " Plugins " 
 call plug#begin('~/.vim/plugged')
-Plug 'rose-pine/vim', { 'as': 'rosepine' }
-Plug 'ntk148v/vim-horizon'
-Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-Plug 'mbbill/undotree'
-Plug 'jasonccox/vim-wayland-clipboard'
-Plug 'junegunn/fzf.vim'
-Plug 'tpope/vim-fugitive'
-Plug 'vim-utils/vim-man'
-Plug 'machakann/vim-sandwich'
-Plug 'itchyny/vim-highlighturl'
-Plug 'rust-lang/rust.vim'
-"Plug '~/c/vimsession' " Must be after vim-lsp
-Plug '~/vimscript/fuzzy_colors' "TODO: rename to moondust or something
+	" essential "
+	Plug '~/vimscript/fuzzy_colors' "TODO: rename to moondust or something
+	"Plug 'rose-pine/vim', { 'as': 'rosepine' }
+	"Plug 'ntk148v/vim-horizon'
+	Plug 'mg979/vim-visual-multi',
+	Plug 'machakann/vim-sandwich'
+	Plug 'itchyny/vim-highlighturl'
+	Plug 'jasonccox/vim-wayland-clipboard'
+	Plug 'tpope/vim-fugitive'
+	Plug 'vim-utils/vim-man'
+
+	" non-essential / i don't like "
+	Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+	Plug 'mbbill/undotree'
+	Plug 'junegunn/fzf.vim'
 call plug#end()
 
 
@@ -94,6 +96,7 @@ map  <C-c> <Esc>
 imap <C-c> <Esc>
 nmap <space>   g
 nmap <S-space> g
+omap "w "+
 xmap sa <Plug>(sandwich-add)
 "TODO: improve sandwich delete
 xmap sd <Plug>(sandwich-delete)
@@ -119,11 +122,15 @@ vnoremap <silent> * "vy<CMD>let @/=@v<CR>n
 vnoremap <silent> # "vy<CMD>let @/=@v<CR>N
 vnoremap <silent> <C-x> <CMD>call <SID>visual_yank()<CR>p<CMD>call <SID>visual_swap()<CR>
 
-map <silent> w <CMD>call search("\\v([0-9A-Za-z]+\|\\_s@<=\\S)", 'W')<CR>
-map <silent> b <CMD>call search("\\v([0-9A-Za-z]+\|\\_s@<=\\S)", 'bW')<CR>
+" Custom motions "
+map <silent> gw <CMD>call search("\\v([0-9A-Za-z]+\|\\_s@<=\\S)", 'W')<CR>
+map <silent> gW <CMD>call search("\\v([0-9A-Za-z]+\|\\_s@<=\\S)", 'W')<CR>
+map <silent> gb <CMD>call search("\\v([0-9A-Za-z]+\|\\_s@<=\\S)", 'bW')<CR>
 map <silent> e <CMD>call search("\\v([0-9A-Za-z]+\|\\S\\_s@=)",  'eW')<CR>
-omap <silent> e <CMD>call search("\\v([0-9A-Za-z]+\|\\S\\_s@=).?", 'eW')<CR>
-"map <silent> <expr> w search("_\\@<=[0-9A-Za-z]") ? '<CMD>call search("_\\@<=[0-9A-Za-z]")<CR>' : "w"
+"omap <silent> e <CMD>call search("\\v([0-9A-Za-z]+\|\\S\\_s@=).?", 'eW')<CR>
+
+vmap <expr> <silent> e "<CMD>call search('\\v([0-9A-Za-z]+\|\\S\\_s@=)', 'eW')<CR>"
+omap <silent> e <CMD>norm ve<CR>
 
 command! H Help
 command! F Files
@@ -170,7 +177,7 @@ func! s:edit_colorscheme() abort
 	endif
 
 	if g:colors_name == 'fuzzy_colors'
-		hi CursorLine guibg=#1c1e26
+		hi! link CursorLine Normal
 		hi Search guifg=#eb6f92 guibg=#272c42
 		hi IncSearch guifg=#272c42 guibg=#eb6f92 cterm=NONE
 		hi! CocFloating guibg=#36383f
