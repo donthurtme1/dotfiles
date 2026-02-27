@@ -124,13 +124,18 @@ vnoremap <silent> <C-x> <CMD>call <SID>visual_yank()<CR>p<CMD>call <SID>visual_s
 
 " Custom motions "
 map <silent> gw <CMD>call search("\\v([0-9A-Za-z]+\|\\_s@<=\\S)", 'W')<CR>
-map <silent> gW <CMD>call search("\\v([0-9A-Za-z]+\|\\_s@<=\\S)", 'W')<CR>
 map <silent> gb <CMD>call search("\\v([0-9A-Za-z]+\|\\_s@<=\\S)", 'bW')<CR>
 map <silent> e <CMD>call search("\\v([0-9A-Za-z]+\|\\S\\_s@=)",  'eW')<CR>
-"omap <silent> e <CMD>call search("\\v([0-9A-Za-z]+\|\\S\\_s@=).?", 'eW')<CR>
 
-vmap <expr> <silent> e "<CMD>call search('\\v([0-9A-Za-z]+\|\\S\\_s@=)', 'eW')<CR>"
-omap <silent> e <CMD>norm ve<CR>
+vmap <expr> <silent> gw repeat(
+			\ "<CMD>call search('\\v([0-9A-Za-z]+\|\\_s@<=\\S)', 'W')<CR>",
+			\ max([v:count, 1]))
+vmap <expr> <silent> e repeat(
+			\ "<CMD>call search('\\v([0-9A-Za-z]+\|\\S\\_s@=)', 'eW')<CR>",
+			\ max([v:count, 1]))
+
+omap <expr> <silent> gw "<CMD>norm v".max([v:count, 1])."gw<CR>"
+omap <expr> <silent> e  "<CMD>norm v".max([v:count, 1])."e<CR>"
 
 command! H Help
 command! F Files
@@ -208,6 +213,8 @@ hi Todo guibg=#1c1e26
 
 
 " Autocommands "
+au TabEnter * norm! :<Esc>
+
 aug clearhlsearch
 	au!
 	au ModeChanged *:[xi]* call feedkeys("\<cmd>nohl\<cr>")
