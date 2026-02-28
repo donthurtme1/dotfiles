@@ -27,10 +27,10 @@ set foldmethod=manual
 set cursorline autoindent cindent showcmd
 set cinoptions+=:0,l1,t0
 set viewoptions=cursor,slash,unix
-set viminfo='256,<256,%64
-set incsearch ignorecase
-set autowriteall noequalalways
-set cpoptions-=z
+set viminfo='256,<256,%64 
+set incsearch ignorecase 
+set autowriteall noequalalways 
+set cpoptions-=z 
 set undodir=$HOME/.vim/undodir undofile
 set ssop=buffers,curdir,folds,help,tabpages,winsize
 set ttyscroll=0 title
@@ -41,12 +41,22 @@ filetype on
 " folding "
 set fillchars=fold:\ 
 set foldtext=substitute(getline(v:foldstart),'\	','\ \ \ \ ',1)
-\.'\ \ \ \ \...\ \ \ \ '
-\.(v:foldend\ -\ v:foldstart\ +\ 1)
-\.'\ lines'
+	\.'\ \ \ \ \...\ \ \ \ '
+	\.(v:foldend\ -\ v:foldstart\ +\ 1)
+	\.'\ lines'
 
+" netrw
 let g:netrw_banner = 0
 let g:netrw_preview = 1
+
+" visual multi
+let g:VM_default_mappings = 0
+let g:VM_maps = {}
+let g:VM_maps['Exit'] = '<C-c>'
+let g:VM_maps['Add Cursor Down'] = '<C-j>'
+let g:VM_maps['Add Cursor Up'] = '<C-k>'
+let g:VM_maps['Add Cursor At Pos'] = '<Space>'
+let g:VM_maps['Visual All'] = '\a'
 
 " undotree "
 let g:undotree_HelpLine = 0
