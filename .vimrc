@@ -99,6 +99,51 @@ func! s:visual_swap() abort
 				"\ s:vx_end_line."G".s:vx_end_col."|"
 endf
 
+func TabLineSettings()
+	let s = ''
+	let i = 1
+	while i <= tabpagenr('$')
+		" select the highlighting
+		if i == tabpagenr()
+			let title_hi = '%#TabLineSel#'
+			let count_hi = '%#Title#'
+		else
+			let title_hi = '%#TabLine#'
+			let count_hi = '%#Title#'
+		endif
+
+		let wincount = ''
+		if tabpagewinnr(i, '$') > 1
+			let wincount .= title_hi . ' ' . count_hi . tabpagewinnr(i,'$')
+		endif
+
+		let modified = ''
+		let s .= wincount . title_hi . modified . ' '
+
+		let buflist = tabpagebuflist(i)
+		let winnr = tabpagewinnr(i)
+		let bufnr = buflist[winnr - 1]
+		let file = bufname(bufnr)
+		let buftype = getbufvar(bufnr, 'buftype')
+		if buftype == 'nofile'
+			if file =~ '\/.'
+				let file = substitute(file, '.*\/\ze.', '', '')
+			endif
+		else
+			let file = fnamemodify(file, ':p:t')
+		endif
+		if file == ''
+			let file = '[No Name]'
+		endif
+		let s .= file . ' '
+		let i += 1
+	endwhile
+
+	let s ..= '%#TabLineFill#%T '
+	return s
+endf
+set tabline=%!TabLineSettings()
+
 
 " Mappings "
 map s <Nop>
@@ -135,17 +180,17 @@ vnoremap <silent> <C-x> <CMD>call <SID>visual_yank()<CR>p<CMD>call <SID>visual_s
 " Custom motions "
 map <silent> gw <CMD>call search("\\v([0-9A-Za-z]+\|\\_s@<=\\S)", 'W')<CR>
 map <silent> gb <CMD>call search("\\v([0-9A-Za-z]+\|\\_s@<=\\S)", 'bW')<CR>
-map <silent> e <CMD>call search("\\v([0-9A-Za-z]+\|\\S\\_s@=)",  'eW')<CR>
+"map <silent> e <CMD>call search("\\v([0-9A-Za-z]+\|\\S\\_s@=)",  'eW')<CR>
 
 vmap <expr> <silent> gw repeat(
 			\ "<CMD>call search('\\v([0-9A-Za-z]+\|\\_s@<=\\S)', 'W')<CR>",
 			\ max([v:count, 1]))
-vmap <expr> <silent> e repeat(
-			\ "<CMD>call search('\\v([0-9A-Za-z]+\|\\S\\_s@=)', 'eW')<CR>",
-			\ max([v:count, 1]))
+"vmap <expr> <silent> e repeat(
+"			\ "<CMD>call search('\\v([0-9A-Za-z]+\|\\S\\_s@=)', 'eW')<CR>",
+"			\ max([v:count, 1]))
 
 omap <expr> <silent> gw "<CMD>norm v".max([v:count, 1])."gw<CR>"
-omap <expr> <silent> e  "<CMD>norm v".max([v:count, 1])."e<CR>"
+"omap <expr> <silent> e  "<CMD>norm v".max([v:count, 1])."e<CR>"
 
 command! H Help
 command! F Files
@@ -308,7 +353,6 @@ func! s:on_filetype_rust() abort
 	call s:coc_highlight()
 
 	hi link rustEscape SpecialChar
-	setlocal signcolumn=yes
 	au! FileType rust setlocal signcolumn=yes " Call once
 endf
 
