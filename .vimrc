@@ -55,7 +55,7 @@ let g:VM_maps = {}
 let g:VM_maps['Exit'] = '<C-c>'
 let g:VM_maps['Add Cursor Down'] = '<C-j>'
 let g:VM_maps['Add Cursor Up'] = '<C-k>'
-let g:VM_maps['Add Cursor At Pos'] = '<Space>'
+"let g:VM_maps['Add Cursor At Pos'] = '<Space>'
 let g:VM_maps['Visual All'] = '\a'
 
 " undotree "

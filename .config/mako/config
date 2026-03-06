@@ -14,6 +14,6 @@ border-color=#595959aa
 border-radius=0
 
 [urgency=high]
-border-color=#eb6f92aa
+#border-color=#eb6f92aa
 default-timeout=0
 ignore-timeout=1

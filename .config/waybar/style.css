@@ -54,7 +54,7 @@ window#waybar {
 #custom-dwlfocus7 {
 	padding-top: 0px;
 	margin: 4px 0px;
-	color: rgb(224, 222, 244);
+	color: rgb(144, 140, 170);
 	background-color: rgb(35, 33, 54);
 }
 
@@ -78,7 +78,7 @@ window#waybar {
 	border-image: linear-gradient(-90deg, #d4aff7, #a4dfe8);
 	border-image-slice: 1;
 	color: rgb(224, 222, 244);
-	background-color: #2a273f;
+	background-color: rgb(42, 39, 63);
 }
 
 #tags button {
@@ -86,6 +86,15 @@ window#waybar {
 	margin: 0 0px;
 	border-width: 0px;
 	color: rgb(86, 82, 110);
+}
+
+#tags button:hover {
+	border-color: rgba(42, 39, 63, 00);
+	color: rgba(255, 39, 63, 00);
+	background-color: rgb(42, 39, 63);
+	background: none;
+	border: none;
+	transition: none;
 }
 
 #tags button.occupied {

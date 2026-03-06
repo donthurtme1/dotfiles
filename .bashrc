@@ -19,8 +19,8 @@ alias dwl='XDG_CURRENT_DESKTOP=dwl dwl > ~/.cache/dwloutput'
 
 alias update-osu='wget https://github.com/ppy/osu/releases/latest/download/osu.AppImage ; mv osu.AppImage /usr/local/bin/osu ; chmod a+x /usr/local/bin/osu'
 
-alias fe='export FZF_DEFAULT_COMMAND="rg --files /bin /usr/local/bin" ; $(fzf) ; export FZF_DEFAULT_COMMAND="rg --files --hidden"' # find executable
-alias ef='$EDITOR $(fzf)' # edit file
+#alias fe='export FZF_DEFAULT_COMMAND="rg --files /bin /usr/local/bin" ; $(fzf) ; export FZF_DEFAULT_COMMAND="rg --files --hidden"' # find executable
+#alias ef='$EDITOR $(fzf)' # edit file
 #alias ls='export FZF_DEFAULT_COMMAND="ls -F" ; $(fzf) ; export FZF_DEFAULT_COMMAND="rg --files --hidden"'
 
 function git {
@@ -123,3 +123,4 @@ export QT_QPA_PLATFORM=xcb
 export PAGER="$HOME/scripts/pager-switch.c"
 export MANPAGER="vim +MANPAGER --not-a-term -"
 export WINEPREFIX="$HOME/.wine"
+export HISTFILE="$XDG_CACHE_HOME/bash_history"
