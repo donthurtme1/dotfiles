@@ -2,6 +2,7 @@
 call plug#begin('~/.vim/plugged')
 	" essential "
 	Plug '~/vimscript/fuzzy_colors' "TODO: rename to moondust or something
+	"Plug '~/vimscript/man-resize' "TODO: make it better
 	"Plug 'rose-pine/vim', { 'as': 'rosepine' }
 	"Plug 'ntk148v/vim-horizon'
 	Plug 'mg979/vim-visual-multi',
@@ -48,6 +49,7 @@ set foldtext=substitute(getline(v:foldstart),'\	','\ \ \ \ ',1)
 " netrw
 let g:netrw_banner = 0
 let g:netrw_preview = 1
+let g:netrw_alto = 1
 
 " visual multi
 let g:VM_default_mappings = 0
@@ -288,10 +290,7 @@ aug current_window
 	endif
 aug end
 
-au WinResized * call s:on_winresize()
-au VimResized * call s:on_winresize()
-func! s:on_winresize() abort
-endf
+au VimResized * exec "norm! \<C-w>=zz"
 
 au User CocNvimInit call s:on_coc_start()
 func! s:on_coc_start() abort
