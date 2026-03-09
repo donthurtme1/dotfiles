@@ -172,6 +172,17 @@ nnoremap <silent> <S-Enter> O<Esc>
 nnoremap <silent> <Tab> gt
 nnoremap <silent> U <CMD>UndotreeToggle<CR>
 
+func! s:i_ctrl_enter()
+	let pos = getpos('.')
+	let save = @n
+	let @n = "\n"
+	put n
+	let @n = save
+	call setpos('.', pos)
+endf
+inoremap <silent> <expr> <C-enter> "<Esc><CMD>call <SID>i_ctrl_enter()<CR>".
+			\ (match(getline('.'), "^[ 	]*$") == -1 ? "gi" : "S")
+
 vnoremap > >gv
 vnoremap < <gv
 vnoremap :s/ :s/\%V
