@@ -35,8 +35,8 @@ set cpoptions-=z
 set undodir=$HOME/.vim/undodir undofile
 set ssop=buffers,curdir,folds,help,tabpages,winsize
 set ttyscroll=0 title
-set statusline=%<%f\ %h%m%r%=row:%l,\ col:%v\ \ \ \ \ %L\ lines\ \ \ \ %P
-set rulerformat=%38(%=row:%l,\ col:%v\ \ \ \ \ %L\ lines\ \ \ \ %P%)
+set statusline=%<%f\ %h%m%r%=pos:%l,%v\ \ \ \ %L\ lines\ \ \ %P
+set rulerformat=%38(%=pos:%l,%v\ \ \ \ %L\ lines\ \ \ %P%)
 filetype on
 
 " folding "
