@@ -1,11 +1,15 @@
+let g:wordmotion_spaces=['\k\@<=[->_.]\k\@=']
+
 " Plugins " 
 call plug#begin('~/.vim/plugged')
-	" essential "
+	" essential / simple "
 	Plug '~/vimscript/fuzzy_colors' "TODO: rename to moondust or something
 	"Plug '~/vimscript/man-resize' "TODO: make it better
 	"Plug 'rose-pine/vim', { 'as': 'rosepine' }
 	"Plug 'ntk148v/vim-horizon'
-	Plug 'mg979/vim-visual-multi',
+	"Plug 'mg979/vim-visual-multi', "TODO: make this not suck
+
+	Plug 'chaoren/vim-wordmotion'
 	Plug 'machakann/vim-sandwich'
 	Plug 'itchyny/vim-highlighturl'
 	Plug 'jasonccox/vim-wayland-clipboard'
@@ -13,6 +17,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'vim-utils/vim-man'
 
 	" non-essential / i don't like "
+	" TODO: use ctags instead of coc for everything except errors/warnings
 	Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 	Plug 'mbbill/undotree'
 	Plug 'junegunn/fzf.vim'
@@ -27,7 +32,9 @@ set nocompatible wildmenu signcolumn=no
 set foldmethod=manual
 set cursorline autoindent cindent showcmd
 set cinoptions+=:0,l1,t0
-set viewoptions=cursor,slash,unix
+set viewoptions=cursor,slash,unix formatoptions=qjlr
+set lazyredraw
+set linebreak breakindent breakindentopt=shift:4
 set viminfo='256,<256,%64 
 set incsearch ignorecase 
 set autowriteall noequalalways 
@@ -37,6 +44,7 @@ set ssop=buffers,curdir,folds,help,tabpages,winsize
 set ttyscroll=0 title
 set statusline=%<%f\ %h%m%r%=pos:%l,%v\ \ \ \ %L\ lines\ \ \ %P
 set rulerformat=%38(%=pos:%l,%v\ \ \ \ %L\ lines\ \ \ %P%)
+set tags+=./tags
 filetype on
 
 " folding "
@@ -346,6 +354,8 @@ func! s:on_filetype_c() abort
 	syn match Type "\v(return\s+\()@<=\h\w*\ze\s*\**\)"
 	" struct/enum definition
 	syn match Type "\v((struct|enum)\_s+)@<=\h\w*\ze\_s*\{"
+
+	"imap <C-y> <C-x><C-o>
 
 	set path+=include,./include,../include
 	set path+=src,./src,../src
