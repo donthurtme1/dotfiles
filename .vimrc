@@ -1,12 +1,10 @@
-let g:wordmotion_spaces=['\k\@<=[->_.]\k\@=']
+let g:wordmotion_spaces=['\S\@<=[->_.]\S\@=']
 
 " Plugins " 
 call plug#begin('~/.vim/plugged')
 	" essential / simple "
 	Plug '~/vimscript/fuzzy_colors' "TODO: rename to moondust or something
 	"Plug '~/vimscript/man-resize' "TODO: make it better
-	"Plug 'rose-pine/vim', { 'as': 'rosepine' }
-	"Plug 'ntk148v/vim-horizon'
 	"Plug 'mg979/vim-visual-multi', "TODO: make this not suck
 
 	Plug 'chaoren/vim-wordmotion'
@@ -34,11 +32,12 @@ set cursorline autoindent cindent showcmd
 set cinoptions+=:0,l1,t0
 set viewoptions=cursor,slash,unix formatoptions=qjlr
 set lazyredraw
-set linebreak breakindent breakindentopt=shift:4
+set linebreak breakindent breakindentopt=shift:8
 set viminfo='256,<256,%64 
 set incsearch ignorecase 
 set autowriteall noequalalways 
 set cpoptions-=z 
+set nrformats+=alpha
 set undodir=$HOME/.vim/undodir undofile
 set ssop=buffers,curdir,folds,help,tabpages,winsize
 set ttyscroll=0 title
@@ -159,6 +158,7 @@ set tabline=%!TabLineSettings()
 map s <Nop>
 map  <C-c> <Esc>
 imap <C-c> <Esc>
+snoremap <C-c> <Esc>
 nmap <space>   g
 nmap <S-space> g
 omap "w "+
