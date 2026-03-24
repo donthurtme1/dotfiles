@@ -1,0 +1,13 @@
+show=run
+term=foot
+width=40%
+height=50%
+normal_window=true
+
+key_down=Ctrl-n
+key_up=Ctrl-p
+key_pgup=Ctrl-u
+key_pgdn=Ctrl-d
+
+key_copy=
+key_exit=Ctrl-c

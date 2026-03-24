@@ -1,328 +1,403 @@
-" General settings " 
-set nocompatible
-set nu rnu
-set tabstop=4 shiftwidth=4
-set scrolloff=0
-set linebreak
-set smartcase showmatch hlsearch
-set wildmenu
-set foldmethod=manual
-set cursorline
-set autoindent cindent
-set showcmd
-set splitright
-set viewoptions=cursor,slash,unix
-set formatoptions-=o formatoptions+=t
-set winwidth=86
-set listchars=tab:\|\ 
-set incsearch
-
-" line wraping "
-set breakindent
-set breakindentopt=shift:-100,sbr
-set showbreak=>\ 
-set wrap
-set cpoptions+=n
-
-" folding "
-set fillchars=fold:\ 
-set foldtext=substitute(getline(v:foldstart),'\	','\ \ \ \ ','g').'\ \ \ \ ...\ \ \ \ '.(v:foldend\ -\ v:foldstart\ -\ 1).'\ lines\ \ \ \ ...\ \ \ \ '.getline(v:foldend)
-
-filetype on
-filetype plugin on
-filetype indent on
-
-if has('persistent_undo')
-	set undodir=$HOME/.vim/undodir
-	set undofile
-endif
-
-let g:netrw_banner = 0
-let g:ft_man_open_mode = 'vert'
-
-let g:lsp_completion_docuentation_delay = 0
-let g:lsp_diagnostics_float_cursor = 1
-let g:lsp_diagnostics_float_delay = 0
-let g:lsp_diagnostics_highlights_delay = 250
-let g:lsp_diagnostics_signs_delay = 250
-let g:lsp_diagnostics_virtual_text_align = "after"
-let g:lsp_diagnostics_virtual_text_prefix = "~ "
-let g:lsp_diagnostics_virtual_text_wrap = "truncate"
-let g:lsp_document_highlight_enabled = 1
-let g:lsp_signature_help_enabled = 0
-" TODO: make fix to vim-lsp to keep hover info open while moving in line and
-" while in insert mode on current line. "
-let g:lsp_preview_autoclose = 0
-let g:lsp_preview_float = 1
-let g:lsp_semantic_delay = 10
-let g:lsp_semantic_enabled = 0
-let g:lsp_max_buffer_size = 1000000
+let g:wordmotion_spaces=['\S\@<=[->_.]\S\@=']
 
 " Plugins " 
 call plug#begin('~/.vim/plugged')
-Plug 'rose-pine/vim', { 'as': 'rosepine' }
-Plug 'sonph/onehalf', { 'rtp': 'vim' }
-Plug 'catppuccin/vim', { 'as': 'catppuccin' }
-Plug 'sainnhe/everforest'
+	" essential / simple "
+	Plug '~/vimscript/fuzzy_colors' "TODO: rename to moondust or something
+	"Plug '~/vimscript/man-resize' "TODO: make it better
+	"Plug 'mg979/vim-visual-multi', "TODO: make this not suck
 
-Plug 'prabirshrestha/vim-lsp'
-Plug 'rhysd/vim-healthcheck'
+	Plug 'chaoren/vim-wordmotion'
+	Plug 'machakann/vim-sandwich'
+	Plug 'itchyny/vim-highlighturl'
+	Plug 'jasonccox/vim-wayland-clipboard'
+	Plug 'tpope/vim-fugitive'
+	Plug 'vim-utils/vim-man'
 
-Plug 'junegunn/fzf.vim'
-Plug 'jasonccox/vim-wayland-clipboard'
-Plug 'prabirshrestha/async.vim'
-Plug 'mbbill/undotree'
-Plug 'vim-scripts/restore_view.vim'
-Plug 'tpope/vim-fugitive'
-Plug 'vim-utils/vim-man'
-
-" Custom "
-Plug '~/c/vimhook'
+	" non-essential / i don't like "
+	" TODO: use ctags instead of coc for everything except errors/warnings
+	Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+	Plug 'mbbill/undotree'
+	Plug 'junegunn/fzf.vim'
 call plug#end()
 
-" Colours "
-set termguicolors
-colorscheme rosepine
-syntax on
+" General settings " 
+set nu rnu
+set tabstop=4 shiftwidth=4 noexpandtab
+set smartcase hlsearch
+set nocompatible wildmenu signcolumn=no
+set foldmethod=manual
+set cursorline autoindent cindent showcmd
+set cinoptions+=:0,l1,t0
+set viewoptions=cursor,slash,unix formatoptions=qjlr
+set lazyredraw
+set linebreak breakindent breakindentopt=shift:8
+set viminfo='256,<256,%64 
+set incsearch ignorecase 
+set autowriteall noequalalways 
+set cpoptions-=z 
+set nrformats+=alpha
+set undodir=$HOME/.vim/undodir undofile
+set ssop=buffers,curdir,folds,help,tabpages,winsize
+set ttyscroll=0 title
+set statusline=%<%f\ %h%m%r%=pos:%l,%v\ \ \ \ %L\ lines\ \ \ %P
+set rulerformat=%38(%=pos:%l,%v\ \ \ \ %L\ lines\ \ \ %P%)
+set tags+=./tags
+filetype on
 
-set t_ZH= " disable italics
-hi Normal guibg=#232136
-hi NormalCurrentWindow guibg=#232135 guifg=#e0def4
-hi SignColumn guibg=#232136
-hi SignColumnCurrentWindow guibg=#232135 guifg=#e0def4
+" folding "
+set fillchars=fold:\ 
+set foldtext=substitute(getline(v:foldstart),'\	','\ \ \ \ ',1)
+	\.'\ \ \ \ \...\ \ \ \ '
+	\.(v:foldend\ -\ v:foldstart\ +\ 1)
+	\.'\ lines'
 
-hi Macro guifg=#f6c177
-hi Include guifg=#3e8fb0
-hi SpecialChar guifg=#3e8fb0
-hi StatusLineNC guibg=#232135
-hi MatchParen guifg=NONE
-hi Folded guifg=#6e6a86
+" netrw
+let g:netrw_banner = 0
+let g:netrw_preview = 1
+let g:netrw_alto = 1
 
-hi link LspSemanticVariable Normal
-hi link LspSemanticProperty Normal
-hi link LspSemanticParameter Define
-hi link cdefine Define
-hi link cmacro Macro
-hi link ctypedef_type Type
+" visual multi
+let g:VM_default_mappings = 0
+let g:VM_maps = {}
+let g:VM_maps['Exit'] = '<C-c>'
+let g:VM_maps['Add Cursor Down'] = '<C-j>'
+let g:VM_maps['Add Cursor Up'] = '<C-k>'
+"let g:VM_maps['Add Cursor At Pos'] = '<Space>'
+let g:VM_maps['Visual All'] = '\a'
 
-" Mappings "
-let mapleader = ","
-"nnoremap <Space> :
-inoremap <C-c> <Esc>
-nnoremap <C-j> gj
-nnoremap <C-k> gk
-"nnoremap _ ^ " this is default
-nnoremap + $
-nnoremap <C-=> <C-w>+
-nnoremap <C-_> <C-w>-
-nnoremap <C-.> <C-w>>
-nnoremap <C-,> <C-w><
+" undotree "
+let g:undotree_HelpLine = 0
+let g:undotree_StatusLine = 0
 
-nnoremap <silent> <leader>p "+p
-nnoremap <silent> <leader>P "+P
-nnoremap <silent> <leader>s <cmd>setlocal nowrap<CR>
-nnoremap <silent> <leader>S <cmd>setlocal wrap<CR>
-nnoremap <silent> <leader>u <cmd>UndotreeToggle<CR>
-nnoremap <silent> <C-c> <cmd>let @/=""<CR>
+" highlight url "
+let g:highlighturl_guifg = "#a0f0f0"
 
-nnoremap <silent> <C-w>n :new<CR>
-nnoremap <silent> <C-w><C-n> :new<CR>
-nnoremap <silent> <C-w>m :vert new<CR>
-nnoremap <silent> <C-w><C-m> :vert new<CR>
+packadd nohlsearch
+let g:hlyank_duration = 400
+let g:vim_man_cmd = '/usr/bin/man'
+let g:asyncomplete_auto_popup = 0
 
-nnoremap <expr> o (line(".") - line("w0") > winheight(0) * 2 / 3) ? '<C-e>o' : 'o'
-nnoremap <expr> O (line(".") - line("w0") > winheight(0) * 2 / 3) ? '<C-e>O' : 'O'
-inoremap <expr> <CR> (line(".") - line("w0") > winheight(0) * 2 / 3) ? '<C-x><C-e><CR>' : '<CR>'
-"nnoremap <silent> <expr> 'z'.v:count.'<CR>' ':call LineToNumber('.v:count.')<CR>'
-
-" fold all lines in current indent
-function! FoldIndent() abort
-	" get indent of current line
-	let cur_pos = getcurpos()[1]
-	let cur_indent = indent(cur_pos)
-	let idx = 1
-	while indent(cur_pos + idx) > cur_indent
-		let idx += 1
-	endwhile
-	return idx
-endfunction
-nnoremap <expr> z<CR> 'zf'.FoldIndent().'j'
-
-" fzf-vim stuff "
-nnoremap <silent> <leader>f :GFiles<CR>
-nnoremap <silent> <leader>F :Files<CR>
-nnoremap <silent> <leader>h :Help<CR>
-nnoremap <silent> <leader>v :Buffers<CR>
-nnoremap <silent> <leader>m :Marks<CR>
-nnoremap <silent> <leader>j :Jumps<CR>
-nnoremap <silent> <leader>c :Commits<CR>
-nnoremap <silent> <leader>C :Changes<CR>
-nnoremap <silent> <leader>t :Lines<CR>
-nnoremap <silent> <leader>/ :History/<CR>
-"nnoremap <leader>g :Git 
-nnoremap <silent> <leader>ne :LspNextError<CR>
-" }}}
 
 " Vimscript "
-augroup aesthetics
-	autocmd!
+let g:vmode_y = ""
+let g:vy_start_line = ""
+let g:vy_start_col = ""
+let g:vy_end_line = ""
+let g:vy_end_col = ""
+func! s:visual_yank() abort
+	let g:vmode_y = visualmode()
+	let g:vy_start_line = line("'<")
+	let g:vy_start_col = virtcol("'<")
+	let g:vy_end_line = line("'>")
+	let g:vy_end_col = virtcol("'>")
+endf
 
-	" Current window "
-	autocmd BufEnter,WinEnter * set wincolor=NormalCurrentWindow
-	autocmd BufLeave,WinLeave * set wincolor=Normal
-	"autocmd WinEnter * setlocal signcolumn=yes
-	"autocmd WinLeave * setlocal signcolumn=no
-	autocmd BufEnter,WinEnter * set wrap
-	autocmd BufLeave,WinLeave * set nowrap
+func! s:visual_swap() abort
+	let s:vmode_x = visualmode()
+	let s:vx_start_line = line("'<")
+	let s:vx_start_col = virtcol("'<")
+	let s:vx_end_line = line("'>")
+	let s:vx_end_col = virtcol("'>")
 
-	" Cursorline "
-	autocmd BufEnter,WinEnter * set cursorline
-	autocmd WinLeave * set nocursorline
-augroup end
+	exec "norm! ".g:vy_start_line."G".g:vy_start_col."|".g:vmode_y.
+				\ g:vy_end_line."G".g:vy_end_col."|p".
+				\ s:vx_start_line."G".s:vx_start_col."|"
+				"\ .s:vmode_x.
+				"\ s:vx_end_line."G".s:vx_end_col."|"
+endf
 
-function! s:glsl_file() abort
-	syn keyword Keyword layout location binding in out smooth struct
-	syn keyword Define #version
+func TabLineSettings()
+	let s = ''
+	let i = 1
+	while i <= tabpagenr('$')
+		" select the highlighting
+		if i == tabpagenr()
+			let title_hi = '%#TabLineSel#'
+			let count_hi = '%#Title#'
+		else
+			let title_hi = '%#TabLine#'
+			let count_hi = '%#Title#'
+		endif
 
-	"syn region glslFuncDef transparent start="\(\h\w*\s*\)\{2,}(" end=")" contains=glslFuncParamHolder
-	"syn match glslFuncParamHolder transparent "\h\w*\s*\(\[\d*\]\)*\s*[,)]" contains=glslFuncParam,Operator
-	"syn match glslFuncParam "\h\w*" contained
-	"hi link glslFuncParam Define
+		let wincount = ''
+		if tabpagewinnr(i, '$') > 1
+			let wincount .= title_hi . ' ' . count_hi . tabpagewinnr(i,'$')
+		endif
 
-	syn match glslFunction "\h\w*\s*(" contains=glslFuncName,Operator transparent
-	syn match glslFuncName "\h\w*" contained
-	hi link glslFuncName Function
+		let modified = ''
+		let s .= wincount . title_hi . modified . ' '
 
-	syn match Operator "\V\[=+\-*/<>.,:;(){}]"
-	syn match Type "\.\@<=\h\w*"
-	syn match Define 'std\d\+'
+		let buflist = tabpagebuflist(i)
+		let winnr = tabpagewinnr(i)
+		let bufnr = buflist[winnr - 1]
+		let file = bufname(bufnr)
+		let buftype = getbufvar(bufnr, 'buftype')
+		if buftype == 'nofile'
+			if file =~ '\/.'
+				let file = substitute(file, '.*\/\ze.', '', '')
+			endif
+		else
+			let file = fnamemodify(file, ':p:t')
+		endif
+		if file == ''
+			let file = '[No Name]'
+		endif
+		let s .= file . ' '
+		let i += 1
+	endwhile
 
-	syn region Comment start="/\*" end="\*/" extend
-	syn match Comment "//.*$"
-endfunction
+	let s ..= '%#TabLineFill#%T '
+	return s
+endf
+set tabline=%!TabLineSettings()
 
-augroup filetype
-	autocmd!
 
-	" Vim "
-	autocmd FileType help setlocal nu rnu cursorline nowrap
-	autocmd FileType netrw setlocal nu rnu cursorline nowrap
-	"autocmd WinEnter,WinNew *help* set winwidth=84
-	"autocmd WinLeave,BufLeave *help* set winwidth=60
+" Mappings "
+map s <Nop>
+map  <C-c> <Esc>
+imap <C-c> <Esc>
+snoremap <C-c> <Esc>
+nmap <space>   g
+nmap <S-space> g
+omap "w "+
+xmap sa <Plug>(sandwich-add)
+"TODO: improve sandwich delete
+xmap sd <Plug>(sandwich-delete)
 
-	" C "
-	autocmd BufRead,BufNewFile *.c set filetype=c
-	autocmd BufRead,BufNewFile *.h set filetype=c
+noremap <C-w><C-c> <C-w><Esc>
+noremap <expr> N 'nN'[v:searchforward]
+noremap <expr> n 'Nn'[v:searchforward]
+nnoremap Y _"wy$
+nnoremap <C-,> <C-w><
+nnoremap <C-.> <C-w>>
+nnoremap <C-=> <C-w>+
+nnoremap <C-_> <C-w>-
+nnoremap <silent> <C-i> <C-i>
+nnoremap <silent> <Enter> o<Esc>
+nnoremap <silent> <S-Enter> O<Esc>
+nnoremap <silent> <Tab> gt
+nnoremap <silent> U <CMD>UndotreeToggle<CR>
 
-	" Other "
-	autocmd BufRead,BufNewFile *.s setlocal lisp
-	autocmd BufNew,BufRead,WinEnter *\ manpage set cursorline
-	autocmd BufRead,BufNewFile *.glsl set filetype=glsl
-	autocmd FileType glsl call s:glsl_file()
-augroup end
+func! s:i_ctrl_enter()
+	let pos = getpos('.')
+	let save = @n
+	let @n = "\n"
+	put n
+	let @n = save
+	call setpos('.', pos)
+endf
+inoremap <silent> <expr> <C-enter> "<Esc><CMD>call <SID>i_ctrl_enter()<CR>".
+			\ (match(getline('.'), "^[ 	]*$") == -1 ? "gi" : "S")
 
-function! s:on_lsp_buffer_enabled() abort
-	setlocal omnifunc=lsp#complete
-	setlocal tagfunc=lsp#tagfunc
-	setlocal formatoptions-=o formatoptions+=t
-	setlocal signcolumn=no
-	"setlocal textwidth=82
+vnoremap > >gv
+vnoremap < <gv
+vnoremap :s/ :s/\%V
+vnoremap <silent> * "vy<CMD>let @/=@v<CR>n
+vnoremap <silent> # "vy<CMD>let @/=@v<CR>N
+vnoremap <silent> <C-x> <CMD>call <SID>visual_yank()<CR>p<CMD>call <SID>visual_swap()<CR>
 
+" Custom motions "
+map <silent> gw <CMD>call search("\\v([0-9A-Za-z]+\|\\_s@<=\\S)", 'W')<CR>
+map <silent> gb <CMD>call search("\\v([0-9A-Za-z]+\|\\_s@<=\\S)", 'bW')<CR>
+"map <silent> e <CMD>call search("\\v([0-9A-Za-z]+\|\\S\\_s@=)",  'eW')<CR>
+
+vmap <expr> <silent> gw repeat(
+			\ "<CMD>call search('\\v([0-9A-Za-z]+\|\\_s@<=\\S)', 'W')<CR>",
+			\ max([v:count, 1]))
+"vmap <expr> <silent> e repeat(
+"			\ "<CMD>call search('\\v([0-9A-Za-z]+\|\\S\\_s@=)', 'eW')<CR>",
+"			\ max([v:count, 1]))
+
+omap <expr> <silent> gw "<CMD>norm v".max([v:count, 1])."gw<CR>"
+"omap <expr> <silent> e  "<CMD>norm v".max([v:count, 1])."e<CR>"
+
+command! H Help
+command! F Files
+command! B Buffers
+
+
+" Colour "
+au ColorScheme * call s:edit_colorscheme()
+func! s:edit_colorscheme() abort
+	if g:colors_name == 'rosepine_moon'
+		hi Normal guibg=#232136
+		hi NormalCurrentWindow guibg=#232135 guifg=#e0def4
+		"hi Normal guibg=#191724
+		"hi NormalCurrentWindow guibg=#191724 guifg=#e0def4
+
+		hi Macro guifg=#f6c177
+		hi Include guifg=#3e8fb0
+		hi Structure guifg=#3e8fb0
+		hi Typedef guifg=#3e8fb0
+		hi StorageClass guifg=#3e8fb0
+		hi SpecialChar guifg=#3e8fb0
+		hi StatusLineNC guibg=#232135
+		hi Folded guifg=#6e6a86
+		hi ModeMsg guifg=#e0def4
+
+		hi Search guifg=#eb6f92
+		hi IncSearch guibg=#eb6f92
+
+		"set list lcs=tab:│\ 
+		"hi SpecialKey guifg=#44415a
+	endif
+
+	if g:colors_name == 'rosepine'
+		hi! link Structure keyword
+		hi! link StorageClass keyword
+	endif
+
+	if g:colors_name == 'horizon'
+		"hi link Macro Special
+		hi Macro guifg=#f6c177
+		hi! link PreProc StorageClass
+		"hi! link Type Normal
+		set t_md=""
+	endif
+
+	if g:colors_name == 'fuzzy_colors'
+		hi! link CursorLine Normal
+		hi Search guifg=#eb6f92 guibg=#272c42
+		hi IncSearch guifg=#272c42 guibg=#eb6f92 cterm=NONE
+		hi! CocFloating guibg=#36383f
+		set t_md=""
+	endif
+endf
+
+au ColorScheme * call s:coc_highlight()
+func! s:coc_highlight() abort
+	hi! link CocErrorSign Error
+	hi! link CocErrorFloat Error
+	hi! link CocWarningSign WarningMsg
+	hi! link CocWarningFloat WarningMsg
+
+	hi CocErrorHighlight cterm=underline guisp=#ec6a88
+	hi CocWarningHighlight cterm=underline guisp=#f6c177
+	hi CocMenuSel guibg=#45474e
+	hi clear CocUnderline
+endf
+
+set termguicolors
+syn on
+color fuzzy_colors
+hi MatchParen guifg=NONE
+" TODO how to make this work
+"hi! link CursorLineFold CursorLineNr
+hi Todo guibg=#1c1e26
+
+
+" Autocommands "
+au TabEnter * norm! :<Esc>
+
+aug clearhlsearch
+	au!
+	au ModeChanged *:[xi]* call feedkeys("\<cmd>nohl\<cr>")
+	au TextChanged * call feedkeys("\<cmd>nohl\<cr>")
+	"au CmdlineEnter : set nohls
+	au CmdlineEnter [/?] set hls
+aug end
+
+aug current_window
+	au!
+	au BufEnter,WinEnter * set cursorline
+	au WinLeave * set nocursorline
+	if g:colors_name == 'rosepine_moon'
+		au BufEnter,WinEnter * set wincolor=NormalCurrentWindow
+		au BufLeave,WinLeave * set wincolor=Normal
+	endif
+aug end
+
+au VimResized * exec "norm! \<C-w>=zz"
+
+au User CocNvimInit call s:on_coc_start()
+func! s:on_coc_start() abort
+	nnoremap gd <Plug>(coc-definition)
+	nnoremap <expr> gs winheight(0) * 2.5 < winwidth(0) ?
+					\ "<CMD>call CocAction('jumpDefinition', 'vsplit')<CR>" :
+					\ "<CMD>call CocAction('jumpDefinition', 'split')<CR>"
+
+	nnoremap R <Plug>(coc-rename)
+	nnoremap <silent> <C-c> <CMD>call coc#float#close_all(0)<CR>
+	nnoremap <expr> K CocHasProvider('hover') ?
+					\ "<CMD>call CocAction('definitionHover')<CR>" : "K"
+
+	inoremap <expr> <C-d> coc#pum#visible() ? coc#pum#scroll(1) : "\<C-d>"
+	inoremap <expr> <C-u> coc#pum#visible() ? coc#pum#scroll(0) : "\<C-u>"
+	inoremap <expr> <C-y> coc#pum#visible() ? coc#pum#select_confirm() : coc#start()
+
+	inoremap <expr> <C-h> coc#float#has_float() ? coc#float#close_all(1) :
+						\ "<CMD>call CocAction('showSignatureHelp')<CR>"
+
+	" Fix highlight "
+	call s:coc_highlight()
+	au SourcePost .vimrc call s:on_coc_start()
+endf
+
+au FileType help,netrw setl nu rnu cursorline
+au FileType c call s:on_filetype_c()
+func! s:on_filetype_c() abort
+	call s:coc_highlight()
+	hi link cDefine Define
 	syn keyword Macro true false 
-	syn keyword Define #define 
-	syn keyword Type GLuint SDL_Event SDL_Window SDL_GLContext
-	syn match cmacro "\<\u\+\>"
-	syn match ctypedef_type "\<\(\u\l\+\)\+\>"
-	syn match Type "\<\w\+_t\>"
+	syn keyword Conditional case default
+	syn keyword Todo contained NOTE
 
-	syn keyword Argument argc argv
-	hi link Argument Define
+	syn match Function "\<\h\w*\ze\_s*("
+	syn match Macro "\<[A-Z_][0-9A-Z_]*\>"
 
-	nnoremap <buffer> K <plug>(lsp-hover-float)
-	nnoremap <buffer> gd <plug>(lsp-definition)
-	nnoremap <buffer> gD <plug>(lsp-declaration)
-	nnoremap <buffer> gs <plug>(lsp-document-symbol-search)
-	nnoremap <buffer> gS <plug>(lsp-workspace-symbol-search)
-	nnoremap <buffer> gr <plug>(lsp-references)
-	nnoremap <buffer> gi <plug>(lsp-implementation)
-	nnoremap <buffer> gt <plug>(lsp-type-definition)
-	nnoremap <buffer> <leader>r <plug>(lsp-rename)
-	nnoremap <buffer> [g <plug>(lsp-previous-diagnostic)
-	nnoremap <buffer> ]g <plug>(lsp-next-diagnostic)
-	nnoremap <buffer> <leader>d <plug>(lsp-document-diagnostics)
+	" variable or function definition
+	syn match Type "\v((\_^|;|\(|,)\_s*((const|static|inline|struct|enum|extern|register)\_s+)*)@<=\h\w*\ze[ \t\n*]+\h\w*"
+	" typecast
+	syn match Type "\v((<\h\w*\s*)@<!\(\s*((const|static|inline|struct|enum|extern|register)\_s+)*)@<=\h\w*\ze\s*\**\)"
+	syn match Type "\v(return\s+\()@<=\h\w*\ze\s*\**\)"
+	" struct/enum definition
+	syn match Type "\v((struct|enum)\_s+)@<=\h\w*\ze\_s*\{"
 
-	inoremap <buffer> <C-c> <Esc>
-endfunction
+	"imap <C-y> <C-x><C-o>
 
-augroup lsp_clangd
-	autocmd!
-	autocmd User lsp_setup call lsp#register_server({ 'name': 'clangd', 'cmd': { server_info->['clangd'] }, 'allowlist': ['c'], })
-	autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-	autocmd FileType c call s:on_lsp_buffer_enabled()
-augroup end
+	set path+=include,./include,../include
+	set path+=src,./src,../src
+	set fo=qjlr
+endf
 
-function! WindowColourOn() abort
-	hi NormalCurrentWindow guibg=#232135
-	hi SignColumn guibg=#232135
-endfunction
+au BufEnter *.S set filetype=asm
+au FileType asm call s:on_filetype_asm()
+func! s:on_filetype_asm() abort
+	"setlocal ts=8		" tab_stop
+endf
 
-function! WindowColourOff() abort
-	hi NormalCurrentWindow guibg=#232136
-	hi SignColumn guibg=#232136
-endfunction
+au FileType rust call s:on_filetype_rust()
+func! s:on_filetype_rust() abort
+	call s:coc_highlight()
 
-" Custom commands "
-function! s:help_current_window(subject)
-	let buftype = &buftype
-	let &buftype = 'help'
-	let v:errmsg = ''
-	let cmd = "help " . a:subject
-	silent! execute  cmd
-	if v:errmsg != ''
-		let &buftype = buftype
-		return cmd
-	else
-		call setbufvar('#', '&buftype', buftype)
+	hi link rustEscape SpecialChar
+	au! FileType rust setlocal signcolumn=yes " Call once
+endf
+
+au BufWinEnter * call s:check_read_stdin()
+func! s:check_read_stdin() abort
+	if get(v:argv, len(v:argv) - 1, '') == '-'
+		set syntax=pager
+		AnsiEsc
+		setlocal nowrap
+		setlocal concealcursor=nvic
+
+		nmap <buffer> <silent> yy :call <SID>yank_commit_hash()<CR>
+		func! s:yank_commit_hash() abort
+			let s:lnum = line(".")
+			let s:column = getpos(".")[2]
+			call cursor(s:lnum, 1)
+			if search("\\x\\{7}\\>", "c", s:lnum) == 0
+				echo "No commit hash in current line"
+				call cursor(s:lnum, s:column)
+				return
+			endif
+			echo 
+			norm! "wye
+		endf
 	endif
-endfunction
-command! -nargs=? -bar -complete=help H execute <SID>help_current_window(<q-args>)
-
-function! s:man_current_window(subject)
-	let buftype = &buftype
-	let &buftype = 'nofile'
-	let v:errmsg = ''
-	let cmd = "Man " . a:subject
-	silent! execute  cmd
-	if v:errmsg != ''
-		let &buftype = buftype
-		return cmd
-	else
-		call setbufvar('#', '&buftype', buftype)
-	endif
-endfunction
-command! -nargs=? -bar -complete=help M execute <SID>man_current_window(<q-args>)
-
-" Pokedex thing "
-function! s:dex_highlight()
-	syn keyword BlkType Drk Dra Gho
-	syn keyword RedType Fir
-	syn keyword GrnType Gra
-	syn keyword YlwType Bug Ele
-	syn keyword BluType Wtr Ice
-	syn keyword PurType Psy Fae Poi
-	syn keyword BrnType Grn Rck Fgh
-	syn keyword WhtType Nor Fly Stl
-	hi BlkType guifg=#908caa
-	hi RedType guifg=#eb6f92
-	hi GrnType guifg=#3e8fb0
-	hi YlwType guifg=#f6c177
-	hi BluType guifg=#9ccfd8
-	hi PurType guifg=#c4a7e7
-	hi BrnType guifg=#ea9a97
-	hi WhtType guifg=#c0bed4
-endfunction
-
-augroup pokedex
-	autocmd!
-	autocmd BufRead,BufEnter *.dex call s:dex_highlight()
-augroup end
+	" TODO: fix slow to move on to line with git hash (with j/k)
+	" XXX Call only once "
+	au! BufWinEnter
+endf

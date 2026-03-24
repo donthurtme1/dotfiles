@@ -1,0 +1,11 @@
+{
+	"coc.preferences.jumpCommand": "edit",
+	"inlayHint.enable": false,
+	"inlayHint.enableParameter": false,
+	"suggest.autoTrigger": "always",
+	"suggest.minTriggerInputLength": 4,
+	"diagnostic.errorSign": "E>",
+	"diagnostic.warningSign": "W>",
+	"signature.enable": false,
+	"clangd.arguments": ["--header-insertion=never", "--completion-style=bundled"]
+}
