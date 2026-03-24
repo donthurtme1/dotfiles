@@ -21,6 +21,8 @@
 		"custom/sep",
 		/*"mpd",
 		"custom/sep",*/
+		"battery",
+		"custom/sep",
 		"wireplumber",
 		"custom/sep",
 		"clock"
