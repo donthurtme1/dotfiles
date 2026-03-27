@@ -280,7 +280,6 @@ endf
 
 set termguicolors
 syn on
-color fuzzy_colors
 hi MatchParen guifg=NONE
 " TODO how to make this work
 "hi! link CursorLineFold CursorLineNr
@@ -302,7 +301,7 @@ aug current_window
 	au!
 	au BufEnter,WinEnter * set cursorline
 	au WinLeave * set nocursorline
-	if g:colors_name == 'rosepine_moon'
+	if exists("g:colors_name") && (g:colors_name == 'rosepine_moon')
 		au BufEnter,WinEnter * set wincolor=NormalCurrentWindow
 		au BufLeave,WinLeave * set wincolor=Normal
 	endif
