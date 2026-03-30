@@ -220,6 +220,9 @@ command! B Buffers
 " Colour "
 au ColorScheme * call s:edit_colorscheme()
 func! s:edit_colorscheme() abort
+	" Changes for all colourschemes
+	hi! link CursorLine Normal
+
 	if g:colors_name == 'rosepine_moon'
 		hi Normal guibg=#232136
 		hi NormalCurrentWindow guibg=#232135 guifg=#e0def4
@@ -257,7 +260,6 @@ func! s:edit_colorscheme() abort
 	endif
 
 	if g:colors_name == 'fuzzy_colors'
-		hi! link CursorLine Normal
 		hi Search guifg=#eb6f92 guibg=#272c42
 		hi IncSearch guifg=#272c42 guibg=#eb6f92 cterm=NONE
 		hi! CocFloating guibg=#36383f
