@@ -219,6 +219,7 @@ command! B Buffers
 
 " Colour "
 au ColorScheme * call s:edit_colorscheme()
+hi! link CursorLine Normal
 func! s:edit_colorscheme() abort
 	" Changes for all colourschemes
 	hi! link CursorLine Normal
