@@ -74,7 +74,7 @@
 		"tooltip": false
 	},
 	"clock": {
-		"format": " {:%a %d/%m/%y - %R %Z} ",
+		"format": " {:%a %d/%m/%y - %I:%M %Z} ",
 		"tooltip": false
 	},
 

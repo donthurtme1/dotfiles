@@ -17,8 +17,6 @@ alias objdump='objdump -Mintel'
 alias etch='xorriso-dd-target -DO_WRITE -with_sudo -image_file' # etch [image_file] [device_name]
 alias dwl='XDG_CURRENT_DESKTOP=dwl dwl > ~/.cache/dwloutput'
 
-alias update-osu='wget https://github.com/ppy/osu/releases/latest/download/osu.AppImage ; mv osu.AppImage /usr/local/bin/osu ; chmod a+x /usr/local/bin/osu'
-
 #alias fe='export FZF_DEFAULT_COMMAND="rg --files /bin /usr/local/bin" ; $(fzf) ; export FZF_DEFAULT_COMMAND="rg --files --hidden"' # find executable
 #alias ef='$EDITOR $(fzf)' # edit file
 #alias ls='export FZF_DEFAULT_COMMAND="ls -F" ; $(fzf) ; export FZF_DEFAULT_COMMAND="rg --files --hidden"'
@@ -124,3 +122,4 @@ export PAGER="$HOME/scripts/pager-switch.c"
 export MANPAGER="vim +MANPAGER --not-a-term -"
 export WINEPREFIX="$HOME/.wine"
 export HISTFILE="$XDG_CACHE_HOME/bash_history"
+export PATH+=":."

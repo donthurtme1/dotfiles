@@ -1,13 +1,14 @@
-let g:wordmotion_spaces=['\S\@<=[->_.]\S\@=']
+"let g:wordmotion_spaces=['\S\@<=[->_.]\S\@=']
 
 " Plugins " 
 call plug#begin('~/.vim/plugged')
 	" essential / simple "
 	Plug '~/vimscript/fuzzy_colors' "TODO: rename to moondust or something
+	Plug 'rose-pine/vim'
 	"Plug '~/vimscript/man-resize' "TODO: make it better
 	"Plug 'mg979/vim-visual-multi', "TODO: make this not suck
 
-	Plug 'chaoren/vim-wordmotion'
+	"Plug 'chaoren/vim-wordmotion'
 	Plug 'machakann/vim-sandwich'
 	Plug 'itchyny/vim-highlighturl'
 	Plug 'jasonccox/vim-wayland-clipboard'
@@ -32,7 +33,7 @@ set cursorline autoindent cindent showcmd
 set cinoptions+=:0,l1,t0
 set viewoptions=cursor,slash,unix formatoptions=qjlr
 set lazyredraw
-set linebreak breakindent breakindentopt=shift:8
+"set linebreak breakindent breakindentopt=shift:8
 set viminfo='256,<256,%64 
 set incsearch ignorecase 
 set autowriteall noequalalways 
@@ -225,7 +226,7 @@ func! s:edit_colorscheme() abort
 		hi Normal guibg=#232136
 		hi NormalCurrentWindow guibg=#232135 guifg=#e0def4
 		"hi Normal guibg=#191724
-		"hi NormalCurrentWindow guibg=#191724 guifg=#e0def4
+		hi NormalCurrentWindow guibg=#191724 guifg=#e0def4
 
 		hi Macro guifg=#f6c177
 		hi Include guifg=#3e8fb0
@@ -262,6 +263,9 @@ func! s:edit_colorscheme() abort
 		hi Search guifg=#eb6f92 guibg=#272c42
 		hi IncSearch guifg=#272c42 guibg=#eb6f92 cterm=NONE
 		hi! CocFloating guibg=#36383f
+
+		"hi NormalCurrentWindow ctermfg=252 ctermbg=233 guifg=#d5d8da guibg=#1c1e26
+		"hi Normal guibg=#232136
 		set t_md=""
 	endif
 endf
@@ -303,10 +307,10 @@ aug current_window
 	au!
 	au BufEnter,WinEnter * set cursorline
 	au WinLeave * set nocursorline
-	if g:colors_name == 'rosepine_moon'
+	"if g:colors_name == 'rosepine_moon'
 		au BufEnter,WinEnter * set wincolor=NormalCurrentWindow
 		au BufLeave,WinLeave * set wincolor=Normal
-	endif
+	"endif
 aug end
 
 au VimResized * exec "norm! \<C-w>=zz"
@@ -345,15 +349,15 @@ func! s:on_filetype_c() abort
 	syn keyword Todo contained NOTE
 
 	syn match Function "\<\h\w*\ze\_s*("
-	syn match Macro "\<[A-Z_][0-9A-Z_]*\>"
+	syn match Macro "\<[A-Z_][0-9A-Z_]\+\>"
 
 	" variable or function definition
-	syn match Type "\v((\_^|;|\(|,)\_s*((const|static|inline|struct|enum|extern|register)\_s+)*)@<=\h\w*\ze[ \t\n*]+\h\w*"
+	syn match Type "\v((\_^|;|\h\w*\_s*\(|,)\_s*((const|static|inline|struct|union|enum|extern|register)\_s+)*)@<=\h\w*\ze[ \t\n*]+\h\w*"
 	" typecast
-	syn match Type "\v((<\h\w*\s*)@<!\(\s*((const|static|inline|struct|enum|extern|register)\_s+)*)@<=\h\w*\ze\s*\**\)"
+	syn match Type "\v((<\h\w*\s*)@<!\(\s*((const|static|inline|struct|union|enum|extern|register)\_s+)*)@<=\h\w*\ze\s*\**\)"
 	syn match Type "\v(return\s+\()@<=\h\w*\ze\s*\**\)"
 	" struct/enum definition
-	syn match Type "\v((struct|enum)\_s+)@<=\h\w*\ze\_s*\{"
+	syn match Type "\v((struct|union|enum)\_s+)@<=\h\w*\ze\_s*\{"
 
 	"imap <C-y> <C-x><C-o>
 
