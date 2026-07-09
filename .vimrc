@@ -45,6 +45,7 @@ set ttyscroll=0 title
 set statusline=%<%f\ %h%m%r%=pos:%l,%v\ \ \ \ %L\ lines\ \ \ %P
 set rulerformat=%38(%=pos:%l,%v\ \ \ \ %L\ lines\ \ \ %P%)
 set tags+=./tags
+set termwinsize=10x0
 filetype on
 
 " folding "
