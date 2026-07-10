@@ -218,6 +218,8 @@ omap <expr> <silent> gw "<CMD>norm v".max([v:count, 1])."gw<CR>"
 command! H Help
 command! F Files
 command! B Buffers
+"TODO: improve :Make command with custom function
+command! Make ter make
 
 
 " Colour "
