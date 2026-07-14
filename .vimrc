@@ -17,7 +17,7 @@ call plug#begin('~/.vim/plugged')
 
 	" non-essential / i don't like "
 	" TODO: use ctags instead of coc for everything except errors/warnings
-	Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+	Plug 'neoclide/coc.nvim', { 'branch': 'release', 'for': ['c'] }
 	Plug 'mbbill/undotree'
 	Plug 'junegunn/fzf.vim'
 call plug#end()
@@ -42,7 +42,7 @@ set nrformats+=alpha
 set undodir=$HOME/.vim/undodir undofile
 set ssop=buffers,curdir,folds,help,tabpages,winsize
 set ttyscroll=0 title
-set statusline=%<%f\ %h%m%r%=pos:%l,%v\ \ \ \ %L\ lines\ \ \ %P
+set laststatus=2 statusline=%<%f\ %h%m%r%=pos:%l,%v\ \ \ \ %L\ lines\ \ \ %P
 set rulerformat=%38(%=pos:%l,%v\ \ \ \ %L\ lines\ \ \ %P%)
 set tags+=./tags
 set termwinsize=10x0
@@ -155,6 +155,57 @@ func TabLineSettings()
 endf
 set tabline=%!TabLineSettings()
 
+" custom zig functions
+func! s:zig_find_file(search_file) abort
+	let zig_path = ['zig-pkg/**', '/usr/lib/zig/**']
+	for zig_dir in zig_path
+		let str = a:search_file
+		if match(str, '.zig') == -1
+			let str = str . '.zig'
+		endif
+		let file = findfile(str, zig_dir)
+		if file != ''
+			return file
+		endif
+	endfor
+
+	"let zig_dir = '/usr/lib/zig/**'
+	"let str = a:search_file
+	"if match(str, '.zig') == -1
+	"	let str = str . '.zig'
+	"endif
+	"let file = findfile(str, zig_dir)
+	"if file != ''
+	"	return file
+	"endif
+
+	return ''
+endf
+
+func! s:zig_gf()
+	let exp = expand('<cfile>')
+	let file = s:zig_find_file(exp)
+	if file == ''
+		if match(exp, '.zig') == -1
+			let exp = exp . '.zig'
+		endif
+		echo "File \"" . exp . "\" doesn't exist"
+		return
+	endif
+	exec "edit " . file
+endf
+
+func! s:zig_gd() abort
+	" first try to find it in current file
+	if search('\(fn\|const\|var\)\s\+\zs' . expand('<cexpr>') . '\>', 'cbs') > 0
+		return
+	endif
+
+	" try to find in /usr/lib/zig
+	"let file = s:zig_find_file()
+	let out = system(['rg', ])
+endf
+
 
 " Mappings "
 map s <Nop>
@@ -215,11 +266,26 @@ vmap <expr> <silent> gw repeat(
 omap <expr> <silent> gw "<CMD>norm v".max([v:count, 1])."gw<CR>"
 "omap <expr> <silent> e  "<CMD>norm v".max([v:count, 1])."e<CR>"
 
-command! H Help
-command! F Files
-command! B Buffers
-"TODO: improve :Make command with custom function
-command! Make ter make
+" TODO: add args to s:custom_Make() function
+command! Make call s:custom_Make()
+func! s:custom_Make()
+	let split_below_opt = &splitbelow
+	let split_right_opt = &splitright
+	set splitbelow splitright
+
+	let win_id = win_findbuf(bufnr('!make'))
+	if !empty(win_id)
+		if win_gotoid(win_id[0])
+			term ++curwin make
+		else
+			echo "win_gotoid(" . win_id[0] . ") failed"
+		endif
+	else
+		term make
+	endif
+	exec 'set ' . (split_below_opt ? 'splitbelow' : 'nosplitbelow')
+		\ ' '   . (split_right_opt ? 'splitright' : 'nosplitright')
+endf
 
 
 " Colour "
@@ -367,6 +433,12 @@ func! s:on_filetype_c() abort
 	set path+=include,./include,../include
 	set path+=src,./src,../src
 	set fo=qjlr
+endf
+
+au FileType zig call s:on_filetype_zig()
+func! s:on_filetype_zig()
+	map <silent> gf <CMD>call <SID>zig_gf()<CR>
+	map <silent> gd <CMD>call <SID>zig_gd()<CR>
 endf
 
 au BufEnter *.S set filetype=asm
