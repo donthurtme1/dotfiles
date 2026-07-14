@@ -45,7 +45,6 @@ set ttyscroll=0 title
 set laststatus=2 statusline=%<%f\ %h%m%r%=pos:%l,%v\ \ \ \ %L\ lines\ \ \ %P
 set rulerformat=%38(%=pos:%l,%v\ \ \ \ %L\ lines\ \ \ %P%)
 set tags+=./tags
-set termwinsize=10x0
 filetype on
 
 " folding "
@@ -281,7 +280,7 @@ func! s:custom_Make()
 			echo "win_gotoid(" . win_id[0] . ") failed"
 		endif
 	else
-		term make
+		term ++rows=10 make
 	endif
 	exec 'set ' . (split_below_opt ? 'splitbelow' : 'nosplitbelow')
 		\ ' '   . (split_right_opt ? 'splitright' : 'nosplitright')
