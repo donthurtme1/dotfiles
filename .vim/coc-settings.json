@@ -6,6 +6,10 @@
 	"suggest.minTriggerInputLength": 4,
 	"diagnostic.errorSign": "E>",
 	"diagnostic.warningSign": "W>",
+	"diagnostic.enable": false,
 	"signature.enable": false,
-	"clangd.arguments": ["--header-insertion=never", "--completion-style=bundled"]
+	"clangd.enabled": true,
+	"clangd.disableCompletion": false,
+	"clangd.arguments": ["--header-insertion=never", "--completion-style=bundled", "--all-scopes-completion=false"],
+	"zig.path": "zls-master"
 }

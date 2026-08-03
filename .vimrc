@@ -17,7 +17,7 @@ call plug#begin('~/.vim/plugged')
 
 	" non-essential / i don't like "
 	" TODO: use ctags instead of coc for everything except errors/warnings
-	Plug 'neoclide/coc.nvim', { 'branch': 'release', 'for': ['c'] }
+	Plug 'neoclide/coc.nvim', { 'branch': 'release', 'for': ['c', 'zig'] }
 	Plug 'mbbill/undotree'
 	Plug 'junegunn/fzf.vim'
 call plug#end()
@@ -209,6 +209,9 @@ endf
 " Mappings "
 map s <Nop>
 map  <C-c> <Esc>
+"TODO
+"map m{a-z}
+"map '{a-z}
 imap <C-c> <Esc>
 snoremap <C-c> <Esc>
 nmap <space>   g
@@ -231,6 +234,9 @@ nnoremap <silent> <Enter> o<Esc>
 nnoremap <silent> <S-Enter> O<Esc>
 nnoremap <silent> <Tab> gt
 nnoremap <silent> U <CMD>UndotreeToggle<CR>
+"TODO: list of marks, named strings
+"nnoremap ' ...
+"nnoremap m ...
 
 func! s:i_ctrl_enter()
 	let pos = getpos('.')
@@ -265,13 +271,16 @@ vmap <expr> <silent> gw repeat(
 omap <expr> <silent> gw "<CMD>norm v".max([v:count, 1])."gw<CR>"
 "omap <expr> <silent> e  "<CMD>norm v".max([v:count, 1])."e<CR>"
 
-" TODO: add args to s:custom_Make() function
+" TODO: add args to s:custom_Make() function to control build targets
 command! Make call s:custom_Make()
 func! s:custom_Make()
+	" save
 	let split_below_opt = &splitbelow
 	let split_right_opt = &splitright
 	set splitbelow splitright
+	let current_win = win_getid()
 
+	" do make command
 	let win_id = win_findbuf(bufnr('!make'))
 	if !empty(win_id)
 		if win_gotoid(win_id[0])
@@ -280,16 +289,27 @@ func! s:custom_Make()
 			echo "win_gotoid(" . win_id[0] . ") failed"
 		endif
 	else
-		term ++rows=10 make
+		term ++rows=6 make
 	endif
+
+	" return
+	call win_gotoid(current_win)
 	exec 'set ' . (split_below_opt ? 'splitbelow' : 'nosplitbelow')
 		\ ' '   . (split_right_opt ? 'splitright' : 'nosplitright')
 endf
 
 
 " Colour "
-au ColorScheme * call s:edit_colorscheme()
+aug ColorGroup
+	au!
+	au ColorScheme * call s:edit_colorscheme()
+	au ColorScheme * call s:coc_highlight()
+aug end
+
 func! s:edit_colorscheme() abort
+	hi link cErrInParen Normal
+	hi link cParenError Normal
+
 	if g:colors_name == 'rosepine_moon'
 		hi Normal guibg=#232136
 		hi NormalCurrentWindow guibg=#232135 guifg=#e0def4
@@ -338,7 +358,6 @@ func! s:edit_colorscheme() abort
 	endif
 endf
 
-au ColorScheme * call s:coc_highlight()
 func! s:coc_highlight() abort
 	hi! link CocErrorSign Error
 	hi! link CocErrorFloat Error
@@ -358,10 +377,11 @@ hi MatchParen guifg=NONE
 " TODO how to make this work
 "hi! link CursorLineFold CursorLineNr
 hi Todo guibg=#1c1e26
+syn keyword Todo NOTE contained containedin=Comment
 
 
 " Autocommands "
-au TabEnter * norm! :<Esc>
+au! TabEnter * norm! :<Esc>
 
 aug clearhlsearch
 	au!
@@ -381,9 +401,9 @@ aug current_window
 	"endif
 aug end
 
-au VimResized * exec "norm! \<C-w>=zz"
+au! VimResized * exec "norm! \<C-w>=zz"
 
-au User CocNvimInit call s:on_coc_start()
+au! User CocNvimInit call s:on_coc_start()
 func! s:on_coc_start() abort
 	nnoremap gd <Plug>(coc-definition)
 	nnoremap <expr> gs winheight(0) * 2.5 < winwidth(0) ?
@@ -404,17 +424,18 @@ func! s:on_coc_start() abort
 
 	" Fix highlight "
 	call s:coc_highlight()
-	au SourcePost .vimrc call s:on_coc_start()
+	au! SourcePost .vimrc call s:on_coc_start()
+	syn keyword Todo NOTE contained containedin=cComment
 endf
 
-au FileType help,netrw setl nu rnu cursorline
-au FileType c call s:on_filetype_c()
+au! FileType help,netrw setl nu rnu cursorline
+au! FileType c call s:on_filetype_c()
 func! s:on_filetype_c() abort
 	call s:coc_highlight()
 	hi link cDefine Define
 	syn keyword Macro true false 
 	syn keyword Conditional case default
-	syn keyword Todo contained NOTE
+	syn keyword Todo NOTE contained containedin=cComment
 
 	syn match Function "\<\h\w*\ze\_s*("
 	syn match Macro "\<[A-Z_][0-9A-Z_]\+\>"
@@ -434,19 +455,19 @@ func! s:on_filetype_c() abort
 	set fo=qjlr
 endf
 
-au FileType zig call s:on_filetype_zig()
+au! FileType zig call s:on_filetype_zig()
 func! s:on_filetype_zig()
-	map <silent> gf <CMD>call <SID>zig_gf()<CR>
-	map <silent> gd <CMD>call <SID>zig_gd()<CR>
+	"map <silent> gf <CMD>call <SID>zig_gf()<CR>
+	"map <silent> gd <CMD>call <SID>zig_gd()<CR>
 endf
 
-au BufEnter *.S set filetype=asm
-au FileType asm call s:on_filetype_asm()
+au! BufEnter *.S set filetype=asm
+au! FileType asm call s:on_filetype_asm()
 func! s:on_filetype_asm() abort
 	"setlocal ts=8		" tab_stop
 endf
 
-au FileType rust call s:on_filetype_rust()
+au! FileType rust call s:on_filetype_rust()
 func! s:on_filetype_rust() abort
 	call s:coc_highlight()
 
@@ -454,7 +475,65 @@ func! s:on_filetype_rust() abort
 	au! FileType rust setlocal signcolumn=yes " Call once
 endf
 
-au BufWinEnter * call s:check_read_stdin()
+au! BufEnter *.gay set filetype=gay
+au! FileType gay call s:on_filetype_gay()
+func! s:on_filetype_gay()
+	syn match Comment "//.*"
+	syn keyword Todo NOTE contained containedin=Comment
+
+	syn region GayAttribute keepend matchgroup=PreProc start="#\[" end="\]"
+	syn match PreProc "#\h\w*\>" containedin=FunctionArgs,StructContents
+
+	syn region FunctionArgs matchgroup=DepthBracketPair start="(" end=")"
+				\ keepend extend contains=Constant,Enum,String,StorageClass,FunctionArgs
+	syn region StructContents start="\(struct\_s*{\_s*\)\@<=" end="}\@="
+				\ keepend contains=Constant,Enum,String
+	syn region UnionContents start="\(union\s*:\h\w*\_s*{\_s*\)\@<=" end="}\@="
+				\ keepend contains=Constant,Enum,String
+
+	syn region TypeRegion start="\(let\_s\+\h\w*\_s*:\_s*\)\@<=" end="[=;)]\@=" keepend
+	syn region TypeRegion start="\()\_s*:\_s*\)\@<=" end="[;,{]\@=" keepend
+	syn region TypeRegion start="\(\h\w*\s*:\_s*\)\@<=" end="[)},]\@=" keepend
+				\ contained containedin=FunctionArgs,StructContents,UnionContents
+
+	syn region GayTypeDefRegion start="\(type\)\@<=\s\+" end="\(\_s*[=;{]\|where\)"
+				\ keepend matchgroup=GayTypeEnds
+	syn match Type "\h\w*" contained containedin=TypeRegion,GayTypeDefRegion
+	syn match Module "\h\w*::" containedin=TypeRegion,GayTypeDefRegion,FunctionArgs
+
+	syn region GayArray matchgroup=Operator start="\[" end="\]"
+				\ keepend containedin=TypeRegion,GayTypeDefRegion,
+				\ FunctionArgs,StructContents,UnionContents
+	syn region GayGenericContents matchgroup=Operator start="<" end=">" extend
+				\ keepend contained containedin=TypeRegion,GayTypeDefRegion
+				"\ FunctionArgs,StructContents,UnionContents,GayGenericContents extend
+	"syn region DepthAnglebracketsPair start="<" end=">"
+	syn match Operator "[&^]" containedin=TypeRegion,GayTypeDefRegion,
+				\ FunctionArgs,StructContents,UnionContents
+	syn match Operator "[?]" contained containedin=TypeRegion,GayTypeDefRegion
+
+	syn keyword StorageClass let mut containedin=TypeRegion,GayTypeDefRegion
+	syn keyword Keyword fn use return while for if else not and or xor break in switch
+				\ containedin=FunctionArgs
+	syn keyword Structure struct enum union type where containedin=GayTypeDefRegion
+	syn keyword Constant true false
+
+	syn match Function "\h\w*\ze\_s*(" containedin=FunctionArgs
+
+	syn match Number "\<\(0x\s*\)\?[0-9]\+\>"
+				\ containedin=GayArray,FunctionArgs,StructContents,UnionContents
+	"containedin=FunctionArgs,StructContents,UnionContents
+
+	syn region String keepend matchgroup=String start='"' skip='\\"' end='"'
+				\ containedin=FunctionArgs,UnionContents
+	syn match String "'\\\?.'" containedin=FunctionArgs
+	syn match SpecialChar "\\." containedin=String
+
+	syn match Enum "$\h\w*" containedin=FunctionArgs,StructContents,UnionContents
+	hi link Enum String
+endf
+
+au! BufWinEnter * call s:check_read_stdin()
 func! s:check_read_stdin() abort
 	if get(v:argv, len(v:argv) - 1, '') == '-'
 		set syntax=pager

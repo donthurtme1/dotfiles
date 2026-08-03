@@ -46,7 +46,7 @@ function f() {
 
 function parse_git_branch() {
 	if [ -e ".git" ]; then
-		echo '\[\e[32m\]$(git branch --show-current)\[\e[0m\]:'
+		echo ' \[\e[32m\]$(git branch --show-current)\[\e[0m\]'
 	fi
 }
 
@@ -105,11 +105,14 @@ if [[ "$TERM" = "linux" ]]; then
 fi
 
 PS1="$CAT
- \t \[\e[35m\]\u@\h $(parse_git_branch)\[\e[34m\]\w \[\e[35m\]$PROMPT_ARROW \[\e[0m\]"
+ \t \[\e[35m\]\u@\h$(parse_git_branch)\[\e[34m\]\w \[\e[35m\]$PROMPT_ARROW \[\e[0m\]"
+
+PS1="\[\e[0m\] \w$(parse_git_branch) \[\e[32m\]$\[\e[0m\] "
 function cd() {
 	builtin cd "$@"
 	export PS1="$CAT
- \t \[\e[35m\]\u@\h $(parse_git_branch)\[\e[34m\]\w \[\e[35m\]$PROMPT_ARROW \[\e[0m\]"
+ \t \[\e[35m\]\u@\h$(parse_git_branch)\[\e[34m\]\w \[\e[35m\]$PROMPT_ARROW \[\e[0m\]"
+	export PS1="\[\e[0m\] \w$(parse_git_branch) \[\e[32m\]$\[\e[0m\] "
 }
 
 export EDITOR='vim'

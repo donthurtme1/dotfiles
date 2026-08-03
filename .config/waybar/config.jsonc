@@ -9,7 +9,7 @@
 	"spacing": 4,
 	"modules-left": [
 		"dwl/tags",
-		"dwl/window#layout",
+		//"dwl/window#layout",
 		"custom/sep",
 		"custom/sep"
 	],
