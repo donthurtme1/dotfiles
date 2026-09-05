@@ -17,7 +17,7 @@ call plug#begin('~/.vim/plugged')
 
 	" non-essential / i don't like "
 	" TODO: use ctags instead of coc for everything except errors/warnings
-	Plug 'neoclide/coc.nvim', { 'branch': 'release', 'for': ['c', 'zig'] }
+	Plug 'neoclide/coc.nvim', { 'branch': 'release', 'for': ['c', 'zig', 'my_zig'] }
 	Plug 'mbbill/undotree'
 	Plug 'junegunn/fzf.vim'
 call plug#end()
@@ -25,12 +25,18 @@ call plug#end()
 
 " General settings " 
 set nu rnu
-set tabstop=4 shiftwidth=4 noexpandtab
+set tabstop=4 shiftwidth=4 expandtab
 set smartcase hlsearch
 set nocompatible wildmenu signcolumn=no
 set foldmethod=manual
 set cursorline autoindent cindent showcmd
-set cinoptions+=:0,l1,t0
+let &t_SI = "\e[6 q"
+let &t_EI = "\e[0 q"
+
+" NOTE: i would love to have k0
+" but vim sucks and apparently thinks 0 == s
+set cinoptions=:0,l1,t0,(0,k1,U1,b1
+
 set viewoptions=cursor,slash,unix formatoptions=qjlr
 set lazyredraw
 "set linebreak breakindent breakindentopt=shift:8
@@ -289,7 +295,7 @@ func! s:custom_Make()
 			echo "win_gotoid(" . win_id[0] . ") failed"
 		endif
 	else
-		term ++rows=6 make
+		term ++rows=16 make
 	endif
 
 	" return
@@ -377,7 +383,7 @@ hi MatchParen guifg=NONE
 " TODO how to make this work
 "hi! link CursorLineFold CursorLineNr
 hi Todo guibg=#1c1e26
-syn keyword Todo NOTE contained containedin=Comment
+syn keyword Todo NOTE contained containedin=cComment,Comment
 
 
 " Autocommands "
@@ -425,7 +431,7 @@ func! s:on_coc_start() abort
 	" Fix highlight "
 	call s:coc_highlight()
 	au! SourcePost .vimrc call s:on_coc_start()
-	syn keyword Todo NOTE contained containedin=cComment
+	syn keyword Todo NOTE contained containedin=cComment,Comment
 endf
 
 au! FileType help,netrw setl nu rnu cursorline
@@ -435,7 +441,9 @@ func! s:on_filetype_c() abort
 	hi link cDefine Define
 	syn keyword Macro true false 
 	syn keyword Conditional case default
-	syn keyword Todo NOTE contained containedin=cComment
+
+	syn match cComment "//.*$"
+	syn keyword Todo NOTE TODO XXX contained containedin=cComment,Comment
 
 	syn match Function "\<\h\w*\ze\_s*("
 	syn match Macro "\<[A-Z_][0-9A-Z_]\+\>"
@@ -455,10 +463,43 @@ func! s:on_filetype_c() abort
 	set fo=qjlr
 endf
 
+"au! BufEnter *.zig set filetype=my_zig
 au! FileType zig call s:on_filetype_zig()
 func! s:on_filetype_zig()
+	set syntax=none
 	"map <silent> gf <CMD>call <SID>zig_gf()<CR>
 	"map <silent> gd <CMD>call <SID>zig_gd()<CR>
+	syn match Comment "//.*" containedin=FunctionArgs,FunctionDefArgs
+
+	syn keyword Statement pub inline return try defer if else while for break asm
+	syn keyword Statement fn containedin=ZigTypeRegion
+	syn keyword Structure struct
+	syn keyword StorageClass const volatile var containedin=Type
+	syn match PreProc "@\h\w*\>"
+	syn match Operator "[[\]&*!?]" containedin=ZigTypeRegion
+	syn match Number "\<\(0x\s*\)\?[0-9_]\+\>" containedin=ZigTypeRegion
+	syn match Comment "\<_\>\(\_s*=\)\?" containedin=ArrayContents
+	syn keyword Constant true false null undefined
+
+	syn region String keepend start='"' skip='\\"' end='"'
+	syn match String "'\\\?.'"
+	syn match SpecialChar "\\." containedin=String
+
+	syn match Function "\h\w*\(\_s*(\)\@="
+	syn region FunctionArgs matchgroup=Paren start="(" end=")"
+				\ contains=Function,FunctionArgs,Paren,Enum,Constant,Number,String,
+				\ Operator,PreProc,Statement
+	syn region FunctionDefArgs matchgroup=Paren start="\(fn\_s*\h\w*\_s*\)\@<=(" end=")"
+				\ contains=ZigTypeRegion containedin=ZigTypeRegion
+
+	syn region ArrayContents matchgroup=Operator start="\[" end="\]"
+				\ containedin=ZigTypeRegion contains=Number,Constant,Operator
+	syn match Operator ":" contained containedin=ArrayContents
+
+	syn region ZigTypeRegion start="\(\h\w*\s*:\s*\)\@<=" end="[;=,)]\@="
+	syn region ZigTypeRegion start="\(fn\_s\+\h\w*\_s*(.*)\_s*\)\@<=" end="[;{]\@="
+				\ containedin=ZigTypeRegion
+	syn match Type "\<\h\w*\>\.\@!" contained containedin=ZigTypeRegion
 endf
 
 au! BufEnter *.S set filetype=asm
@@ -478,10 +519,11 @@ endf
 au! BufEnter *.gay set filetype=gay
 au! FileType gay call s:on_filetype_gay()
 func! s:on_filetype_gay()
-	syn match Comment "//.*"
+	syn match Comment "//.*" containedin=StructContents,TypeRegion
 	syn keyword Todo NOTE contained containedin=Comment
 
 	syn region GayAttribute keepend matchgroup=PreProc start="#\[" end="\]"
+				\ containedin=StructContents,UnionContents,FunctionArgs
 	syn match PreProc "#\h\w*\>" containedin=FunctionArgs,StructContents
 
 	syn region FunctionArgs matchgroup=DepthBracketPair start="(" end=")"
@@ -492,31 +534,29 @@ func! s:on_filetype_gay()
 				\ keepend contains=Constant,Enum,String
 
 	syn region TypeRegion start="\(let\_s\+\h\w*\_s*:\_s*\)\@<=" end="[=;)]\@=" keepend
-	syn region TypeRegion start="\()\_s*:\_s*\)\@<=" end="[;,{]\@=" keepend
-	syn region TypeRegion start="\(\h\w*\s*:\_s*\)\@<=" end="[)},]\@=" keepend
+	syn region TypeRegion start="\()\_s*:\_s*\)\@<=" end="[=;,{]\@=" keepend
+	syn region TypeRegion start="\(\h\w*\s*:\_s*\)\@<=" end="[=)},]\@=" keepend
 				\ contained containedin=FunctionArgs,StructContents,UnionContents
 
-	syn region GayTypeDefRegion start="\(type\)\@<=\s\+" end="\(\_s*[=;{]\|where\)"
-				\ keepend matchgroup=GayTypeEnds
+	syn region GayTypeDefRegion start="\(type\)\@<=\s\+" end="\_s\@=" keepend
 	syn match Type "\h\w*" contained containedin=TypeRegion,GayTypeDefRegion
 	syn match Module "\h\w*::" containedin=TypeRegion,GayTypeDefRegion,FunctionArgs
 
 	syn region GayArray matchgroup=Operator start="\[" end="\]"
 				\ keepend containedin=TypeRegion,GayTypeDefRegion,
 				\ FunctionArgs,StructContents,UnionContents
+	syn match Operator ":" contained containedin=GayArray
 	syn region GayGenericContents matchgroup=Operator start="<" end=">" extend
-				\ keepend contained containedin=TypeRegion,GayTypeDefRegion
-				"\ FunctionArgs,StructContents,UnionContents,GayGenericContents extend
-	"syn region DepthAnglebracketsPair start="<" end=">"
+				\ keepend contained containedin=TypeRegion,GayTypeDefRegion,
+				\ GayGenericContents
 	syn match Operator "[&^]" containedin=TypeRegion,GayTypeDefRegion,
-				\ FunctionArgs,StructContents,UnionContents
-	syn match Operator "[?]" contained containedin=TypeRegion,GayTypeDefRegion
+				\ FunctionArgs,StructContents,UnionContents,GayArray
 
-	syn keyword StorageClass let mut containedin=TypeRegion,GayTypeDefRegion
+	syn keyword StorageClass let mut private containedin=TypeRegion,GayTypeDefRegion
 	syn keyword Keyword fn use return while for if else not and or xor break in switch
 				\ containedin=FunctionArgs
-	syn keyword Structure struct enum union type where containedin=GayTypeDefRegion
-	syn keyword Constant true false
+	syn keyword Structure struct enum union type impl where containedin=GayTypeDefRegion
+	syn keyword Constant true false containedin=GayArray
 
 	syn match Function "\h\w*\ze\_s*(" containedin=FunctionArgs
 
